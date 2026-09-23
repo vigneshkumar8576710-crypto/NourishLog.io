@@ -331,120 +331,33 @@
   const DATABASE_URL =
     "https://script.google.com/macros/s/AKfycbxyZ-mBI1-NRQtI7f23s-DKINJ8fqolcyTpq2rwIhnc0bMctVHGNVDYZxWVuZG1csbE/exec";
 
-  // Frontend state
-  let selectedCategory = 'dinner';
-  let selectedSymptom = 'None / Symptom-Free';
+  let selectedCategory = "dinner";
+  let selectedSymptom = "None / Symptom-Free";
   let mealsData = [];
 
-  // Prevent duplicate requests while saving/loading
   let databaseLoading = false;
   let databaseSaving = false;
 
 
   // ============================================================
-  // DATABASE HELPERS
+  // NORMALIZE MEAL FROM APPS SCRIPT
   // ============================================================
 
-  /*
-   * Converts different possible Apps Script responses into
-   * a usable JavaScript array.
-   *
-   * Supported examples:
-   *
-   * [
-   *   {...},
-   *   {...}
-   * ]
-   *
-   * {
-   *   data: [...]
-   * }
-   *
-   * {
-   *   meals: [...]
-   * }
-   *
-   * {
-   *   records: [...]
-   * }
-   */
-  function extractMealsFromResponse(data) {
-    if (!data) return [];
-
-    // Direct array
-    if (Array.isArray(data)) {
-      return data;
-    }
-
-    // Common Apps Script response structures
-    if (Array.isArray(data.data)) {
-      return data.data;
-    }
-
-    if (Array.isArray(data.meals)) {
-      return data.meals;
-    }
-
-    if (Array.isArray(data.records)) {
-      return data.records;
-    }
-
-    if (Array.isArray(data.rows)) {
-      return data.rows;
-    }
-
-    // Sometimes Apps Script wraps the response
-    if (data.result) {
-      if (Array.isArray(data.result)) {
-        return data.result;
-      }
-
-      if (Array.isArray(data.result.data)) {
-        return data.result.data;
-      }
-
-      if (Array.isArray(data.result.meals)) {
-        return data.result.meals;
-      }
-    }
-
-    return [];
-  }
-
-
-  /*
-   * Safely converts values coming from Google Sheets
-   * into the format expected by NourishLog.
-   */
   function normalizeMeal(raw) {
-    if (!raw || typeof raw !== 'object') {
+    if (!raw || typeof raw !== "object") {
       return null;
     }
 
-    let items = raw.items;
+    let items = raw.items || [];
 
-    // If Apps Script sends ingredients instead of items
-    if (items === undefined) {
-      items = raw.ingredients;
-    }
-
-    // Google Sheets may return JSON as a string
-    if (typeof items === 'string') {
+    // Apps Script sends items as an array after JSON.parse()
+    if (typeof items === "string") {
       try {
-        const parsed = JSON.parse(items);
-
-        if (Array.isArray(parsed)) {
-          items = parsed;
-        } else {
-          items = items
-            .split(',')
-            .map(x => x.trim())
-            .filter(Boolean);
-        }
-      } catch (e) {
+        items = JSON.parse(items);
+      } catch (error) {
         items = items
-          .split(',')
-          .map(x => x.trim())
+          .split(",")
+          .map(item => item.trim())
           .filter(Boolean);
       }
     }
@@ -453,82 +366,64 @@
       items = [];
     }
 
-    // Support alternative column names
-    const title =
-      raw.title ??
-      raw.mealName ??
-      raw.meal_name ??
-      raw.name ??
-      'Unnamed Meal';
-
-    const category =
-      raw.category ??
-      raw.occasion ??
-      'dinner';
-
-    const mealTime =
-      raw.mealTime ??
-      raw.mealtime ??
-      raw.time ??
-      raw.timestamp ??
-      raw.date ??
-      'Unknown time';
-
-    const symptoms =
-      raw.symptoms ??
-      raw.symptom ??
-      'None / Symptom-Free';
-
     let macros = raw.macros;
 
-    if (typeof macros === 'string') {
+    if (typeof macros === "string") {
       try {
         macros = JSON.parse(macros);
-      } catch (e) {
+      } catch (error) {
         macros = null;
       }
     }
 
-    if (!macros || typeof macros !== 'object') {
+    if (!macros || typeof macros !== "object") {
       macros = {
-        kcal: Number(raw.kcal ?? raw.calories ?? 450),
-        p: Number(raw.p ?? raw.protein ?? 20),
-        c: Number(raw.c ?? raw.carbs ?? 45),
-        f: Number(raw.f ?? raw.fat ?? 18)
+        kcal: 450,
+        p: 20,
+        c: 45,
+        f: 18
       };
     }
 
     return {
-      id: raw.id ?? raw.ID ?? raw.timestamp ?? null,
+      id: raw.timestamp || Date.now().toString(),
 
-      title: String(title),
+      title: String(raw.title || "Unnamed Meal"),
 
-      category: String(category).toLowerCase(),
+      category: String(raw.category || "dinner").toLowerCase(),
 
-      mealTime: String(mealTime),
+      mealTime: String(
+        raw.mealTime ||
+        raw.timestamp ||
+        "Unknown time"
+      ),
 
       items: items
         .map(item => String(item).trim())
         .filter(Boolean),
 
-      symptoms: String(symptoms),
+      symptoms: String(
+        raw.symptoms || "None / Symptom-Free"
+      ),
 
-      severity: Number(raw.severity ?? 0),
+      severity: Number(raw.severity || 0),
 
-      onset: raw.onset ?? "Immediate",
+      onset: String(
+        raw.onset || "Immediate"
+      ),
 
       macros: {
-        kcal: Number(macros.kcal ?? 0),
-        p: Number(macros.p ?? 0),
-        c: Number(macros.c ?? 0),
-        f: Number(macros.f ?? 0)
+        kcal: Number(macros.kcal || 0),
+        p: Number(macros.p || 0),
+        c: Number(macros.c || 0),
+        f: Number(macros.f || 0)
       }
     };
   }
 
 
   // ============================================================
-  // LOAD DATABASE
+  // LOAD EXISTING MEALS FROM GOOGLE SHEETS
   // ============================================================
 
   async function loadMealsFromDatabase() {
@@ -542,7 +437,7 @@
     try {
 
       const response = await fetch(
-        DATABASE_URL + "?action=getMeals&_=" + Date.now(),
+        DATABASE_URL + "?_=" + Date.now(),
         {
           method: "GET",
           cache: "no-store"
@@ -551,26 +446,40 @@
 
       if (!response.ok) {
         throw new Error(
-          "Database request failed: HTTP " + response.status
+          "Database request failed: HTTP " +
+          response.status
         );
       }
 
       const data = await response.json();
 
-      console.log("NourishLog database response:", data);
+      console.log(
+        "Apps Script GET response:",
+        data
+      );
 
-      const rawMeals = extractMealsFromResponse(data);
+      // Your Apps Script returns:
+      // { status: "success", meals: [...] }
 
-      mealsData = rawMeals
+      if (!data || data.status !== "success") {
+        throw new Error(
+          data?.message ||
+          "Apps Script returned an error."
+        );
+      }
+
+      mealsData = (data.meals || [])
         .map(normalizeMeal)
         .filter(Boolean);
 
-      /*
-       * Newest entries first.
-       */
+      // Newest first
       mealsData.sort((a, b) => {
-        const dateA = new Date(a.mealTime).getTime();
-        const dateB = new Date(b.mealTime).getTime();
+
+        const dateA =
+          new Date(a.mealTime).getTime();
+
+        const dateB =
+          new Date(b.mealTime).getTime();
 
         if (
           !Number.isNaN(dateA) &&
@@ -583,21 +492,19 @@
       });
 
       renderFeed();
-
-      /*
-       * If another tab is currently visible, refresh it too.
-       */
       renderHistory();
       renderInsights();
 
       showDatabaseStatus(
-        `${mealsData.length} database record${mealsData.length === 1 ? '' : 's'} loaded`
+        `${mealsData.length} database record${
+          mealsData.length === 1 ? "" : "s"
+        } loaded`
       );
 
       console.log(
-        "NourishLog: Loaded",
+        "NourishLog loaded:",
         mealsData.length,
-        "records from database."
+        "records"
       );
 
     } catch (error) {
@@ -607,18 +514,9 @@
         error
       );
 
-      /*
-       * IMPORTANT:
-       * Don't destroy locally available data if the database
-       * temporarily fails.
-       */
-      renderFeed();
-
-      showDatabaseStatus("Database connection failed");
-
-      console.warn(
-        "NourishLog could not read the Apps Script database.",
-        error
+      showDatabaseStatus(
+        "Database connection failed",
+        true
       );
 
     } finally {
@@ -629,47 +527,52 @@
 
 
   // ============================================================
-  // SAVE MEAL TO DATABASE
+  // SAVE MEAL TO APPS SCRIPT
   // ============================================================
 
   async function saveMealToDatabase(meal) {
 
     if (databaseSaving) {
-      throw new Error("A meal is already being saved.");
+      throw new Error(
+        "A meal is already being saved."
+      );
     }
 
     databaseSaving = true;
 
     try {
 
-      /*
-       * The Apps Script receives the complete meal object.
-       *
-       * action = saveMeal
-       *
-       * If your Apps Script expects a different action name,
-       * change only this value.
-       */
+      // IMPORTANT:
+      // Your Apps Script specifically expects:
+      //
+      // action: "addMeal"
+      //
+      // NOT "saveMeal"
+
       const payload = {
-        action: "saveMeal",
+        action: "addMeal",
 
-        meal: meal,
+        meal: {
+          title: meal.title,
+          category: meal.category,
+          mealTime: meal.mealTime,
+          items: meal.items,
 
-        /*
-         * Also send the fields individually.
-         * This makes the request easier for Apps Script
-         * to process if it doesn't use the nested object.
-         */
-        id: meal.id,
-        title: meal.title,
-        category: meal.category,
-        mealTime: meal.mealTime,
-        items: meal.items,
-        symptoms: meal.symptoms,
-        severity: meal.severity,
-        onset: meal.onset,
-        macros: meal.macros
+          // Your current frontend has no allergens
+          // input, so send an empty value.
+          allergens: "",
+
+          symptoms: meal.symptoms,
+          severity: meal.severity,
+          onset: meal.onset,
+          macros: meal.macros
+        }
       };
+
+      console.log(
+        "Sending meal to Apps Script:",
+        payload
+      );
 
       const response = await fetch(
         DATABASE_URL,
@@ -677,7 +580,8 @@
           method: "POST",
 
           headers: {
-            "Content-Type": "text/plain;charset=utf-8"
+            "Content-Type":
+              "text/plain;charset=utf-8"
           },
 
           body: JSON.stringify(payload)
@@ -686,34 +590,27 @@
 
       if (!response.ok) {
         throw new Error(
-          "Database save failed: HTTP " + response.status
+          "Database save failed: HTTP " +
+          response.status
         );
       }
 
-      /*
-       * Apps Script normally returns JSON.
-       */
       const data = await response.json();
 
       console.log(
-        "NourishLog database SAVE response:",
+        "Apps Script POST response:",
         data
       );
 
-      /*
-       * Respect explicit failure responses.
-       */
+      // Your Apps Script returns:
+      // { status: "success" }
+
       if (
-        data &&
-        (
-          data.success === false ||
-          data.status === "error" ||
-          data.error
-        )
+        !data ||
+        data.status !== "success"
       ) {
         throw new Error(
-          data.error ||
-          data.message ||
+          data?.message ||
           "Apps Script rejected the meal."
         );
       }
@@ -728,26 +625,39 @@
 
 
   // ============================================================
-  // DATABASE STATUS UI
+  // DATABASE STATUS
   // ============================================================
 
-  function showDatabaseStatus(message, isError = false) {
+  function showDatabaseStatus(
+    message,
+    isError = false
+  ) {
 
-    const statusElements = document.querySelectorAll(
-      '[data-database-status]'
-    );
+    const statusElements =
+      document.querySelectorAll(
+        "[data-database-status]"
+      );
 
     statusElements.forEach(el => {
+
       el.textContent = message;
 
       if (isError) {
-        el.classList.add("text-secondary");
+        el.classList.add(
+          "text-secondary"
+        );
       } else {
-        el.classList.remove("text-secondary");
+        el.classList.remove(
+          "text-secondary"
+        );
       }
+
     });
 
-    console.log("Database:", message);
+    console.log(
+      "Database:",
+      message
+    );
   }
 
 
@@ -757,44 +667,72 @@
 
   function switchTab(tabId) {
 
-    document.getElementById('tab-daily').classList.add('hidden');
-    document.getElementById('tab-meals').classList.add('hidden');
-    document.getElementById('tab-insights').classList.add('hidden');
+    document
+      .getElementById("tab-daily")
+      .classList.add("hidden");
 
-    document.getElementById('nav-btn-daily').className =
+    document
+      .getElementById("tab-meals")
+      .classList.add("hidden");
+
+    document
+      .getElementById("tab-insights")
+      .classList.add("hidden");
+
+
+    document.getElementById(
+      "nav-btn-daily"
+    ).className =
       "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
 
-    document.getElementById('nav-btn-meals').className =
+    document.getElementById(
+      "nav-btn-meals"
+    ).className =
       "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
 
-    document.getElementById('nav-btn-insights').className =
+    document.getElementById(
+      "nav-btn-insights"
+    ).className =
       "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
 
 
-    if (tabId === 'daily') {
+    if (tabId === "daily") {
 
-      document.getElementById('tab-daily').classList.remove('hidden');
+      document
+        .getElementById("tab-daily")
+        .classList.remove("hidden");
 
-      document.getElementById('nav-btn-daily').className =
+      document.getElementById(
+        "nav-btn-daily"
+      ).className =
         "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
 
     }
 
-    else if (tabId === 'meals') {
+    else if (tabId === "meals") {
 
-      document.getElementById('tab-meals').classList.remove('hidden');
+      document
+        .getElementById("tab-meals")
+        .classList.remove("hidden");
 
-      document.getElementById('nav-btn-meals').className =
+      document.getElementById(
+        "nav-btn-meals"
+      ).className =
         "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
 
       renderHistory();
+
     }
 
-    else if (tabId === 'insights') {
+    else if (tabId === "insights") {
 
-      document.getElementById('tab-insights').classList.remove('hidden');
+      document
+        .getElementById("tab-insights")
+        .classList.remove("hidden");
 
-      document.getElementById('nav-btn-insights').className =
+      document.getElementById(
+        "nav-btn-insights"
+      ).className =
         "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
 
       renderInsights();
@@ -810,13 +748,18 @@
 
     selectedCategory = cat;
 
-    document.querySelectorAll('.cat-btn').forEach(btn => {
+    document
+      .querySelectorAll(".cat-btn")
+      .forEach(btn => {
 
-      btn.className =
-        "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1";
-    });
+        btn.className =
+          "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1";
+      });
 
-    if (event && event.currentTarget) {
+    if (
+      event &&
+      event.currentTarget
+    ) {
 
       event.currentTarget.className =
         "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1";
@@ -830,16 +773,19 @@
 
   function selectSymptom(btn) {
 
-    document.querySelectorAll('.sym-btn').forEach(b => {
+    document
+      .querySelectorAll(".sym-btn")
+      .forEach(b => {
 
-      b.className =
-        "sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed";
-    });
+        b.className =
+          "sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed";
+      });
 
     btn.className =
       "sym-btn px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold";
 
-    selectedSymptom = btn.innerText.trim();
+    selectedSymptom =
+      btn.innerText.trim();
   }
 
 
@@ -850,38 +796,41 @@
   function addIngredientToForm() {
 
     const input =
-      document.getElementById('new-ingredient-input');
+      document.getElementById(
+        "new-ingredient-input"
+      );
 
-    const val = input.value.trim();
+    const val =
+      input.value.trim();
 
     if (!val) return;
 
     addIngredientChip(val);
 
-    input.value = '';
+    input.value = "";
   }
 
 
   function addIngredientChip(name) {
 
     const list =
-      document.getElementById('ingredients-list');
+      document.getElementById(
+        "ingredients-list"
+      );
 
     const chip =
-      document.createElement('span');
+      document.createElement("span");
 
     chip.className =
       "inline-flex items-center gap-1 bg-surface-container-lowest px-2.5 py-1 rounded-full text-xs text-on-surface shadow-xs";
 
-    /*
-     * textContent is used instead of injecting the ingredient
-     * directly into innerHTML.
-     */
     const text =
-      document.createTextNode(name + " ");
+      document.createTextNode(
+        name + " "
+      );
 
     const removeButton =
-      document.createElement('button');
+      document.createElement("button");
 
     removeButton.type = "button";
 
@@ -891,9 +840,10 @@
     removeButton.innerHTML =
       '<span class="material-symbols-outlined text-[14px]">cancel</span>';
 
-    removeButton.onclick = function () {
-      chip.remove();
-    };
+    removeButton.onclick =
+      function () {
+        chip.remove();
+      };
 
     chip.appendChild(text);
     chip.appendChild(removeButton);
@@ -903,7 +853,6 @@
 
 
   function quickAdd(name) {
-
     addIngredientChip(name);
   }
 
@@ -915,67 +864,85 @@
   function renderFeed() {
 
     const container =
-      document.getElementById('meals-feed-container');
+      document.getElementById(
+        "meals-feed-container"
+      );
 
-    container.innerHTML = '';
+    container.innerHTML = "";
 
-    document.getElementById('stat-meals-count').innerText =
+    document.getElementById(
+      "stat-meals-count"
+    ).innerText =
       mealsData.length;
 
-    document.getElementById('feed-count-label').innerText =
+    document.getElementById(
+      "feed-count-label"
+    ).innerText =
       `${mealsData.length} items recorded`;
 
 
-    // Trigger count
     const triggersCount =
       mealsData.filter(m =>
-        !String(m.symptoms || '').includes('None')
+        !String(
+          m.symptoms || ""
+        ).includes("None")
       ).length;
 
-    document.getElementById('stat-triggers-count').innerText =
+    document.getElementById(
+      "stat-triggers-count"
+    ).innerText =
       triggersCount;
 
 
-    // Top food metric
+    // Top food
     if (mealsData.length > 0) {
 
       const foodCounts = {};
 
       mealsData.forEach(m => {
 
-        (m.items || []).forEach(item => {
+        (m.items || [])
+          .forEach(item => {
 
-          const food =
-            String(item).trim();
+            const food =
+              String(item).trim();
 
-          if (!food) return;
+            if (!food) return;
 
-          const key =
-            food.toLowerCase();
+            const key =
+              food.toLowerCase();
 
-          if (!foodCounts[key]) {
-            foodCounts[key] = {
-              name: food,
-              count: 0
-            };
-          }
+            if (!foodCounts[key]) {
 
-          foodCounts[key].count++;
-        });
+              foodCounts[key] = {
+                name: food,
+                count: 0
+              };
+            }
+
+            foodCounts[key].count++;
+          });
       });
 
       const topFood =
         Object.values(foodCounts)
-          .sort((a, b) => b.count - a.count)[0];
+          .sort(
+            (a, b) =>
+              b.count - a.count
+          )[0];
 
-      document.getElementById('stat-top-food').innerText =
+      document.getElementById(
+        "stat-top-food"
+      ).innerText =
         topFood
           ? topFood.name
           : mealsData[0].title;
 
     } else {
 
-      document.getElementById('stat-top-food').innerText =
+      document.getElementById(
+        "stat-top-food"
+      ).innerText =
         "No data yet";
     }
 
@@ -991,7 +958,9 @@
         </div>
       `;
 
-      document.getElementById('top-foods-container').innerHTML =
+      document.getElementById(
+        "top-foods-container"
+      ).innerHTML =
         `<div class="text-xs text-on-surface-variant italic py-2">
           No ingredient history recorded yet.
         </div>`;
@@ -1000,110 +969,132 @@
     }
 
 
-    // ==========================================================
-    // TOP FOODS
-    // ==========================================================
-
+    // Top foods
     const foodCounts = {};
 
     mealsData.forEach(m => {
 
-      (m.items || []).forEach(i => {
+      (m.items || [])
+        .forEach(i => {
 
-        const food =
-          String(i).trim();
+          const food =
+            String(i).trim();
 
-        if (!food) return;
+          if (!food) return;
 
-        const key =
-          food.toLowerCase();
+          const key =
+            food.toLowerCase();
 
-        if (!foodCounts[key]) {
-          foodCounts[key] = {
-            name: food,
-            count: 0
-          };
-        }
+          if (!foodCounts[key]) {
 
-        foodCounts[key].count++;
-      });
+            foodCounts[key] = {
+              name: food,
+              count: 0
+            };
+          }
+
+          foodCounts[key].count++;
+        });
     });
 
 
     const sortedFoods =
       Object.values(foodCounts)
-        .sort((a, b) => b.count - a.count)
+        .sort(
+          (a, b) =>
+            b.count - a.count
+        )
         .slice(0, 3);
 
 
     const topFoodsContainer =
-      document.getElementById('top-foods-container');
+      document.getElementById(
+        "top-foods-container"
+      );
 
-    topFoodsContainer.innerHTML = '';
+    topFoodsContainer.innerHTML = "";
 
 
     sortedFoods.forEach(food => {
 
       const pct =
         Math.round(
-          (food.count / mealsData.length) * 100
+          (food.count /
+            mealsData.length) *
+          100
         );
 
       topFoodsContainer.innerHTML += `
         <div class="flex flex-col gap-1">
+
           <div class="flex justify-between text-xs font-semibold">
+
             <span class="text-on-surface">
               🍽️ ${escapeHtml(food.name)}
             </span>
+
             <span class="text-primary font-bold">
               ${food.count} times (${pct}%)
             </span>
+
           </div>
 
           <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+
             <div
               class="bg-primary h-full rounded-full"
               style="width:${pct}%;">
             </div>
+
           </div>
+
         </div>
       `;
     });
 
 
-    // ==========================================================
-    // MEAL CARDS
-    // ==========================================================
-
+    // Meal cards
     mealsData.forEach(m => {
 
       const itemHtml =
-        document.createElement('article');
+        document.createElement(
+          "article"
+        );
 
       itemHtml.className =
         "bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-outline-variant/30";
 
 
       let catIcon = "restaurant";
-      let catBg = "bg-primary-fixed text-primary";
+      let catBg =
+        "bg-primary-fixed text-primary";
 
 
-      if (m.category === 'breakfast') {
+      if (
+        m.category === "breakfast"
+      ) {
 
         catIcon = "wb_twilight";
-        catBg = "bg-tertiary-fixed text-tertiary";
+        catBg =
+          "bg-tertiary-fixed text-tertiary";
       }
 
-      if (m.category === 'lunch') {
+      if (
+        m.category === "lunch"
+      ) {
 
         catIcon = "wb_sunny";
-        catBg = "bg-primary-fixed text-primary";
+        catBg =
+          "bg-primary-fixed text-primary";
       }
 
-      if (m.category === 'snack') {
+      if (
+        m.category === "snack"
+      ) {
 
         catIcon = "nutrition";
-        catBg = "bg-secondary-fixed text-secondary";
+        catBg =
+          "bg-secondary-fixed text-secondary";
       }
 
 
@@ -1114,7 +1105,7 @@
               ${escapeHtml(i)}
             </span>`
           )
-          .join('');
+          .join("");
 
 
       itemHtml.innerHTML = `
@@ -1123,9 +1114,11 @@
           <div class="flex items-center gap-3">
 
             <div class="w-12 h-12 rounded-xl ${catBg} flex items-center justify-center">
+
               <span class="material-symbols-outlined text-2xl">
                 ${escapeHtml(catIcon)}
               </span>
+
             </div>
 
             <div>
@@ -1137,11 +1130,11 @@
                 </span>
 
                 <span class="text-xs text-on-surface-variant">
-                  ${escapeHtml(m.mealTime || 'Just now')}
+                  ${escapeHtml(m.mealTime || "Just now")}
                 </span>
 
                 <span class="px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-secondary text-xs font-semibold">
-                  ${escapeHtml(m.symptoms || 'None / Symptom-Free')}
+                  ${escapeHtml(m.symptoms || "None / Symptom-Free")}
                 </span>
 
               </div>
@@ -1157,18 +1150,26 @@
 
           <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full text-xs font-semibold">
 
-            <span>${Number(m.macros?.kcal || 0)} kcal</span>
+            <span>
+              ${Number(
+                m.macros?.kcal || 0
+              )} kcal
+            </span>
 
             •
 
             <span class="text-primary">
-              ${Number(m.macros?.p || 0)}g P
+              ${Number(
+                m.macros?.p || 0
+              )}g P
             </span>
 
             •
 
             <span class="text-secondary">
-              ${Number(m.macros?.f || 0)}g F
+              ${Number(
+                m.macros?.f || 0
+              )}g F
             </span>
 
           </div>
@@ -1181,8 +1182,9 @@
         </div>
       `;
 
-
-      container.appendChild(itemHtml);
+      container.appendChild(
+        itemHtml
+      );
     });
   }
 
@@ -1194,11 +1196,15 @@
   function renderHistory() {
 
     const container =
-      document.getElementById('history-feed-container');
+      document.getElementById(
+        "history-feed-container"
+      );
 
-    container.innerHTML = '';
+    container.innerHTML = "";
 
-    document.getElementById('history-total-count').innerText =
+    document.getElementById(
+      "history-total-count"
+    ).innerText =
       mealsData.length;
 
 
@@ -1216,7 +1222,9 @@
     mealsData.forEach(m => {
 
       const itemHtml =
-        document.createElement('article');
+        document.createElement(
+          "article"
+        );
 
       itemHtml.className =
         "bg-surface-container-low p-5 rounded-xl border border-outline-variant/20 flex flex-col gap-3";
@@ -1225,12 +1233,18 @@
       let catBg =
         "bg-primary-fixed text-primary";
 
-      if (m.category === 'breakfast') {
+      if (
+        m.category === "breakfast"
+      ) {
+
         catBg =
           "bg-tertiary-fixed text-tertiary";
       }
 
-      if (m.category === 'snack') {
+      if (
+        m.category === "snack"
+      ) {
+
         catBg =
           "bg-secondary-fixed text-secondary";
       }
@@ -1273,15 +1287,16 @@
                   ${escapeHtml(i)}
                 </span>`
               )
-              .join('')}
+              .join("")}
 
           </div>
 
         </div>
       `;
 
-
-      container.appendChild(itemHtml);
+      container.appendChild(
+        itemHtml
+      );
     });
   }
 
@@ -1293,9 +1308,11 @@
   function renderInsights() {
 
     const matrixTbody =
-      document.getElementById('matrix-tbody');
+      document.getElementById(
+        "matrix-tbody"
+      );
 
-    matrixTbody.innerHTML = '';
+    matrixTbody.innerHTML = "";
 
 
     if (mealsData.length === 0) {
@@ -1317,52 +1334,62 @@
 
     mealsData.forEach(m => {
 
-      (m.items || []).forEach(i => {
+      (m.items || [])
+        .forEach(i => {
 
-        const ingredient =
-          String(i).trim();
+          const ingredient =
+            String(i).trim();
 
-        if (!ingredient) return;
+          if (!ingredient) return;
 
-        const key =
-          ingredient.toLowerCase();
-
-
-        if (!ingredientMap[key]) {
-
-          ingredientMap[key] = {
-            name: ingredient,
-            count: 0,
-            symptoms: []
-          };
-        }
+          const key =
+            ingredient.toLowerCase();
 
 
-        ingredientMap[key].count++;
+          if (!ingredientMap[key]) {
+
+            ingredientMap[key] = {
+              name: ingredient,
+              count: 0,
+              symptoms: []
+            };
+          }
 
 
-        if (
-          m.symptoms &&
-          !String(m.symptoms).includes('None')
-        ) {
+          ingredientMap[key].count++;
 
-          ingredientMap[key].symptoms.push(
-            m.symptoms
-          );
-        }
 
-      });
+          if (
+            m.symptoms &&
+            !String(
+              m.symptoms
+            ).includes("None")
+          ) {
+
+            ingredientMap[key]
+              .symptoms
+              .push(m.symptoms);
+          }
+
+        });
     });
 
 
     Object.values(ingredientMap)
-      .sort((a, b) => b.count - a.count)
+      .sort(
+        (a, b) =>
+          b.count - a.count
+      )
       .forEach(data => {
 
         const symptomText =
           data.symptoms.length > 0
-            ? [...new Set(data.symptoms)].join(', ')
-            : 'None recorded';
+            ? [
+                ...new Set(
+                  data.symptoms
+                )
+              ].join(", ")
+            : "None recorded";
 
 
         matrixTbody.innerHTML += `
@@ -1389,28 +1416,37 @@
       });
 
 
-    /*
-     * Update the top suspected trigger card.
-     */
     const triggerDescription =
-      document.getElementById('insight-trigger-desc');
+      document.getElementById(
+        "insight-trigger-desc"
+      );
 
 
     const triggerCandidates =
       Object.values(ingredientMap)
-        .filter(x => x.symptoms.length > 0)
-        .sort((a, b) =>
-          b.symptoms.length - a.symptoms.length
+        .filter(
+          x => x.symptoms.length > 0
+        )
+        .sort(
+          (a, b) =>
+            b.symptoms.length -
+            a.symptoms.length
         );
 
 
-    if (triggerCandidates.length > 0) {
+    if (
+      triggerCandidates.length > 0
+    ) {
 
       const trigger =
         triggerCandidates[0];
 
       triggerDescription.innerText =
-        `${trigger.name} appeared in ${trigger.symptoms.length} meal${trigger.symptoms.length === 1 ? '' : 's'} associated with logged symptoms.`;
+        `${trigger.name} appeared in ${trigger.symptoms.length} meal${
+          trigger.symptoms.length === 1
+            ? ""
+            : "s"
+        } associated with logged symptoms.`;
 
     } else {
 
@@ -1426,70 +1462,74 @@
 
   async function submitMeal() {
 
-    if (databaseSaving) {
-      return;
-    }
+    if (databaseSaving) return;
 
 
     const title =
-      document.getElementById('meal-title-input')
-        .value
-        .trim();
+      document.getElementById(
+        "meal-title-input"
+      ).value.trim();
 
 
     if (!title) {
 
-      alert("Please enter a meal name.");
+      alert(
+        "Please enter a meal name."
+      );
 
       return;
     }
 
 
     const mealTime =
-      document.getElementById('meal-time-input')
-        .value
-        .trim();
+      document.getElementById(
+        "meal-time-input"
+      ).value.trim();
 
 
     const ingredientChips =
       document.querySelectorAll(
-        '#ingredients-list > span'
+        "#ingredients-list > span"
       );
 
 
     const items =
-      Array.from(ingredientChips)
-        .map(chip => {
+      Array.from(
+        ingredientChips
+      )
+      .map(chip => {
 
-          /*
-           * Only read the text node, not the remove button.
-           */
-          const textNode =
-            Array.from(chip.childNodes)
-              .find(node =>
-                node.nodeType === Node.TEXT_NODE
-              );
+        const textNode =
+          Array.from(
+            chip.childNodes
+          )
+          .find(
+            node =>
+              node.nodeType ===
+              Node.TEXT_NODE
+          );
 
-          return textNode
-            ? textNode.nodeValue.trim()
-            : '';
-        })
-        .filter(Boolean);
+        return textNode
+          ? textNode.nodeValue.trim()
+          : "";
 
+      })
+      .filter(Boolean);
+
+
+    // Exact meal structure expected
+    // by the Apps Script backend.
 
     const newMeal = {
 
-      id:
-        Date.now().toString(),
-
-      title:
-        title,
+      title: title,
 
       category:
         selectedCategory,
 
       mealTime:
-        mealTime || new Date().toLocaleString(),
+        mealTime ||
+        new Date().toLocaleString(),
 
       items:
         items.length > 0
@@ -1500,7 +1540,9 @@
         selectedSymptom,
 
       severity:
-        selectedSymptom.includes('None')
+        selectedSymptom.includes(
+          "None"
+        )
           ? 0
           : 2,
 
@@ -1517,15 +1559,14 @@
 
 
     const saveBtn =
-      document.getElementById('save-meal-btn');
+      document.getElementById(
+        "save-meal-btn"
+      );
 
     const originalButtonHTML =
       saveBtn.innerHTML;
 
 
-    /*
-     * Disable button while database request is happening.
-     */
     saveBtn.disabled = true;
 
     saveBtn.classList.add(
@@ -1543,21 +1584,22 @@
 
     try {
 
-      // ========================================================
-      // FIRST: SAVE TO APPS SCRIPT
-      // ========================================================
+      // --------------------------------------------------------
+      // SAVE TO GOOGLE SHEETS
+      // --------------------------------------------------------
 
-      await saveMealToDatabase(newMeal);
+      await saveMealToDatabase(
+        newMeal
+      );
 
 
-      /*
-       * Only update the visible feed AFTER the database
-       * successfully accepts the meal.
-       *
-       * This prevents the UI from saying "saved" when the
-       * Google Sheet actually failed.
-       */
-      mealsData.unshift(newMeal);
+      // --------------------------------------------------------
+      // ONLY AFTER SUCCESS, UPDATE UI
+      // --------------------------------------------------------
+
+      mealsData.unshift(
+        normalizeMeal(newMeal)
+      );
 
       renderFeed();
       renderHistory();
@@ -1565,16 +1607,16 @@
 
 
       // Reset form
-      document.getElementById(
-        'meal-title-input'
-      ).value = '';
 
       document.getElementById(
-        'ingredients-list'
-      ).innerHTML = '';
+        "meal-title-input"
+      ).value = "";
+
+      document.getElementById(
+        "ingredients-list"
+      ).innerHTML = "";
 
 
-      // Success state
       saveBtn.innerHTML = `
         <span class="material-symbols-outlined text-[18px]">
           cloud_done
@@ -1604,14 +1646,6 @@
       );
 
 
-      /*
-       * VERY IMPORTANT:
-       * Do NOT add the meal to mealsData here.
-       *
-       * If Apps Script rejected the request, the UI should
-       * not pretend that the meal was saved.
-       */
-
       saveBtn.innerHTML = `
         <span class="material-symbols-outlined text-[18px]">
           error
@@ -1628,7 +1662,7 @@
 
       alert(
         "The meal could not be saved to the database.\n\n" +
-        "Check the browser console for the exact error."
+        error.message
       );
 
 
@@ -1652,33 +1686,40 @@
 
 
   // ============================================================
-  // HTML ESCAPE HELPER
+  // HTML ESCAPE
   // ============================================================
 
   function escapeHtml(value) {
 
-    return String(value ?? '')
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
+    return String(value ?? "")
+      .replace(
+        /&/g,
+        "&amp;"
+      )
+      .replace(
+        /</g,
+        "&lt;"
+      )
+      .replace(
+        />/g,
+        "&gt;"
+      )
+      .replace(
+        /"/g,
+        "&quot;"
+      )
+      .replace(
+        /'/g,
+        "&#039;"
+      );
   }
 
 
   // ============================================================
-  // DATABASE CONNECTION INDICATOR
+  // DATABASE STATUS INDICATOR
   // ============================================================
 
   function addDatabaseStatusHook() {
-
-    /*
-     * Your existing HTML doesn't have a dedicated element
-     * for dynamic database status.
-     *
-     * So we attach the data attribute to the existing status
-     * text without changing the visual design.
-     */
 
     const statusText =
       document.querySelector(
@@ -1686,33 +1727,33 @@
       );
 
     if (statusText) {
+
       statusText.setAttribute(
-        'data-database-status',
-        ''
+        "data-database-status",
+        ""
       );
     }
   }
 
 
   // ============================================================
-  // ENTER KEY FOR INGREDIENT INPUT
+  // INGREDIENT ENTER KEY
   // ============================================================
 
   function setupIngredientInput() {
 
     const input =
       document.getElementById(
-        'new-ingredient-input'
+        "new-ingredient-input"
       );
 
     if (!input) return;
 
-
     input.addEventListener(
-      'keydown',
+      "keydown",
       function(e) {
 
-        if (e.key === 'Enter') {
+        if (e.key === "Enter") {
 
           e.preventDefault();
 
@@ -1725,7 +1766,7 @@
 
 
   // ============================================================
-  // INITIALIZE NOURISHLOG
+  // INITIALIZE
   // ============================================================
 
   async function initializeNourishLog() {
@@ -1734,21 +1775,19 @@
       "NourishLog: Initializing..."
     );
 
-    /*
-     * Render the UI immediately.
-     */
+
+    addDatabaseStatusHook();
+
     renderFeed();
-
     renderHistory();
-
     renderInsights();
 
     setupIngredientInput();
 
-    /*
-     * Then retrieve existing records from Google Sheets.
-     */
+
+    // Load existing Google Sheet data
     await loadMealsFromDatabase();
+
 
     console.log(
       "NourishLog: Initialization complete."
@@ -1756,9 +1795,6 @@
   }
 
 
-  /*
-   * Start application.
-   */
   document.addEventListener(
     "DOMContentLoaded",
     initializeNourishLog

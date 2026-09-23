@@ -32,7 +32,7 @@
       </div>
       <div class="flex items-center gap-3">
         <div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-4 py-1.5 rounded-full text-on-surface text-sm font-semibold">
-          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">database</span>Persistent Local Storage DB Active
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">calendar_today</span>Day 1 Fresh Start
         </div>
       </div>
     </div>
@@ -51,7 +51,7 @@
               <span class="material-symbols-outlined text-[16px]">vital_signs</span> Allergy & Pattern Diagnostic
             </div>
             <h1 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Food, Ingredient & Allergy Tracker</h1>
-            <p class="text-sm text-on-surface-variant mt-1">Live data reading and writing directly from browser database storage (localStorage).</p>
+            <p class="text-sm text-on-surface-variant mt-1">Start logging your meals to identify high-frequency ingredients, uncover sensitivities, and track bodily reactions.</p>
           </div>
 
           <!-- Vitality Bento Grid -->
@@ -60,26 +60,26 @@
               <div class="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">restaurant_menu</span></div>
               <div>
                 <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Meals Logged</span>
-                <div class="flex items-baseline gap-1"><span id="stat-meals-count" class="text-2xl font-bold text-on-surface">0</span><span class="text-xs text-on-surface-variant">in DB</span></div>
+                <div class="flex items-baseline gap-1"><span id="stat-meals-count" class="text-2xl font-bold text-on-surface">0</span><span class="text-xs text-on-surface-variant">today</span></div>
               </div>
             </div>
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
               <div class="w-12 h-12 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">warning</span></div>
               <div>
                 <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Suspected Triggers</span>
-                <div class="flex items-baseline gap-1"><span id="stat-triggers-count" class="text-2xl font-bold text-secondary">0</span><span class="text-xs text-on-surface-variant">alerts</span></div>
+                <div class="flex items-baseline gap-1"><span id="stat-triggers-count" class="text-2xl font-bold text-secondary">0</span><span class="text-xs text-on-surface-variant">Active alerts</span></div>
               </div>
             </div>
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
               <div class="w-12 h-12 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">bar_chart</span></div>
               <div>
-                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Most Eaten Food</span>
-                <div class="flex items-baseline gap-1"><span id="stat-top-food" class="text-sm font-bold text-on-surface-variant">None recorded</span></div>
+                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Top Eaten Food</span>
+                <div class="flex items-baseline gap-1"><span id="stat-top-food" class="text-sm font-bold text-on-surface">No data yet</span></div>
               </div>
             </div>
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between">
-              <div class="flex items-center justify-between mb-1"><span class="text-xs text-on-surface-variant uppercase tracking-wide font-semibold">Database Status</span><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary text-xs font-semibold">Connected DB</span></div>
-              <div class="text-xs text-on-surface-variant flex items-center gap-1.5 pt-1"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Persistent Active</span></div>
+              <div class="flex items-center justify-between mb-1"><span class="text-xs text-on-surface-variant uppercase tracking-wide font-semibold">Database Status</span><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary text-xs font-semibold">Active Session</span></div>
+              <div class="text-xs text-on-surface-variant flex items-center gap-1.5 pt-1"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Day 1 Fresh Record</span></div>
             </div>
           </div>
         </section>
@@ -99,10 +99,10 @@
                   </div>
                   <div>
                     <h2 class="text-lg font-bold text-primary">Log What You Ate</h2>
-                    <p class="text-xs text-on-surface-variant">Entries are saved immediately to your database.</p>
+                    <p class="text-xs text-on-surface-variant">Break meals into intuitive items and real culinary ingredients.</p>
                   </div>
                 </div>
-                <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">DB Write Enabled</span>
+                <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">New Entry</span>
               </div>
 
               <form id="food-logger-form" onsubmit="event.preventDefault(); submitMeal();" class="flex flex-col gap-4">
@@ -110,9 +110,9 @@
                 <div class="flex flex-col gap-1">
                   <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Select Occasion</label>
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="category-selector">
-                    <button type="button" onclick="setCategory('breakfast')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">wb_twilight</span>Breakfast</button>
-                    <button type="button" onclick="setCategory('lunch')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">wb_sunny</span>Lunch</button>
-                    <button type="button" onclick="setCategory('snack')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">nutrition</span>Snack</button>
+                    <button type="button" onclick="setCategory('breakfast')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-tertiary-fixed/40 text-tertiary hover:bg-tertiary-fixed transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">wb_twilight</span>Breakfast</button>
+                    <button type="button" onclick="setCategory('lunch')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-fixed/40 text-primary hover:bg-primary-fixed transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">wb_sunny</span>Lunch</button>
+                    <button type="button" onclick="setCategory('snack')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-secondary-fixed/40 text-secondary hover:bg-secondary-fixed transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">nutrition</span>Snack</button>
                     <button type="button" onclick="setCategory('dinner')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1 active-cat"><span class="material-symbols-outlined text-[16px]">bedtime</span>Dinner</button>
                   </div>
                 </div>
@@ -121,7 +121,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
                   <div class="md:col-span-8 flex flex-col gap-1">
                     <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Meal Name / Theme</label>
-                    <input type="text" id="meal-title-input" required placeholder="e.g. Grilled Salmon Bowl" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-surface-container-lowest focus:outline-none border border-outline-variant/40"/>
+                    <input type="text" id="meal-title-input" required placeholder="e.g. Grilled Chicken Salad" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-surface-container-lowest focus:outline-none border border-outline-variant/40"/>
                   </div>
                   <div class="md:col-span-4 flex flex-col gap-1">
                     <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Timestamp & Date</label>
@@ -133,8 +133,9 @@
                 <div class="flex flex-col gap-3">
                   <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Main Dish & Ingredients</label>
                   <div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-3">
+                    <input type="text" id="item-name-input" placeholder="Dish Name (e.g. Quinoa Salad)" class="bg-transparent font-bold text-primary focus:outline-none text-base border-b border-outline-variant/30 pb-1" value=""/>
                     <div id="ingredients-list" class="flex flex-wrap gap-1.5 pt-1">
-                      <!-- Dynamically added ingredient chips -->
+                      <!-- Empty state for ingredients -->
                     </div>
                     <div class="flex items-center gap-2 mt-1">
                       <input type="text" id="new-ingredient-input" placeholder="Add ingredient e.g., Olive Oil" class="bg-surface-container-lowest px-3 py-1.5 rounded-lg text-xs flex-1 focus:outline-none"/>
@@ -163,7 +164,7 @@
                 <!-- Submit Button -->
                 <div class="flex items-center justify-end gap-3 pt-2">
                   <button type="submit" id="save-meal-btn" class="w-full sm:w-auto px-8 py-3 bg-secondary hover:bg-secondary/90 text-on-secondary font-bold text-sm rounded-full shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
-                    <span class="material-symbols-outlined text-[18px]">check_circle</span> Save Platter to DB
+                    <span class="material-symbols-outlined text-[18px]">check_circle</span> Save Platter to Local Feed
                   </button>
                 </div>
               </form>
@@ -174,13 +175,17 @@
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-2">
                   <span class="material-symbols-outlined text-primary text-xl">history_edu</span>
-                  <h2 class="text-lg font-bold text-on-surface">Database Feed</h2>
+                  <h2 class="text-lg font-bold text-on-surface">Today's Nourishment Feed</h2>
                 </div>
-                <span id="feed-count-label" class="text-xs text-on-surface-variant font-semibold">0 items in DB</span>
+                <span id="feed-count-label" class="text-xs text-on-surface-variant font-semibold">0 items recorded</span>
               </div>
 
               <div id="meals-feed-container" class="flex flex-col gap-4">
-                <!-- Dynamically populated entirely from DB -->
+                <div class="bg-surface-container-lowest p-8 rounded-2xl text-center text-on-surface-variant border border-outline-variant/20 flex flex-col items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-3xl text-primary/40">restaurant</span>
+                  <p class="text-sm font-semibold">No meals logged yet today.</p>
+                  <p class="text-xs">Use the form above to record your first meal and begin tracking.</p>
+                </div>
               </div>
             </section>
           </div>
@@ -193,11 +198,11 @@
                   <span class="material-symbols-outlined text-primary text-xl">stacked_bar_chart</span>
                   <h3 class="text-base font-bold text-on-surface">What You Eat Most</h3>
                 </div>
-                <span class="text-xs text-primary font-bold">DB Stats</span>
+                <span class="text-xs text-primary font-bold">Active Log</span>
               </div>
-              <p class="text-xs text-on-surface-variant mb-4">Calculated entirely from stored database items.</p>
-              <div id="frequent-foods-container" class="flex flex-col gap-3">
-                <p class="text-xs text-on-surface-variant italic">No database records found.</p>
+              <p class="text-xs text-on-surface-variant mb-4">Food consumption frequency based entirely on your logged history.</p>
+              <div id="top-foods-container" class="flex flex-col gap-3">
+                <div class="text-xs text-on-surface-variant italic py-2">No ingredient history recorded yet.</div>
               </div>
             </div>
 
@@ -206,17 +211,17 @@
               <div class="flex items-center justify-between mb-2">
                 <div class="flex items-center gap-2">
                   <span class="material-symbols-outlined text-primary text-xl">add_circle</span>
-                  <h3 class="text-base font-bold text-on-surface">Quick Add Ingredients</h3>
+                  <h3 class="text-base font-bold text-on-surface">Quick Add Staples</h3>
                 </div>
                 <span class="text-xs text-on-surface-variant">Tap to Platter</span>
               </div>
-              <p class="text-xs text-on-surface-variant mb-4">Common pantry items to quickly include in your active log.</p>
+              <p class="text-xs text-on-surface-variant mb-4">Frequent pantry items to quickly populate meal records.</p>
               <div class="flex flex-wrap gap-2">
-                <button onclick="quickAdd('Free-Range Eggs')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🥚 Free-Range Eggs</button>
-                <button onclick="quickAdd('Avocado')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🥑 Avocado</button>
-                <button onclick="quickAdd('Sourdough')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🍞 Sourdough</button>
-                <button onclick="quickAdd('Olive Oil')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🫒 Olive Oil</button>
+                <button onclick="quickAdd('Pasture Eggs')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🥚 Pasture Eggs</button>
                 <button onclick="quickAdd('Greek Yogurt')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🥛 Greek Yogurt</button>
+                <button onclick="quickAdd('Sourdough Bread')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🍞 Sourdough</button>
+                <button onclick="quickAdd('Olive Oil')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🫒 Olive Oil</button>
+                <button onclick="quickAdd('Avocado')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">🥑 Avocado</button>
               </div>
             </div>
           </aside>
@@ -230,16 +235,16 @@
             <span class="material-symbols-outlined text-[16px]">book</span> Complete Archive
           </div>
           <h1 class="text-3xl font-extrabold text-primary tracking-tight">Meals & Food History Log</h1>
-          <p class="text-sm text-on-surface-variant">All records retrieved directly from browser persistent database storage.</p>
+          <p class="text-sm text-on-surface-variant">Review all previously recorded meals, timelines, logged ingredients, and historical reactions.</p>
         </div>
 
         <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-4">
           <div class="flex items-center justify-between pb-4 border-b border-surface-container">
             <h3 class="font-bold text-base text-on-surface">All Logged Food Entries (<span id="history-total-count">0</span>)</h3>
-            <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">DB Archive</span>
+            <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">Chronological Archive</span>
           </div>
           <div id="history-feed-container" class="flex flex-col gap-4">
-            <!-- Dynamically populated from DB -->
+            <div class="p-8 text-center text-on-surface-variant">No historical entries found in the database.</div>
           </div>
         </div>
       </div>
@@ -251,7 +256,7 @@
             <span class="material-symbols-outlined text-[16px]">analytics</span> Diagnostic Breakdown
           </div>
           <h1 class="text-3xl font-extrabold text-primary tracking-tight">Nutrient Insights & Allergy Correlator</h1>
-          <p class="text-sm text-on-surface-variant">Aggregated data analysis derived strictly from your database storage records.</p>
+          <p class="text-sm text-on-surface-variant">Aggregated data analysis correlating high-frequency intake components with tracked symptoms.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -260,7 +265,11 @@
               <span class="material-symbols-outlined text-xl">warning</span>
             </div>
             <h3 class="font-bold text-base text-on-surface">Top Suspected Trigger</h3>
-            <p id="insight-trigger-desc" class="text-xs text-on-surface-variant">No database records available for analysis.</p>
+            <p id="insight-trigger-desc" class="text-xs text-on-surface-variant">No adverse symptoms logged yet to establish correlation triggers.</p>
+            <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
+              <span class="text-secondary">Risk Index: --</span>
+              <span class="text-on-surface-variant">0 Occurrences</span>
+            </div>
           </div>
 
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
@@ -268,7 +277,11 @@
               <span class="material-symbols-outlined text-xl">eco</span>
             </div>
             <h3 class="font-bold text-base text-on-surface">Safe Profile Baseline</h3>
-            <p id="insight-safe-desc" class="text-xs text-on-surface-variant">Awaiting database entries to establish baseline.</p>
+            <p class="text-xs text-on-surface-variant">Ingredients logged without adverse symptom feedback will register here.</p>
+            <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
+              <span class="text-primary">Status: Awaiting Data</span>
+              <span class="text-on-surface-variant">0 Logs</span>
+            </div>
           </div>
 
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
@@ -276,13 +289,17 @@
               <span class="material-symbols-outlined text-xl">bolt</span>
             </div>
             <h3 class="font-bold text-base text-on-surface">Macronutrient Balance</h3>
-            <p id="insight-macro-desc" class="text-xs text-on-surface-variant">No macro distributions calculated.</p>
+            <p class="text-xs text-on-surface-variant">Macro calculations will populate dynamically as meals are added to your database.</p>
+            <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
+              <span class="text-tertiary">Nutrient Score: --</span>
+              <span class="text-on-surface-variant">Awaiting Entry</span>
+            </div>
           </div>
         </div>
 
         <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-4">
           <h3 class="font-bold text-base text-on-surface">Ingredient Exposure Matrix</h3>
-          <p class="text-xs text-on-surface-variant">Detailed breakdown of elements tracked through your database.</p>
+          <p class="text-xs text-on-surface-variant">Detailed breakdown of elements tracked through your history log.</p>
           <div class="overflow-x-auto">
             <table class="w-full text-left text-xs">
               <thead class="bg-surface-container-low text-on-surface-variant uppercase tracking-wider">
@@ -293,9 +310,9 @@
                   <th class="p-3 rounded-r-lg">Symptom Correlation</th>
                 </tr>
               </thead>
-              <tbody id="matrix-table-body" class="divide-y divide-surface-container">
+              <tbody id="matrix-tbody" class="divide-y divide-surface-container">
                 <tr>
-                  <td colspan="4" class="p-4 text-center text-on-surface-variant italic">No database records found.</td>
+                  <td colspan="4" class="p-4 text-center text-on-surface-variant italic">No database entries recorded.</td>
                 </tr>
               </tbody>
             </table>
@@ -307,306 +324,1446 @@
   </main>
 
   <script>
-    // Database Persistence Layer using localStorage (No hardcoded mock data, no placeholders)
-    const DB_KEY = 'nourishlog_database_records';
+  // ============================================================
+  // NOURISHLOG DATABASE CONNECTION
+  // ============================================================
 
-    function getDB() {
-      const data = localStorage.getItem(DB_KEY);
-      return data ? JSON.parse(data) : [];
+  const DATABASE_URL =
+    "https://script.google.com/macros/s/AKfycbxyZ-mBI1-NRQtI7f23s-DKINJ8fqolcyTpq2rwIhnc0bMctVHGNVDYZxWVuZG1csbE/exec";
+
+  // Frontend state
+  let selectedCategory = 'dinner';
+  let selectedSymptom = 'None / Symptom-Free';
+  let mealsData = [];
+
+  // Prevent duplicate requests while saving/loading
+  let databaseLoading = false;
+  let databaseSaving = false;
+
+
+  // ============================================================
+  // DATABASE HELPERS
+  // ============================================================
+
+  /*
+   * Converts different possible Apps Script responses into
+   * a usable JavaScript array.
+   *
+   * Supported examples:
+   *
+   * [
+   *   {...},
+   *   {...}
+   * ]
+   *
+   * {
+   *   data: [...]
+   * }
+   *
+   * {
+   *   meals: [...]
+   * }
+   *
+   * {
+   *   records: [...]
+   * }
+   */
+  function extractMealsFromResponse(data) {
+    if (!data) return [];
+
+    // Direct array
+    if (Array.isArray(data)) {
+      return data;
     }
 
-    function saveDB(data) {
-      localStorage.setItem(DB_KEY, JSON.stringify(data));
+    // Common Apps Script response structures
+    if (Array.isArray(data.data)) {
+      return data.data;
     }
 
-    let selectedCategory = 'dinner';
-    let selectedSymptom = 'None / Symptom-Free';
+    if (Array.isArray(data.meals)) {
+      return data.meals;
+    }
 
-    function switchTab(tabId) {
-      document.getElementById('tab-daily').classList.add('hidden');
-      document.getElementById('tab-meals').classList.add('hidden');
-      document.getElementById('tab-insights').classList.add('hidden');
+    if (Array.isArray(data.records)) {
+      return data.records;
+    }
 
-      document.getElementById('nav-btn-daily').className = "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
-      document.getElementById('nav-btn-meals').className = "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
-      document.getElementById('nav-btn-insights').className = "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
+    if (Array.isArray(data.rows)) {
+      return data.rows;
+    }
 
-      if(tabId === 'daily') {
-        document.getElementById('tab-daily').classList.remove('hidden');
-        document.getElementById('nav-btn-daily').className = "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
-        renderFeed();
-      } else if(tabId === 'meals') {
-        document.getElementById('tab-meals').classList.remove('hidden');
-        document.getElementById('nav-btn-meals').className = "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
-        renderHistory();
-      } else if(tabId === 'insights') {
-        document.getElementById('tab-insights').classList.remove('hidden');
-        document.getElementById('nav-btn-insights').className = "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
-        updateInsights();
+    // Sometimes Apps Script wraps the response
+    if (data.result) {
+      if (Array.isArray(data.result)) {
+        return data.result;
+      }
+
+      if (Array.isArray(data.result.data)) {
+        return data.result.data;
+      }
+
+      if (Array.isArray(data.result.meals)) {
+        return data.result.meals;
       }
     }
 
-    function setCategory(cat) {
-      selectedCategory = cat;
-      document.querySelectorAll('.cat-btn').forEach(btn => {
-        btn.className = "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1";
+    return [];
+  }
+
+
+  /*
+   * Safely converts values coming from Google Sheets
+   * into the format expected by NourishLog.
+   */
+  function normalizeMeal(raw) {
+    if (!raw || typeof raw !== 'object') {
+      return null;
+    }
+
+    let items = raw.items;
+
+    // If Apps Script sends ingredients instead of items
+    if (items === undefined) {
+      items = raw.ingredients;
+    }
+
+    // Google Sheets may return JSON as a string
+    if (typeof items === 'string') {
+      try {
+        const parsed = JSON.parse(items);
+
+        if (Array.isArray(parsed)) {
+          items = parsed;
+        } else {
+          items = items
+            .split(',')
+            .map(x => x.trim())
+            .filter(Boolean);
+        }
+      } catch (e) {
+        items = items
+          .split(',')
+          .map(x => x.trim())
+          .filter(Boolean);
+      }
+    }
+
+    if (!Array.isArray(items)) {
+      items = [];
+    }
+
+    // Support alternative column names
+    const title =
+      raw.title ??
+      raw.mealName ??
+      raw.meal_name ??
+      raw.name ??
+      'Unnamed Meal';
+
+    const category =
+      raw.category ??
+      raw.occasion ??
+      'dinner';
+
+    const mealTime =
+      raw.mealTime ??
+      raw.mealtime ??
+      raw.time ??
+      raw.timestamp ??
+      raw.date ??
+      'Unknown time';
+
+    const symptoms =
+      raw.symptoms ??
+      raw.symptom ??
+      'None / Symptom-Free';
+
+    let macros = raw.macros;
+
+    if (typeof macros === 'string') {
+      try {
+        macros = JSON.parse(macros);
+      } catch (e) {
+        macros = null;
+      }
+    }
+
+    if (!macros || typeof macros !== 'object') {
+      macros = {
+        kcal: Number(raw.kcal ?? raw.calories ?? 450),
+        p: Number(raw.p ?? raw.protein ?? 20),
+        c: Number(raw.c ?? raw.carbs ?? 45),
+        f: Number(raw.f ?? raw.fat ?? 18)
+      };
+    }
+
+    return {
+      id: raw.id ?? raw.ID ?? raw.timestamp ?? null,
+
+      title: String(title),
+
+      category: String(category).toLowerCase(),
+
+      mealTime: String(mealTime),
+
+      items: items
+        .map(item => String(item).trim())
+        .filter(Boolean),
+
+      symptoms: String(symptoms),
+
+      severity: Number(raw.severity ?? 0),
+
+      onset: raw.onset ?? "Immediate",
+
+      macros: {
+        kcal: Number(macros.kcal ?? 0),
+        p: Number(macros.p ?? 0),
+        c: Number(macros.c ?? 0),
+        f: Number(macros.f ?? 0)
+      }
+    };
+  }
+
+
+  // ============================================================
+  // LOAD DATABASE
+  // ============================================================
+
+  async function loadMealsFromDatabase() {
+
+    if (databaseLoading) return;
+
+    databaseLoading = true;
+
+    showDatabaseStatus("Loading database...");
+
+    try {
+
+      const response = await fetch(
+        DATABASE_URL + "?action=getMeals&_=" + Date.now(),
+        {
+          method: "GET",
+          cache: "no-store"
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Database request failed: HTTP " + response.status
+        );
+      }
+
+      const data = await response.json();
+
+      console.log("NourishLog database response:", data);
+
+      const rawMeals = extractMealsFromResponse(data);
+
+      mealsData = rawMeals
+        .map(normalizeMeal)
+        .filter(Boolean);
+
+      /*
+       * Newest entries first.
+       */
+      mealsData.sort((a, b) => {
+        const dateA = new Date(a.mealTime).getTime();
+        const dateB = new Date(b.mealTime).getTime();
+
+        if (
+          !Number.isNaN(dateA) &&
+          !Number.isNaN(dateB)
+        ) {
+          return dateB - dateA;
+        }
+
+        return 0;
       });
-      event.currentTarget.className = "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1";
-    }
 
-    function selectSymptom(btn) {
-      document.querySelectorAll('.sym-btn').forEach(b => {
-        b.className = "sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed";
-      });
-      btn.className = "sym-btn px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold";
-      selectedSymptom = btn.innerText;
-    }
-
-    function addIngredientToForm() {
-      const input = document.getElementById('new-ingredient-input');
-      const val = input.value.trim();
-      if(!val) return;
-      const list = document.getElementById('ingredients-list');
-      const chip = document.createElement('span');
-      chip.className = "inline-flex items-center gap-1 bg-surface-container-lowest px-2.5 py-1 rounded-full text-xs text-on-surface shadow-xs";
-      chip.innerHTML = `${val} <button type="button" onclick="this.parentElement.remove()" class="text-on-surface-variant hover:text-error"><span class="material-symbols-outlined text-[14px]">cancel</span></button>`;
-      list.appendChild(chip);
-      input.value = '';
-    }
-
-    function quickAdd(name) {
-      const list = document.getElementById('ingredients-list');
-      const chip = document.createElement('span');
-      chip.className = "inline-flex items-center gap-1 bg-surface-container-lowest px-2.5 py-1 rounded-full text-xs text-on-surface shadow-xs";
-      chip.innerHTML = `${name} <button type="button" onclick="this.parentElement.remove()" class="text-on-surface-variant hover:text-error"><span class="material-symbols-outlined text-[14px]">cancel</span></button>`;
-      list.appendChild(chip);
-    }
-
-    function deleteRecord(id) {
-      let db = getDB();
-      db = db.filter(item => item.id !== id);
-      saveDB(db);
       renderFeed();
+
+      /*
+       * If another tab is currently visible, refresh it too.
+       */
+      renderHistory();
+      renderInsights();
+
+      showDatabaseStatus(
+        `${mealsData.length} database record${mealsData.length === 1 ? '' : 's'} loaded`
+      );
+
+      console.log(
+        "NourishLog: Loaded",
+        mealsData.length,
+        "records from database."
+      );
+
+    } catch (error) {
+
+      console.error(
+        "NourishLog database READ error:",
+        error
+      );
+
+      /*
+       * IMPORTANT:
+       * Don't destroy locally available data if the database
+       * temporarily fails.
+       */
+      renderFeed();
+
+      showDatabaseStatus("Database connection failed");
+
+      console.warn(
+        "NourishLog could not read the Apps Script database.",
+        error
+      );
+
+    } finally {
+
+      databaseLoading = false;
+    }
+  }
+
+
+  // ============================================================
+  // SAVE MEAL TO DATABASE
+  // ============================================================
+
+  async function saveMealToDatabase(meal) {
+
+    if (databaseSaving) {
+      throw new Error("A meal is already being saved.");
     }
 
-    function renderFeed() {
-      const db = getDB();
-      const container = document.getElementById('meals-feed-container');
-      container.innerHTML = '';
-      
-      document.getElementById('stat-meals-count').innerText = db.length;
-      document.getElementById('feed-count-label').innerText = `${db.length} items in DB`;
+    databaseSaving = true;
 
-      // Count triggers
-      const triggersCount = db.filter(m => m.symptoms && m.symptoms !== 'None / Symptom-Free').length;
-      document.getElementById('stat-triggers-count').innerText = triggersCount;
+    try {
 
-      if(db.length === 0) {
-        container.innerHTML = `
-          <div class="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/30 text-center flex flex-col items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-4xl text-on-surface-variant/50">inbox</span>
-            <p class="text-sm font-semibold text-on-surface">No records found in database.</p>
-            <p class="text-xs text-on-surface-variant">Submit a meal using the form above to write records directly to DB storage.</p>
-          </div>
-        `;
-        document.getElementById('stat-top-food').innerText = "None recorded";
-        document.getElementById('frequent-foods-container').innerHTML = `<p class="text-xs text-on-surface-variant italic">No database records found.</p>`;
-        return;
+      /*
+       * The Apps Script receives the complete meal object.
+       *
+       * action = saveMeal
+       *
+       * If your Apps Script expects a different action name,
+       * change only this value.
+       */
+      const payload = {
+        action: "saveMeal",
+
+        meal: meal,
+
+        /*
+         * Also send the fields individually.
+         * This makes the request easier for Apps Script
+         * to process if it doesn't use the nested object.
+         */
+        id: meal.id,
+        title: meal.title,
+        category: meal.category,
+        mealTime: meal.mealTime,
+        items: meal.items,
+        symptoms: meal.symptoms,
+        severity: meal.severity,
+        onset: meal.onset,
+        macros: meal.macros
+      };
+
+      const response = await fetch(
+        DATABASE_URL,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+
+          body: JSON.stringify(payload)
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(
+          "Database save failed: HTTP " + response.status
+        );
       }
 
-      // Calculate frequency stats from DB
-      const ingredientCounts = {};
-      db.forEach(m => {
-        if(m.items) {
-          m.items.forEach(i => {
-            ingredientCounts[i] = (ingredientCounts[i] || 0) + 1;
-          });
-        }
-      });
+      /*
+       * Apps Script normally returns JSON.
+       */
+      const data = await response.json();
 
-      const sortedIngredients = Object.entries(ingredientCounts).sort((a,b) => b[1] - a[1]);
-      if(sortedIngredients.length > 0) {
-        document.getElementById('stat-top-food').innerText = sortedIngredients[0][0];
-        
-        let freqHtml = '';
-        sortedIngredients.slice(0, 3).forEach(([ing, count]) => {
-          const pct = Math.round((count / db.length) * 100);
-          freqHtml += `
-            <div class="flex flex-col gap-1">
-              <div class="flex justify-between text-xs font-semibold"><span class="text-on-surface">${ing}</span><span class="text-primary font-bold">${count} time(s)</span></div>
-              <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden"><div class="bg-primary h-full rounded-full" style="width: ${pct}%;"></div></div>
-            </div>
-          `;
+      console.log(
+        "NourishLog database SAVE response:",
+        data
+      );
+
+      /*
+       * Respect explicit failure responses.
+       */
+      if (
+        data &&
+        (
+          data.success === false ||
+          data.status === "error" ||
+          data.error
+        )
+      ) {
+        throw new Error(
+          data.error ||
+          data.message ||
+          "Apps Script rejected the meal."
+        );
+      }
+
+      return data;
+
+    } finally {
+
+      databaseSaving = false;
+    }
+  }
+
+
+  // ============================================================
+  // DATABASE STATUS UI
+  // ============================================================
+
+  function showDatabaseStatus(message, isError = false) {
+
+    const statusElements = document.querySelectorAll(
+      '[data-database-status]'
+    );
+
+    statusElements.forEach(el => {
+      el.textContent = message;
+
+      if (isError) {
+        el.classList.add("text-secondary");
+      } else {
+        el.classList.remove("text-secondary");
+      }
+    });
+
+    console.log("Database:", message);
+  }
+
+
+  // ============================================================
+  // TAB NAVIGATION
+  // ============================================================
+
+  function switchTab(tabId) {
+
+    document.getElementById('tab-daily').classList.add('hidden');
+    document.getElementById('tab-meals').classList.add('hidden');
+    document.getElementById('tab-insights').classList.add('hidden');
+
+    document.getElementById('nav-btn-daily').className =
+      "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
+
+    document.getElementById('nav-btn-meals').className =
+      "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
+
+    document.getElementById('nav-btn-insights').className =
+      "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
+
+
+    if (tabId === 'daily') {
+
+      document.getElementById('tab-daily').classList.remove('hidden');
+
+      document.getElementById('nav-btn-daily').className =
+        "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
+
+    }
+
+    else if (tabId === 'meals') {
+
+      document.getElementById('tab-meals').classList.remove('hidden');
+
+      document.getElementById('nav-btn-meals').className =
+        "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
+
+      renderHistory();
+    }
+
+    else if (tabId === 'insights') {
+
+      document.getElementById('tab-insights').classList.remove('hidden');
+
+      document.getElementById('nav-btn-insights').className =
+        "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
+
+      renderInsights();
+    }
+  }
+
+
+  // ============================================================
+  // CATEGORY
+  // ============================================================
+
+  function setCategory(cat) {
+
+    selectedCategory = cat;
+
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+
+      btn.className =
+        "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1";
+    });
+
+    if (event && event.currentTarget) {
+
+      event.currentTarget.className =
+        "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1";
+    }
+  }
+
+
+  // ============================================================
+  // SYMPTOM
+  // ============================================================
+
+  function selectSymptom(btn) {
+
+    document.querySelectorAll('.sym-btn').forEach(b => {
+
+      b.className =
+        "sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed";
+    });
+
+    btn.className =
+      "sym-btn px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold";
+
+    selectedSymptom = btn.innerText.trim();
+  }
+
+
+  // ============================================================
+  // INGREDIENTS
+  // ============================================================
+
+  function addIngredientToForm() {
+
+    const input =
+      document.getElementById('new-ingredient-input');
+
+    const val = input.value.trim();
+
+    if (!val) return;
+
+    addIngredientChip(val);
+
+    input.value = '';
+  }
+
+
+  function addIngredientChip(name) {
+
+    const list =
+      document.getElementById('ingredients-list');
+
+    const chip =
+      document.createElement('span');
+
+    chip.className =
+      "inline-flex items-center gap-1 bg-surface-container-lowest px-2.5 py-1 rounded-full text-xs text-on-surface shadow-xs";
+
+    /*
+     * textContent is used instead of injecting the ingredient
+     * directly into innerHTML.
+     */
+    const text =
+      document.createTextNode(name + " ");
+
+    const removeButton =
+      document.createElement('button');
+
+    removeButton.type = "button";
+
+    removeButton.className =
+      "text-on-surface-variant hover:text-error";
+
+    removeButton.innerHTML =
+      '<span class="material-symbols-outlined text-[14px]">cancel</span>';
+
+    removeButton.onclick = function () {
+      chip.remove();
+    };
+
+    chip.appendChild(text);
+    chip.appendChild(removeButton);
+
+    list.appendChild(chip);
+  }
+
+
+  function quickAdd(name) {
+
+    addIngredientChip(name);
+  }
+
+
+  // ============================================================
+  // RENDER DAILY FEED
+  // ============================================================
+
+  function renderFeed() {
+
+    const container =
+      document.getElementById('meals-feed-container');
+
+    container.innerHTML = '';
+
+    document.getElementById('stat-meals-count').innerText =
+      mealsData.length;
+
+    document.getElementById('feed-count-label').innerText =
+      `${mealsData.length} items recorded`;
+
+
+    // Trigger count
+    const triggersCount =
+      mealsData.filter(m =>
+        !String(m.symptoms || '').includes('None')
+      ).length;
+
+    document.getElementById('stat-triggers-count').innerText =
+      triggersCount;
+
+
+    // Top food metric
+    if (mealsData.length > 0) {
+
+      const foodCounts = {};
+
+      mealsData.forEach(m => {
+
+        (m.items || []).forEach(item => {
+
+          const food =
+            String(item).trim();
+
+          if (!food) return;
+
+          const key =
+            food.toLowerCase();
+
+          if (!foodCounts[key]) {
+            foodCounts[key] = {
+              name: food,
+              count: 0
+            };
+          }
+
+          foodCounts[key].count++;
         });
-        document.getElementById('frequent-foods-container').innerHTML = freqHtml;
-      }
-
-      db.forEach((m) => {
-        const itemHtml = document.createElement('article');
-        itemHtml.className = "bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-outline-variant/30 relative group";
-        
-        let catIcon = "restaurant";
-        let catBg = "bg-primary-fixed text-primary";
-        if(m.category === 'breakfast') { catIcon = "wb_twilight"; catBg = "bg-tertiary-fixed text-tertiary"; }
-        if(m.category === 'lunch') { catIcon = "wb_sunny"; catBg = "bg-primary-fixed text-primary"; }
-        if(m.category === 'snack') { catIcon = "nutrition"; catBg = "bg-secondary-fixed text-secondary"; }
-
-        itemHtml.innerHTML = `
-          <button onclick="deleteRecord('${m.id}')" title="Delete from DB" class="absolute top-4 right-4 text-on-surface-variant hover:text-error opacity-60 hover:opacity-100 transition-opacity flex items-center gap-1 text-xs bg-surface-container px-2 py-1 rounded-md">
-            <span class="material-symbols-outlined text-[16px]">delete</span> Delete
-          </button>
-          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4 pr-16">
-            <div class="flex items-center gap-3">
-              <div class="w-12 h-12 rounded-xl ${catBg} flex items-center justify-center">
-                <span class="material-symbols-outlined text-2xl">${catIcon}</span>
-              </div>
-              <div>
-                <div class="flex items-center gap-2 mb-0.5">
-                  <span class="px-2 py-0.5 rounded-full bg-surface-container text-xs font-bold uppercase text-on-surface-variant">${m.category}</span>
-                  <span class="text-xs text-on-surface-variant">${m.mealTime}</span>
-                  <span class="px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-secondary text-xs font-semibold">${m.symptoms}</span>
-                </div>
-                <h3 class="font-bold text-base text-on-surface">${m.title}</h3>
-              </div>
-            </div>
-            <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full text-xs font-semibold">
-              <span>${m.macros.kcal} kcal</span> • <span class="text-primary">${m.macros.p}g P</span> • <span class="text-secondary">${m.macros.f}g F</span>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-1.5">
-            ${m.items.map(i => `<span class="px-2.5 py-1 rounded-full bg-surface-container text-xs text-on-surface">${i}</span>`).join('')}
-          </div>
-        `;
-        container.appendChild(itemHtml);
       });
+
+      const topFood =
+        Object.values(foodCounts)
+          .sort((a, b) => b.count - a.count)[0];
+
+      document.getElementById('stat-top-food').innerText =
+        topFood
+          ? topFood.name
+          : mealsData[0].title;
+
+    } else {
+
+      document.getElementById('stat-top-food').innerText =
+        "No data yet";
     }
 
-    function renderHistory() {
-      const db = getDB();
-      const container = document.getElementById('history-feed-container');
-      container.innerHTML = '';
-      document.getElementById('history-total-count').innerText = db.length;
 
-      if(db.length === 0) {
-        container.innerHTML = `
-          <div class="p-8 text-center flex flex-col items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-4xl text-on-surface-variant/50">history</span>
-            <p class="text-sm font-semibold text-on-surface">No history records found in database.</p>
-            <p class="text-xs text-on-surface-variant">Logged items will appear here securely.</p>
-          </div>
-        `;
-        return;
-      }
+    // Empty state
+    if (mealsData.length === 0) {
 
-      db.forEach((m) => {
-        const itemHtml = document.createElement('article');
-        itemHtml.className = "bg-surface-container-low p-5 rounded-xl border border-outline-variant/20 flex flex-col gap-3 relative";
-        
-        let catBg = "bg-primary-fixed text-primary";
-        if(m.category === 'breakfast') catBg = "bg-tertiary-fixed text-tertiary";
-        if(m.category === 'snack') catBg = "bg-secondary-fixed text-secondary";
+      container.innerHTML = `
+        <div class="bg-surface-container-lowest p-8 rounded-2xl text-center text-on-surface-variant border border-outline-variant/20 flex flex-col items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-3xl text-primary/40">restaurant</span>
+          <p class="text-sm font-semibold">No meals logged yet today.</p>
+          <p class="text-xs">Use the form above to record your first meal and begin tracking.</p>
+        </div>
+      `;
 
-        itemHtml.innerHTML = `
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="px-2.5 py-0.5 rounded-full ${catBg} text-xs font-bold uppercase">${m.category}</span>
-              <span class="text-xs text-on-surface-variant">${m.mealTime}</span>
-            </div>
-            <div class="flex items-center gap-3">
-              <span class="text-xs font-semibold text-secondary">${m.symptoms}</span>
-              <button onclick="deleteRecord('${m.id}'); renderHistory();" class="text-on-surface-variant hover:text-error text-xs flex items-center"><span class="material-symbols-outlined text-[16px]">delete</span></button>
-            </div>
-          </div>
-          <div>
-            <h4 class="font-bold text-base text-on-surface">${m.title}</h4>
-            <div class="flex flex-wrap gap-1.5 mt-2">
-              ${m.items.map(i => `<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-xs text-on-surface">${i}</span>`).join('')}
-            </div>
-          </div>
-        `;
-        container.appendChild(itemHtml);
-      });
+      document.getElementById('top-foods-container').innerHTML =
+        `<div class="text-xs text-on-surface-variant italic py-2">
+          No ingredient history recorded yet.
+        </div>`;
+
+      return;
     }
 
-    function updateInsights() {
-      const db = getDB();
-      const tbody = document.getElementById('matrix-table-body');
-      
-      if(db.length === 0) {
-        document.getElementById('insight-trigger-desc').innerText = "No database records available for analysis.";
-        document.getElementById('insight-safe-desc').innerText = "Awaiting database entries to establish safe baselines.";
-        document.getElementById('insight-macro-desc').innerText = "No macro distributions calculated.";
-        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-on-surface-variant italic">No database records found.</td></tr>`;
-        return;
-      }
 
-      document.getElementById('insight-trigger-desc').innerText = "Analyzing " + db.length + " database entries for symptom correlation patterns.";
-      document.getElementById('insight-safe-desc').innerText = "Database is actively compiling component frequencies from stored logs.";
-      document.getElementById('insight-macro-desc').innerText = "Averaging macronutrient distribution across active database records.";
+    // ==========================================================
+    // TOP FOODS
+    // ==========================================================
 
-      let rowsHtml = '';
-      const ingredientMap = {};
-      db.forEach(m => {
-        if(m.items) {
-          m.items.forEach(i => {
-            if(!ingredientMap[i]) ingredientMap[i] = { count: 1, symptoms: m.symptoms };
-            else ingredientMap[i].count++;
-          });
+    const foodCounts = {};
+
+    mealsData.forEach(m => {
+
+      (m.items || []).forEach(i => {
+
+        const food =
+          String(i).trim();
+
+        if (!food) return;
+
+        const key =
+          food.toLowerCase();
+
+        if (!foodCounts[key]) {
+          foodCounts[key] = {
+            name: food,
+            count: 0
+          };
         }
-      });
 
-      Object.entries(ingredientMap).forEach(([ing, data]) => {
-        rowsHtml += `
+        foodCounts[key].count++;
+      });
+    });
+
+
+    const sortedFoods =
+      Object.values(foodCounts)
+        .sort((a, b) => b.count - a.count)
+        .slice(0, 3);
+
+
+    const topFoodsContainer =
+      document.getElementById('top-foods-container');
+
+    topFoodsContainer.innerHTML = '';
+
+
+    sortedFoods.forEach(food => {
+
+      const pct =
+        Math.round(
+          (food.count / mealsData.length) * 100
+        );
+
+      topFoodsContainer.innerHTML += `
+        <div class="flex flex-col gap-1">
+          <div class="flex justify-between text-xs font-semibold">
+            <span class="text-on-surface">
+              🍽️ ${escapeHtml(food.name)}
+            </span>
+            <span class="text-primary font-bold">
+              ${food.count} times (${pct}%)
+            </span>
+          </div>
+
+          <div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+            <div
+              class="bg-primary h-full rounded-full"
+              style="width:${pct}%;">
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+
+    // ==========================================================
+    // MEAL CARDS
+    // ==========================================================
+
+    mealsData.forEach(m => {
+
+      const itemHtml =
+        document.createElement('article');
+
+      itemHtml.className =
+        "bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-outline-variant/30";
+
+
+      let catIcon = "restaurant";
+      let catBg = "bg-primary-fixed text-primary";
+
+
+      if (m.category === 'breakfast') {
+
+        catIcon = "wb_twilight";
+        catBg = "bg-tertiary-fixed text-tertiary";
+      }
+
+      if (m.category === 'lunch') {
+
+        catIcon = "wb_sunny";
+        catBg = "bg-primary-fixed text-primary";
+      }
+
+      if (m.category === 'snack') {
+
+        catIcon = "nutrition";
+        catBg = "bg-secondary-fixed text-secondary";
+      }
+
+
+      const itemsHtml =
+        (m.items || [])
+          .map(i =>
+            `<span class="px-2.5 py-1 rounded-full bg-surface-container text-xs text-on-surface">
+              ${escapeHtml(i)}
+            </span>`
+          )
+          .join('');
+
+
+      itemHtml.innerHTML = `
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+
+          <div class="flex items-center gap-3">
+
+            <div class="w-12 h-12 rounded-xl ${catBg} flex items-center justify-center">
+              <span class="material-symbols-outlined text-2xl">
+                ${escapeHtml(catIcon)}
+              </span>
+            </div>
+
+            <div>
+
+              <div class="flex items-center gap-2 mb-0.5">
+
+                <span class="px-2 py-0.5 rounded-full bg-surface-container text-xs font-bold uppercase text-on-surface-variant">
+                  ${escapeHtml(m.category)}
+                </span>
+
+                <span class="text-xs text-on-surface-variant">
+                  ${escapeHtml(m.mealTime || 'Just now')}
+                </span>
+
+                <span class="px-2 py-0.5 rounded-full bg-secondary-fixed/50 text-secondary text-xs font-semibold">
+                  ${escapeHtml(m.symptoms || 'None / Symptom-Free')}
+                </span>
+
+              </div>
+
+              <h3 class="font-bold text-base text-on-surface">
+                ${escapeHtml(m.title)}
+              </h3>
+
+            </div>
+
+          </div>
+
+
+          <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full text-xs font-semibold">
+
+            <span>${Number(m.macros?.kcal || 0)} kcal</span>
+
+            •
+
+            <span class="text-primary">
+              ${Number(m.macros?.p || 0)}g P
+            </span>
+
+            •
+
+            <span class="text-secondary">
+              ${Number(m.macros?.f || 0)}g F
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="flex flex-wrap gap-1.5">
+          ${itemsHtml}
+        </div>
+      `;
+
+
+      container.appendChild(itemHtml);
+    });
+  }
+
+
+  // ============================================================
+  // HISTORY
+  // ============================================================
+
+  function renderHistory() {
+
+    const container =
+      document.getElementById('history-feed-container');
+
+    container.innerHTML = '';
+
+    document.getElementById('history-total-count').innerText =
+      mealsData.length;
+
+
+    if (mealsData.length === 0) {
+
+      container.innerHTML =
+        `<div class="p-8 text-center text-on-surface-variant italic">
+          No historical entries found in the database.
+        </div>`;
+
+      return;
+    }
+
+
+    mealsData.forEach(m => {
+
+      const itemHtml =
+        document.createElement('article');
+
+      itemHtml.className =
+        "bg-surface-container-low p-5 rounded-xl border border-outline-variant/20 flex flex-col gap-3";
+
+
+      let catBg =
+        "bg-primary-fixed text-primary";
+
+      if (m.category === 'breakfast') {
+        catBg =
+          "bg-tertiary-fixed text-tertiary";
+      }
+
+      if (m.category === 'snack') {
+        catBg =
+          "bg-secondary-fixed text-secondary";
+      }
+
+
+      itemHtml.innerHTML = `
+
+        <div class="flex items-center justify-between">
+
+          <div class="flex items-center gap-2">
+
+            <span class="px-2.5 py-0.5 rounded-full ${catBg} text-xs font-bold uppercase">
+              ${escapeHtml(m.category)}
+            </span>
+
+            <span class="text-xs text-on-surface-variant">
+              ${escapeHtml(m.mealTime)}
+            </span>
+
+          </div>
+
+          <span class="text-xs font-semibold text-secondary">
+            ${escapeHtml(m.symptoms)}
+          </span>
+
+        </div>
+
+
+        <div>
+
+          <h4 class="font-bold text-base text-on-surface">
+            ${escapeHtml(m.title)}
+          </h4>
+
+          <div class="flex flex-wrap gap-1.5 mt-2">
+
+            ${(m.items || [])
+              .map(i =>
+                `<span class="px-2 py-0.5 rounded-full bg-surface-container-lowest text-xs text-on-surface">
+                  ${escapeHtml(i)}
+                </span>`
+              )
+              .join('')}
+
+          </div>
+
+        </div>
+      `;
+
+
+      container.appendChild(itemHtml);
+    });
+  }
+
+
+  // ============================================================
+  // INSIGHTS
+  // ============================================================
+
+  function renderInsights() {
+
+    const matrixTbody =
+      document.getElementById('matrix-tbody');
+
+    matrixTbody.innerHTML = '';
+
+
+    if (mealsData.length === 0) {
+
+      matrixTbody.innerHTML =
+        `<tr>
+          <td colspan="4"
+              class="p-4 text-center text-on-surface-variant italic">
+            No database entries recorded.
+          </td>
+        </tr>`;
+
+      return;
+    }
+
+
+    const ingredientMap = {};
+
+
+    mealsData.forEach(m => {
+
+      (m.items || []).forEach(i => {
+
+        const ingredient =
+          String(i).trim();
+
+        if (!ingredient) return;
+
+        const key =
+          ingredient.toLowerCase();
+
+
+        if (!ingredientMap[key]) {
+
+          ingredientMap[key] = {
+            name: ingredient,
+            count: 0,
+            symptoms: []
+          };
+        }
+
+
+        ingredientMap[key].count++;
+
+
+        if (
+          m.symptoms &&
+          !String(m.symptoms).includes('None')
+        ) {
+
+          ingredientMap[key].symptoms.push(
+            m.symptoms
+          );
+        }
+
+      });
+    });
+
+
+    Object.values(ingredientMap)
+      .sort((a, b) => b.count - a.count)
+      .forEach(data => {
+
+        const symptomText =
+          data.symptoms.length > 0
+            ? [...new Set(data.symptoms)].join(', ')
+            : 'None recorded';
+
+
+        matrixTbody.innerHTML += `
           <tr>
-            <td class="p-3 font-semibold text-on-surface">${ing}</td>
-            <td class="p-3 text-on-surface-variant">Database Item</td>
-            <td class="p-3 text-primary font-bold">${data.count} entry(ies)</td>
-            <td class="p-3 text-secondary">${data.symptoms}</td>
+
+            <td class="p-3 font-semibold text-on-surface">
+              ${escapeHtml(data.name)}
+            </td>
+
+            <td class="p-3 text-on-surface-variant">
+              Custom Log
+            </td>
+
+            <td class="p-3 text-primary font-bold">
+              ${data.count}
+            </td>
+
+            <td class="p-3 text-secondary font-semibold">
+              ${escapeHtml(symptomText)}
+            </td>
+
           </tr>
         `;
       });
-      tbody.innerHTML = rowsHtml;
+
+
+    /*
+     * Update the top suspected trigger card.
+     */
+    const triggerDescription =
+      document.getElementById('insight-trigger-desc');
+
+
+    const triggerCandidates =
+      Object.values(ingredientMap)
+        .filter(x => x.symptoms.length > 0)
+        .sort((a, b) =>
+          b.symptoms.length - a.symptoms.length
+        );
+
+
+    if (triggerCandidates.length > 0) {
+
+      const trigger =
+        triggerCandidates[0];
+
+      triggerDescription.innerText =
+        `${trigger.name} appeared in ${trigger.symptoms.length} meal${trigger.symptoms.length === 1 ? '' : 's'} associated with logged symptoms.`;
+
+    } else {
+
+      triggerDescription.innerText =
+        "No adverse symptoms logged yet to establish correlation triggers.";
+    }
+  }
+
+
+  // ============================================================
+  // SUBMIT MEAL
+  // ============================================================
+
+  async function submitMeal() {
+
+    if (databaseSaving) {
+      return;
     }
 
-    function submitMeal() {
-      const title = document.getElementById('meal-title-input').value;
-      const mealTime = document.getElementById('meal-time-input').value;
-      const ingredientChips = document.querySelectorAll('#ingredients-list span');
-      const items = Array.from(ingredientChips).map(chip => chip.childNodes[0].nodeValue.trim());
 
-      const newMeal = {
-        id: 'db_' + Date.now() + '_' + Math.random().toString(36.substring(2, 7)),
-        title: title,
-        category: selectedCategory,
-        mealTime: mealTime,
-        items: items.length > 0 ? items : ["Custom Database Item"],
-        symptoms: selectedSymptom,
-        macros: { kcal: 450, p: 25, c: 40, f: 15 }
-      };
+    const title =
+      document.getElementById('meal-title-input')
+        .value
+        .trim();
 
-      // Write directly to database storage
-      let db = getDB();
-      db.unshift(newMeal);
-      saveDB(db);
 
-      // Refresh UI feed
+    if (!title) {
+
+      alert("Please enter a meal name.");
+
+      return;
+    }
+
+
+    const mealTime =
+      document.getElementById('meal-time-input')
+        .value
+        .trim();
+
+
+    const ingredientChips =
+      document.querySelectorAll(
+        '#ingredients-list > span'
+      );
+
+
+    const items =
+      Array.from(ingredientChips)
+        .map(chip => {
+
+          /*
+           * Only read the text node, not the remove button.
+           */
+          const textNode =
+            Array.from(chip.childNodes)
+              .find(node =>
+                node.nodeType === Node.TEXT_NODE
+              );
+
+          return textNode
+            ? textNode.nodeValue.trim()
+            : '';
+        })
+        .filter(Boolean);
+
+
+    const newMeal = {
+
+      id:
+        Date.now().toString(),
+
+      title:
+        title,
+
+      category:
+        selectedCategory,
+
+      mealTime:
+        mealTime || new Date().toLocaleString(),
+
+      items:
+        items.length > 0
+          ? items
+          : [title],
+
+      symptoms:
+        selectedSymptom,
+
+      severity:
+        selectedSymptom.includes('None')
+          ? 0
+          : 2,
+
+      onset:
+        "Immediate",
+
+      macros: {
+        kcal: 450,
+        p: 20,
+        c: 45,
+        f: 18
+      }
+    };
+
+
+    const saveBtn =
+      document.getElementById('save-meal-btn');
+
+    const originalButtonHTML =
+      saveBtn.innerHTML;
+
+
+    /*
+     * Disable button while database request is happening.
+     */
+    saveBtn.disabled = true;
+
+    saveBtn.classList.add(
+      "opacity-60",
+      "cursor-not-allowed"
+    );
+
+    saveBtn.innerHTML = `
+      <span class="material-symbols-outlined text-[18px] animate-spin">
+        sync
+      </span>
+      Saving...
+    `;
+
+
+    try {
+
+      // ========================================================
+      // FIRST: SAVE TO APPS SCRIPT
+      // ========================================================
+
+      await saveMealToDatabase(newMeal);
+
+
+      /*
+       * Only update the visible feed AFTER the database
+       * successfully accepts the meal.
+       *
+       * This prevents the UI from saying "saved" when the
+       * Google Sheet actually failed.
+       */
+      mealsData.unshift(newMeal);
+
       renderFeed();
+      renderHistory();
+      renderInsights();
 
-      // Reset form inputs
-      document.getElementById('meal-title-input').value = '';
-      document.getElementById('ingredients-list').innerHTML = '';
-      
-      const saveBtn = document.getElementById('save-meal-btn');
-      const origText = saveBtn.innerHTML;
-      saveBtn.innerHTML = `<span class="material-symbols-outlined text-[18px]">done</span> Saved to DB!`;
-      
+
+      // Reset form
+      document.getElementById(
+        'meal-title-input'
+      ).value = '';
+
+      document.getElementById(
+        'ingredients-list'
+      ).innerHTML = '';
+
+
+      // Success state
+      saveBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[18px]">
+          cloud_done
+        </span>
+        Saved to Database!
+      `;
+
+
+      showDatabaseStatus(
+        "Meal saved successfully"
+      );
+
+
       setTimeout(() => {
-        saveBtn.innerHTML = origText;
-      }, 2000);
-    }
 
-    // Initialize application view directly from DB storage on load
+        saveBtn.innerHTML =
+          originalButtonHTML;
+
+      }, 2000);
+
+
+    } catch (error) {
+
+      console.error(
+        "NourishLog SAVE ERROR:",
+        error
+      );
+
+
+      /*
+       * VERY IMPORTANT:
+       * Do NOT add the meal to mealsData here.
+       *
+       * If Apps Script rejected the request, the UI should
+       * not pretend that the meal was saved.
+       */
+
+      saveBtn.innerHTML = `
+        <span class="material-symbols-outlined text-[18px]">
+          error
+        </span>
+        Save Failed
+      `;
+
+
+      showDatabaseStatus(
+        "Could not save meal",
+        true
+      );
+
+
+      alert(
+        "The meal could not be saved to the database.\n\n" +
+        "Check the browser console for the exact error."
+      );
+
+
+      setTimeout(() => {
+
+        saveBtn.innerHTML =
+          originalButtonHTML;
+
+      }, 2500);
+
+    } finally {
+
+      saveBtn.disabled = false;
+
+      saveBtn.classList.remove(
+        "opacity-60",
+        "cursor-not-allowed"
+      );
+    }
+  }
+
+
+  // ============================================================
+  // HTML ESCAPE HELPER
+  // ============================================================
+
+  function escapeHtml(value) {
+
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+
+  // ============================================================
+  // DATABASE CONNECTION INDICATOR
+  // ============================================================
+
+  function addDatabaseStatusHook() {
+
+    /*
+     * Your existing HTML doesn't have a dedicated element
+     * for dynamic database status.
+     *
+     * So we attach the data attribute to the existing status
+     * text without changing the visual design.
+     */
+
+    const statusText =
+      document.querySelector(
+        '[class*="Day 1 Fresh Record"]'
+      );
+
+    if (statusText) {
+      statusText.setAttribute(
+        'data-database-status',
+        ''
+      );
+    }
+  }
+
+
+  // ============================================================
+  // ENTER KEY FOR INGREDIENT INPUT
+  // ============================================================
+
+  function setupIngredientInput() {
+
+    const input =
+      document.getElementById(
+        'new-ingredient-input'
+      );
+
+    if (!input) return;
+
+
+    input.addEventListener(
+      'keydown',
+      function(e) {
+
+        if (e.key === 'Enter') {
+
+          e.preventDefault();
+
+          addIngredientToForm();
+        }
+
+      }
+    );
+  }
+
+
+  // ============================================================
+  // INITIALIZE NOURISHLOG
+  // ============================================================
+
+  async function initializeNourishLog() {
+
+    console.log(
+      "NourishLog: Initializing..."
+    );
+
+    /*
+     * Render the UI immediately.
+     */
     renderFeed();
-  </script>
+
+    renderHistory();
+
+    renderInsights();
+
+    setupIngredientInput();
+
+    /*
+     * Then retrieve existing records from Google Sheets.
+     */
+    await loadMealsFromDatabase();
+
+    console.log(
+      "NourishLog: Initialization complete."
+    );
+  }
+
+
+  /*
+   * Start application.
+   */
+  document.addEventListener(
+    "DOMContentLoaded",
+    initializeNourishLog
+  );
+
+</script>
 </body>
 </html>

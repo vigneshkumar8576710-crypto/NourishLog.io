@@ -286,8 +286,8 @@
                     <input
                       type="text"
                       id="meal-time-input"
-                      value="Today, 07:30 PM"
-                      class="w-full bg-surface-container-low px-3 py-2.5 rounded-lg text-sm text-center text-on-surface font-semibold focus:outline-none"
+                      placeholder="e.g. 2026-06-06 07:30 PM"
+                      class="w-full bg-surface-container-low px-3 py-2.5 rounded-lg text-sm text-center text-on-surface font-semibold focus:outline-none border border-outline-variant/40"
                     />
 
                   </div>
@@ -308,7 +308,7 @@
                     <input
                       type="text"
                       id="item-name-input"
-                      placeholder="Dish Name (e.g. Quinoa Salad)"
+                      placeholder="Main Dish Name (e.g. Quinoa Salad)"
                       class="bg-transparent font-bold text-primary focus:outline-none text-base border-b border-outline-variant/30 pb-1"
                       value=""
                     />
@@ -340,7 +340,7 @@
                   </div>
 
 
-                  <!-- SIDE DISHES -->
+                  <!-- SIDE DISHES HEADER -->
                   <div class="flex items-center justify-between mt-2">
 
                     <div class="flex items-center gap-2">
@@ -368,7 +368,7 @@
                   </div>
 
 
-                  <!-- SIDE DISHES WILL APPEAR HERE -->
+                  <!-- SIDE DISHES CONTAINER -->
                   <div
                     id="side-dishes-list"
                     class="flex flex-col gap-3">
@@ -966,7 +966,6 @@
 
   let selectedCategory = "dinner";
 
-  // CHANGED:
   // Multiple symptoms are now stored in an array.
   let selectedSymptoms = ["None / Symptom-Free"];
 
@@ -1112,11 +1111,6 @@
 
       const data = await response.json();
 
-      console.log(
-        "Apps Script GET response:",
-        data
-      );
-
 
       if (!data || data.status !== "success") {
 
@@ -1164,13 +1158,6 @@
         `${mealsData.length} database record${
           mealsData.length === 1 ? "" : "s"
         } loaded`
-      );
-
-
-      console.log(
-        "NourishLog loaded:",
-        mealsData.length,
-        "records"
       );
 
 
@@ -1242,12 +1229,6 @@
       };
 
 
-      console.log(
-        "Sending meal to Apps Script:",
-        payload
-      );
-
-
       const response = await fetch(
         DATABASE_URL,
         {
@@ -1274,12 +1255,6 @@
 
 
       const data = await response.json();
-
-
-      console.log(
-        "Apps Script POST response:",
-        data
-      );
 
 
       if (
@@ -1341,12 +1316,6 @@
       }
 
     });
-
-
-    console.log(
-      "Database:",
-      message
-    );
 
   }
 
@@ -1479,17 +1448,12 @@
 
   function toggleSymptom(button, symptom) {
 
-    // ----------------------------------------------------------
-    // NONE / SYMPTOM-FREE
-    // ----------------------------------------------------------
-
     if (symptom === "None / Symptom-Free") {
 
       selectedSymptoms = [
         "None / Symptom-Free"
       ];
 
-      // Reset every symptom button
       document
         .querySelectorAll(".sym-btn")
         .forEach(btn => {
@@ -1508,7 +1472,6 @@
         });
 
 
-      // Highlight None
       button.classList.remove(
         "bg-surface-container-lowest",
         "text-on-surface"
@@ -1521,7 +1484,6 @@
       );
 
 
-      // Hide Other input
       const otherContainer =
         document.getElementById(
           "other-symptom-input-container"
@@ -1529,8 +1491,6 @@
 
       otherContainer.classList.add("hidden");
 
-
-      // Clear Other input
       document.getElementById(
         "other-symptom-input"
       ).value = "";
@@ -1542,11 +1502,6 @@
     }
 
 
-    // ----------------------------------------------------------
-    // NORMAL SYMPTOM
-    // ----------------------------------------------------------
-
-    // Remove None if another symptom is selected
     const noneIndex =
       selectedSymptoms.indexOf(
         "None / Symptom-Free"
@@ -1582,10 +1537,6 @@
 
     }
 
-
-    // ----------------------------------------------------------
-    // OTHER
-    // ----------------------------------------------------------
 
     if (symptom === "Other") {
 
@@ -1647,10 +1598,6 @@
     }
 
 
-    // ----------------------------------------------------------
-    // TOGGLE NORMAL SYMPTOM
-    // ----------------------------------------------------------
-
     const index =
       selectedSymptoms.indexOf(
         symptom
@@ -1697,7 +1644,6 @@
     }
 
 
-    // If nothing is selected, restore None
     if (
       selectedSymptoms.length === 0
     ) {
@@ -1805,7 +1751,6 @@
     );
 
 
-    // Update matching predefined button
     const buttons =
       document.querySelectorAll(
         ".sym-btn"
@@ -1838,9 +1783,6 @@
     });
 
 
-    // If Other custom symptom is removed,
-    // keep the Other button active only if
-    // there are still custom symptoms.
     if (
       selectedSymptoms.length === 0
     ) {
@@ -1898,7 +1840,6 @@
     if (!value) return;
 
 
-    // Split by comma
     const symptoms =
       value
         .split(",")
@@ -1906,7 +1847,6 @@
         .filter(item => item.length > 0);
 
 
-    // Remove None if custom symptoms are added
     const noneIndex =
       selectedSymptoms.indexOf(
         "None / Symptom-Free"
@@ -1945,7 +1885,6 @@
     }
 
 
-    // Add each comma-separated symptom
     symptoms.forEach(symptom => {
 
       const alreadyExists =
@@ -1976,7 +1915,7 @@
 
 
   // ============================================================
-  // INGREDIENTS
+  // INGREDIENTS (MAIN DISH)
   // ============================================================
 
   function addIngredientToForm() {
@@ -1994,18 +1933,18 @@
     if (!val) return;
 
 
-    addIngredientChip(val);
+    addIngredientChip(val, "ingredients-list");
 
     input.value = "";
 
   }
 
 
-  function addIngredientChip(name) {
+  function addIngredientChip(name, containerId) {
 
     const list =
       document.getElementById(
-        "ingredients-list"
+        containerId
       );
 
 
@@ -2061,8 +2000,98 @@
 
   function quickAdd(name) {
 
-    addIngredientChip(name);
+    addIngredientChip(name, "ingredients-list");
 
+  }
+
+
+  // ============================================================
+  // SIDE DISHES LOGIC
+  // ============================================================
+
+  let sideDishCounter = 0;
+
+  function addSideDish() {
+    sideDishCounter++;
+    const container = document.getElementById("side-dishes-list");
+    const sideDishId = "side-dish-" + Date.now() + "_" + sideDishCounter;
+
+    const sideDiv = document.createElement("div");
+    sideDiv.id = sideDishId;
+    sideDiv.className = "bg-surface-container-low p-4 rounded-xl flex flex-col gap-3 border border-outline-variant/30 relative";
+
+    sideDiv.innerHTML = `
+      <div class="flex items-center justify-between">
+        <span class="text-xs uppercase tracking-wider text-secondary font-bold">
+          Side Dish #${sideDishCounter}
+        </span>
+        <button
+          type="button"
+          onclick="document.getElementById('${sideDishId}').remove()"
+          class="text-on-surface-variant hover:text-error flex items-center gap-1 text-xs font-semibold">
+          <span class="material-symbols-outlined text-[16px]">delete</span>
+          Remove Side Dish
+        </button>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Side Dish Name (e.g. Garlic Naan)"
+        class="side-dish-name-input bg-transparent font-bold text-primary focus:outline-none text-base border-b border-outline-variant/30 pb-1"
+        value=""
+      />
+
+      <div class="side-dish-ingredients-list flex flex-wrap gap-1.5 pt-1">
+      </div>
+
+      <div class="flex items-center gap-2 mt-1">
+        <input
+          type="text"
+          placeholder="Add side ingredient e.g., Butter"
+          class="side-dish-new-ingredient-input bg-surface-container-lowest px-3 py-1.5 rounded-lg text-xs flex-1 focus:outline-none"
+          onkeydown="if(event.key === 'Enter'){event.preventDefault(); addSideIngredient('${sideDishId}');}"
+        />
+        <button
+          type="button"
+          onclick="addSideIngredient('${sideDishId}')"
+          class="bg-surface-container hover:bg-surface-container-high text-primary px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1">
+          <span class="material-symbols-outlined text-[14px]">add</span>
+          Add
+        </button>
+      </div>
+    `;
+
+    container.appendChild(sideDiv);
+  }
+
+  function addSideIngredient(sideDishId) {
+    const sideDiv = document.getElementById(sideDishId);
+    if (!sideDiv) return;
+
+    const input = sideDiv.querySelector(".side-dish-new-ingredient-input");
+    const val = input.value.trim();
+    if (!val) return;
+
+    const list = sideDiv.querySelector(".side-dish-ingredients-list");
+
+    const chip = document.createElement("span");
+    chip.className = "inline-flex items-center gap-1 bg-surface-container-lowest px-2.5 py-1 rounded-full text-xs text-on-surface shadow-xs";
+
+    const text = document.createTextNode(val + " ");
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "text-on-surface-variant hover:text-error";
+    removeButton.innerHTML = '<span class="material-symbols-outlined text-[14px]">cancel</span>';
+    removeButton.onclick = function () {
+      chip.remove();
+    };
+
+    chip.appendChild(text);
+    chip.appendChild(removeButton);
+    list.appendChild(chip);
+
+    input.value = "";
   }
 
 
@@ -2107,7 +2136,6 @@
       triggersCount;
 
 
-    // Top food
     if (mealsData.length > 0) {
 
       const foodCounts = {};
@@ -2171,7 +2199,6 @@
     }
 
 
-    // Empty state
     if (mealsData.length === 0) {
 
       container.innerHTML = `
@@ -2206,7 +2233,6 @@
     }
 
 
-    // Top foods
     const foodCounts = {};
 
 
@@ -2301,7 +2327,6 @@
     });
 
 
-    // Meal cards
     mealsData.forEach(m => {
 
       const itemHtml =
@@ -2592,10 +2617,6 @@
 
   function renderInsights() {
 
-    // ----------------------------------------------------------
-    // GET ALL INSIGHT ELEMENTS
-    // ----------------------------------------------------------
-
     const matrixTbody =
       document.getElementById(
         "matrix-tbody"
@@ -2641,10 +2662,6 @@
         "insight-macro-logs"
       );
 
-
-    // ----------------------------------------------------------
-    // RESET INSIGHTS
-    // ----------------------------------------------------------
 
     matrixTbody.innerHTML = "";
 
@@ -2697,10 +2714,6 @@
     }
 
 
-    // ----------------------------------------------------------
-    // NO DATA STATE
-    // ----------------------------------------------------------
-
     if (mealsData.length === 0) {
 
       matrixTbody.innerHTML =
@@ -2719,10 +2732,6 @@
 
     }
 
-
-    // ----------------------------------------------------------
-    // INGREDIENT ANALYSIS
-    // ----------------------------------------------------------
 
     const ingredientMap = {};
 
@@ -2790,8 +2799,6 @@
           }
 
 
-          // Count the meal only once
-          // even if it has multiple symptoms.
           if (mealHasSymptoms) {
 
             ingredientMap[key]
@@ -2853,10 +2860,6 @@
     });
 
 
-    // ----------------------------------------------------------
-    // BUILD SORTED INGREDIENT LIST
-    // ----------------------------------------------------------
-
     const ingredientList =
       Object.values(
         ingredientMap
@@ -2886,10 +2889,6 @@
       }
     );
 
-
-    // ----------------------------------------------------------
-    // RENDER INGREDIENT EXPOSURE MATRIX
-    // ----------------------------------------------------------
 
     ingredientList
       .sort(
@@ -2975,10 +2974,6 @@
 
       });
 
-
-    // ----------------------------------------------------------
-    // TOP OBSERVED SYMPTOM ASSOCIATION
-    // ----------------------------------------------------------
 
     const triggerCandidates =
       ingredientList
@@ -3078,10 +3073,6 @@
     }
 
 
-    // ----------------------------------------------------------
-    // SAFE PROFILE BASELINE
-    // ----------------------------------------------------------
-
     const symptomFreeMeals =
       mealsData.filter(m => {
 
@@ -3139,10 +3130,6 @@
 
     }
 
-
-    // ----------------------------------------------------------
-    // MACRONUTRIENT ANALYSIS
-    // ----------------------------------------------------------
 
     let totalKcal = 0;
     let totalProtein = 0;
@@ -3218,10 +3205,6 @@
         : 0;
 
 
-    // ----------------------------------------------------------
-    // CALCULATE MACRO DISTRIBUTION
-    // ----------------------------------------------------------
-
     const proteinCalories =
       totalProtein * 4;
 
@@ -3266,16 +3249,6 @@
           macroCalories
         ) * 100;
 
-
-      /*
-       * This is only a distribution indicator.
-       * It is NOT a personalized nutrition score.
-       *
-       * Reference distribution:
-       * Protein: 20%
-       * Carbohydrates: 50%
-       * Fat: 30%
-       */
 
       const deviation =
         Math.abs(
@@ -3375,18 +3348,19 @@
       ).value.trim();
 
 
-    const ingredientChips =
+    // Collect Main Dish Name and its Ingredients
+    const mainDishName = document.getElementById("item-name-input").value.trim();
+    
+    const mainIngredientChips =
       document.querySelectorAll(
         "#ingredients-list > span"
       );
 
-
-    const items =
+    const mainItems =
       Array.from(
-        ingredientChips
+        mainIngredientChips
       )
       .map(chip => {
-
         const textNode =
           Array.from(
             chip.childNodes
@@ -3396,19 +3370,39 @@
               node.nodeType ===
               Node.TEXT_NODE
           );
-
-
         return textNode
           ? textNode.nodeValue.trim()
           : "";
-
       })
       .filter(Boolean);
 
+    // Combine main dish name and its ingredients into an overall item collection list
+    let allItems = [];
+    if (mainDishName) {
+      allItems.push("Main: " + mainDishName);
+    }
+    allItems = allItems.concat(mainItems);
 
-    // ========================================================
-    // MULTIPLE SYMPTOMS
-    // ========================================================
+
+    // Collect all Side Dishes
+    const sideDishContainers = document.querySelectorAll("#side-dishes-list > div");
+    sideDishContainers.forEach((sideDiv, index) => {
+      const sideNameInput = sideDiv.querySelector(".side-dish-name-input");
+      const sideName = sideNameInput ? sideNameInput.value.trim() : "";
+      
+      if (sideName) {
+        allItems.push(`Side Dish #${index + 1}: ${sideName}`);
+      }
+
+      const sideChips = sideDiv.querySelectorAll(".side-dish-ingredients-list > span");
+      sideChips.forEach(chip => {
+        const textNode = Array.from(chip.childNodes).find(node => node.nodeType === Node.TEXT_NODE);
+        if (textNode && textNode.nodeValue.trim()) {
+          allItems.push(textNode.nodeValue.trim());
+        }
+      });
+    });
+
 
     const symptomsValue =
       selectedSymptoms.length > 0
@@ -3424,9 +3418,6 @@
       );
 
 
-    // Exact meal structure expected
-    // by the Apps Script backend.
-
     const newMeal = {
 
       title: title,
@@ -3439,12 +3430,10 @@
         new Date().toLocaleString(),
 
       items:
-        items.length > 0
-          ? items
+        allItems.length > 0
+          ? allItems
           : [title],
 
-      // Multiple symptoms are saved
-      // as one comma-separated string.
       symptoms:
         symptomsValue,
 
@@ -3498,18 +3487,10 @@
 
     try {
 
-      // --------------------------------------------------------
-      // SAVE TO GOOGLE SHEETS
-      // --------------------------------------------------------
-
       await saveMealToDatabase(
         newMeal
       );
 
-
-      // --------------------------------------------------------
-      // ONLY AFTER SUCCESS, UPDATE UI
-      // --------------------------------------------------------
 
       mealsData.unshift(
         normalizeMeal(newMeal)
@@ -3521,27 +3502,31 @@
       renderInsights();
 
 
-      // --------------------------------------------------------
-      // RESET FORM
-      // --------------------------------------------------------
-
+      // Reset form fields
       document.getElementById(
         "meal-title-input"
       ).value = "";
 
+      document.getElementById(
+        "item-name-input"
+      ).value = "";
 
       document.getElementById(
         "ingredients-list"
       ).innerHTML = "";
 
+      document.getElementById(
+        "side-dishes-list"
+      ).innerHTML = "";
 
-      // Reset symptoms
+      sideDishCounter = 0;
+
+
       selectedSymptoms = [
         "None / Symptom-Free"
       ];
 
 
-      // Reset all symptom buttons
       document
         .querySelectorAll(".sym-btn")
         .forEach(btn => {
@@ -3560,7 +3545,6 @@
         });
 
 
-      // Activate None again
       const noneButton =
         document.getElementById(
           "none-symptom-btn"
@@ -3583,7 +3567,6 @@
       }
 
 
-      // Hide Other input
       document.getElementById(
         "other-symptom-input-container"
       ).classList.add(
@@ -3591,7 +3574,6 @@
       );
 
 
-      // Clear Other input
       document.getElementById(
         "other-symptom-input"
       ).value = "";
@@ -3771,15 +3753,8 @@
 
   async function initializeNourishLog() {
 
-    console.log(
-      "NourishLog: Initializing..."
-    );
-
-
     addDatabaseStatusHook();
 
-
-    // Make sure symptom UI starts correctly
     renderSelectedSymptoms();
 
 
@@ -3790,14 +3765,14 @@
 
     setupIngredientInput();
 
+    // Set default value for custom date/time field to current local string
+    const timeInput = document.getElementById("meal-time-input");
+    if (timeInput && !timeInput.value) {
+      timeInput.value = new Date().toLocaleString();
+    }
 
-    // Load existing Google Sheet data
+
     await loadMealsFromDatabase();
-
-
-    console.log(
-      "NourishLog: Initialization complete."
-    );
 
   }
 

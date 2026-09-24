@@ -91,7 +91,7 @@
 
 
           <!-- Vitality Bento Grid -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
               <div class="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
@@ -138,31 +138,6 @@
                     No data yet
                   </span>
                 </div>
-
-              </div>
-
-            </div>
-
-
-            <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between">
-
-              <div class="flex items-center justify-between mb-1">
-
-                <span class="text-xs text-on-surface-variant uppercase tracking-wide font-semibold">
-                  Database Status
-                </span>
-
-                <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary text-xs font-semibold">
-                  Active Session
-                </span>
-
-              </div>
-
-              <div class="text-xs text-on-surface-variant flex items-center gap-1.5 pt-1">
-
-                <span class="w-2 h-2 rounded-full bg-primary"></span>
-
-                <span>Day 1 Fresh Record</span>
 
               </div>
 
@@ -782,7 +757,7 @@
         </div>
 
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
 
           <!-- TOP SUSPECTED TRIGGER -->
@@ -848,41 +823,6 @@
 
               <span id="insight-safe-logs" class="text-on-surface-variant">
                 0 Logs
-              </span>
-
-            </div>
-
-          </div>
-
-
-          <!-- MACRONUTRIENT BALANCE -->
-
-          <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
-
-            <div class="w-10 h-10 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center">
-
-              <span class="material-symbols-outlined text-xl">
-                bolt
-              </span>
-
-            </div>
-
-            <h3 class="font-bold text-base text-on-surface">
-              Macronutrient Balance
-            </h3>
-
-            <p id="insight-macro-desc" class="text-xs text-on-surface-variant">
-              Macro calculations will populate dynamically as meals are added to your database.
-            </p>
-
-            <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
-
-              <span id="insight-nutrient-score" class="text-tertiary">
-                Nutrient Score: --
-              </span>
-
-              <span id="insight-macro-logs" class="text-on-surface-variant">
-                Awaiting Entry
               </span>
 
             </div>
@@ -1009,35 +949,6 @@
     }
 
 
-    let macros = raw.macros;
-
-    if (typeof macros === "string") {
-
-      try {
-
-        macros = JSON.parse(macros);
-
-      } catch (error) {
-
-        macros = null;
-
-      }
-
-    }
-
-
-    if (!macros || typeof macros !== "object") {
-
-      macros = {
-        kcal: 450,
-        p: 20,
-        c: 45,
-        f: 18
-      };
-
-    }
-
-
     return {
 
       id: raw.timestamp || Date.now().toString(),
@@ -1064,14 +975,7 @@
 
       onset: String(
         raw.onset || "Immediate"
-      ),
-
-      macros: {
-        kcal: Number(macros.kcal || 0),
-        p: Number(macros.p || 0),
-        c: Number(macros.c || 0),
-        f: Number(macros.f || 0)
-      }
+      )
 
     };
 
@@ -1220,9 +1124,7 @@
 
           severity: meal.severity,
 
-          onset: meal.onset,
-
-          macros: meal.macros
+          onset: meal.onset
 
         }
 
@@ -2438,33 +2340,6 @@
 
           </div>
 
-
-          <div class="flex items-center gap-2 bg-surface-container-low px-3 py-1.5 rounded-full text-xs font-semibold">
-
-            <span>
-              ${Number(
-                m.macros?.kcal || 0
-              )} kcal
-            </span>
-
-            •
-
-            <span class="text-primary">
-              ${Number(
-                m.macros?.p || 0
-              )}g P
-            </span>
-
-            •
-
-            <span class="text-secondary">
-              ${Number(
-                m.macros?.f || 0
-              )}g F
-            </span>
-
-          </div>
-
         </div>
 
 
@@ -2647,21 +2522,6 @@
         "insight-safe-logs"
       );
 
-    const macroDescription =
-      document.getElementById(
-        "insight-macro-desc"
-      );
-
-    const nutrientScore =
-      document.getElementById(
-        "insight-nutrient-score"
-      );
-
-    const macroLogs =
-      document.getElementById(
-        "insight-macro-logs"
-      );
-
 
     matrixTbody.innerHTML = "";
 
@@ -2693,24 +2553,6 @@
     if (safeLogs) {
       safeLogs.textContent =
         "0 Logs";
-    }
-
-
-    if (macroDescription) {
-      macroDescription.textContent =
-        "Macro calculations will populate dynamically as meals are added to your database.";
-    }
-
-
-    if (nutrientScore) {
-      nutrientScore.textContent =
-        "Nutrient Score: --";
-    }
-
-
-    if (macroLogs) {
-      macroLogs.textContent =
-        "Awaiting Entry";
     }
 
 
@@ -3073,28 +2915,6 @@
     }
 
 
-    const symptomFreeMeals =
-      mealsData.filter(m => {
-
-        const symptoms =
-          String(
-            m.symptoms ||
-            "None / Symptom-Free"
-          )
-          .trim()
-          .toLowerCase();
-
-
-        return (
-          symptoms ===
-            "none / symptom-free" ||
-          symptoms ===
-            "none"
-        );
-
-      }).length;
-
-
     const safeIngredients =
       ingredientList.filter(
         ingredient =>
@@ -3124,189 +2944,6 @@
       safeLogs.textContent =
         `${safeIngredients.length} Ingredient${
           safeIngredients.length === 1
-            ? ""
-            : "s"
-        }`;
-
-    }
-
-
-    let totalKcal = 0;
-    let totalProtein = 0;
-    let totalCarbs = 0;
-    let totalFat = 0;
-
-
-    mealsData.forEach(m => {
-
-      totalKcal +=
-        Number(
-          m.macros?.kcal || 0
-        );
-
-
-      totalProtein +=
-        Number(
-          m.macros?.p || 0
-        );
-
-
-      totalCarbs +=
-        Number(
-          m.macros?.c || 0
-        );
-
-
-      totalFat +=
-        Number(
-          m.macros?.f || 0
-        );
-
-    });
-
-
-    const mealCount =
-      mealsData.length;
-
-
-    const avgKcal =
-      mealCount > 0
-        ? Math.round(
-            totalKcal /
-            mealCount
-          )
-        : 0;
-
-
-    const avgProtein =
-      mealCount > 0
-        ? (
-            totalProtein /
-            mealCount
-          ).toFixed(1)
-        : 0;
-
-
-    const avgCarbs =
-      mealCount > 0
-        ? (
-            totalCarbs /
-            mealCount
-          ).toFixed(1)
-        : 0;
-
-
-    const avgFat =
-      mealCount > 0
-        ? (
-            totalFat /
-            mealCount
-          ).toFixed(1)
-        : 0;
-
-
-    const proteinCalories =
-      totalProtein * 4;
-
-
-    const carbCalories =
-      totalCarbs * 4;
-
-
-    const fatCalories =
-      totalFat * 9;
-
-
-    const macroCalories =
-      proteinCalories +
-      carbCalories +
-      fatCalories;
-
-
-    let macroBalance =
-      0;
-
-
-    if (macroCalories > 0) {
-
-      const proteinPct =
-        (
-          proteinCalories /
-          macroCalories
-        ) * 100;
-
-
-      const carbPct =
-        (
-          carbCalories /
-          macroCalories
-        ) * 100;
-
-
-      const fatPct =
-        (
-          fatCalories /
-          macroCalories
-        ) * 100;
-
-
-      const deviation =
-        Math.abs(
-          proteinPct - 20
-        ) +
-        Math.abs(
-          carbPct - 50
-        ) +
-        Math.abs(
-          fatPct - 30
-        );
-
-
-      macroBalance =
-        Math.max(
-          0,
-          Math.min(
-            100,
-            Math.round(
-              100 -
-              deviation / 2
-            )
-          )
-        );
-
-    }
-
-
-    if (macroDescription) {
-
-      macroDescription.textContent =
-        `${avgKcal} kcal average per meal • ${avgProtein}g P • ${avgCarbs}g C • ${avgFat}g F.`;
-
-    }
-
-
-    if (nutrientScore) {
-
-      if (macroCalories > 0) {
-
-        nutrientScore.textContent =
-          `Balance Indicator: ${macroBalance}%`;
-
-      } else {
-
-        nutrientScore.textContent =
-          "Nutrient Score: --";
-
-      }
-
-    }
-
-
-    if (macroLogs) {
-
-      macroLogs.textContent =
-        `${mealCount} Meal${
-          mealCount === 1
             ? ""
             : "s"
         }`;
@@ -3443,14 +3080,7 @@
           : 0,
 
       onset:
-        "Immediate",
-
-      macros: {
-        kcal: 450,
-        p: 20,
-        c: 45,
-        f: 18
-      }
+        "Immediate"
 
     };
 

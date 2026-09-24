@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet"/>
   <script src="https://cdn.tailwindcss.com"></script>
   <script id="tailwind-config">
-    tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-container":"#acd6ba","secondary-container":"#fc9174","secondary":"#9a442d","tertiary-fixed":"#ffdeab","primary-fixed":"#c2edd0","on-tertiary-fixed":"#271900","surface":"#fff8f4","primary":"#204632","on-tertiary":"#ffffff","on-background":"#201b15","inverse-surface":"#352f29","tertiary-container":"#6d5221","surface-container":"#f7ece2","outline":"#727972","surface-container-low":"#fdf2e7","outline-variant":"#c1c8c1","tertiary":"#533b0b","on-surface":"#201b15","surface-container-highest":"#ece1d7","surface-bright":"#fff8f4","on-primary":"#ffffff","error":"#ba1a1a","inverse-on-surface":"#faefe5","on-primary-fixed":"#002111","inverse-primary":"#a6d0b5","secondary-fixed":"#ffdbd2","on-tertiary-fixed-variant":"#5c4212","background":"#fff8f4","on-tertiary-container":"#ecc78a","on-secondary-container":"#742814","on-error":"#ffffff","error-container":"#ffdad6","surface-container-high":"#f2e6dc","surface-tint":"#406650","on-error-container":"#93000a","tertiary-fixed-dim":"#e6c185","primary-fixed-dim":"#a6d0b5","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#284e39","on-surface-variant":"#414843","surface-dim":"#e3d8ce","on-secondary-fixed-variant":"#7c2e19","secondary-fixed-dim":"#ffb4a1","surface-variant":"#ece1d7","primary-container":"#385e48","on-secondary":"#ffffff","on-secondary-fixed":"#3c0800"},fontFamily:{"body-md":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"]}}}}
+    tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-container":"#acd6ba","secondary-container":"#fc9174","secondary":"#9a442d","tertiary-fixed":"#ffdeab","primary-fixed":"#c2edd0","on-tertiary-fixed":"#271900","primary":"#204632","on-tertiary":"#ffffff","on-background":"#201b15","inverse-surface":"#352f29","tertiary-container":"#6d5221","surface":"#fff8f4","surface-container":"#f7ece2","outline":"#727972","surface-container-low":"#fdf2e7","outline-variant":"#c1c8c1","tertiary":"#533b0b","on-surface":"#201b15","surface-container-highest":"#ece1d7","surface-bright":"#fff8f4","on-primary":"#ffffff","error":"#ba1a1a","inverse-on-surface":"#faefe5","on-primary-fixed":"#002111","inverse-primary":"#a6d0b5","secondary-fixed":"#ffdbd2","on-tertiary-fixed-variant":"#5c4212","background":"#fff8f4","on-tertiary-container":"#ecc78a","on-secondary-container":"#742814","on-error":"#ffffff","error-container":"#ffdad6","surface-container-high":"#f2e6dc","surface-tint":"#406650","on-error-container":"#93000a","tertiary-fixed-dim":"#e6c185","primary-fixed-dim":"#a6d0b5","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#284e39","on-surface-variant":"#414843","surface-dim":"#e3d8ce","on-secondary-fixed-variant":"#7c2e19","secondary-fixed-dim":"#ffb4a1","surface-variant":"#ece1d7","primary-container":"#385e48","on-secondary":"#ffffff","on-secondary-fixed":"#3c0800"},fontFamily:{"body-md":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"]}}}}
   </script>
 
   <style>
@@ -94,55 +94,39 @@
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
-
               <div class="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
                 <span class="material-symbols-outlined text-[26px]">restaurant_menu</span>
               </div>
-
               <div>
-
                 <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">
                   Meals Logged
                 </span>
-
                 <div class="flex items-baseline gap-1">
                   <span id="stat-meals-count" class="text-2xl font-bold text-on-surface">0</span>
                   <span class="text-xs text-on-surface-variant">today</span>
                 </div>
-
               </div>
-
             </div>
 
-
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
-
               <div class="w-12 h-12 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center">
                 <span class="material-symbols-outlined text-[26px]">warning</span>
               </div>
-
               <div>
-
                 <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">
                   Suspected Triggers
                 </span>
-
                 <div class="flex items-baseline gap-1">
                   <span id="stat-triggers-count" class="text-2xl font-bold text-secondary">0</span>
                   <span class="text-xs text-on-surface-variant">Active alerts</span>
                 </div>
-
               </div>
-
             </div>
 
-
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
-
               <div class="w-12 h-12 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center">
                 <span class="material-symbols-outlined text-[26px]">bar_chart</span>
               </div>
-
               <div>
 
                 <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">
@@ -311,13 +295,14 @@
                 </div>
 
 
-                <!-- Ingredients Container -->
+                <!-- Main Dish & Side Dishes -->
                 <div class="flex flex-col gap-3">
 
                   <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
                     Main Dish & Ingredients
                   </label>
 
+                  <!-- MAIN DISH -->
                   <div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-3">
 
                     <input
@@ -352,6 +337,41 @@
 
                     </div>
 
+                  </div>
+
+
+                  <!-- SIDE DISHES -->
+                  <div class="flex items-center justify-between mt-2">
+
+                    <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-primary text-[18px]">
+                        restaurant
+                      </span>
+
+                      <span class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                        Side Dishes
+                      </span>
+                    </div>
+
+                    <button
+                      type="button"
+                      onclick="addSideDish()"
+                      class="bg-primary text-on-primary px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1">
+
+                      <span class="material-symbols-outlined text-[14px]">
+                        add
+                      </span>
+
+                      Add Side Dish
+                    </button>
+
+                  </div>
+
+
+                  <!-- SIDE DISHES WILL APPEAR HERE -->
+                  <div
+                    id="side-dishes-list"
+                    class="flex flex-col gap-3">
                   </div>
 
                 </div>
@@ -765,6 +785,8 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
 
+          <!-- TOP SUSPECTED TRIGGER -->
+
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
 
             <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center">
@@ -785,11 +807,11 @@
 
             <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
 
-              <span class="text-secondary">
-                Risk Index: --
+              <span id="insight-trigger-association" class="text-secondary">
+                Observed Association: --
               </span>
 
-              <span class="text-on-surface-variant">
+              <span id="insight-trigger-occurrences" class="text-on-surface-variant">
                 0 Occurrences
               </span>
 
@@ -797,6 +819,8 @@
 
           </div>
 
+
+          <!-- SAFE PROFILE -->
 
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
 
@@ -818,11 +842,11 @@
 
             <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
 
-              <span class="text-primary">
+              <span id="insight-safe-status" class="text-primary">
                 Status: Awaiting Data
               </span>
 
-              <span class="text-on-surface-variant">
+              <span id="insight-safe-logs" class="text-on-surface-variant">
                 0 Logs
               </span>
 
@@ -830,6 +854,8 @@
 
           </div>
 
+
+          <!-- MACRONUTRIENT BALANCE -->
 
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
 
@@ -845,17 +871,17 @@
               Macronutrient Balance
             </h3>
 
-            <p class="text-xs text-on-surface-variant">
+            <p id="insight-macro-desc" class="text-xs text-on-surface-variant">
               Macro calculations will populate dynamically as meals are added to your database.
             </p>
 
             <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
 
-              <span class="text-tertiary">
+              <span id="insight-nutrient-score" class="text-tertiary">
                 Nutrient Score: --
               </span>
 
-              <span class="text-on-surface-variant">
+              <span id="insight-macro-logs" class="text-on-surface-variant">
                 Awaiting Entry
               </span>
 
@@ -2566,14 +2592,114 @@
 
   function renderInsights() {
 
+    // ----------------------------------------------------------
+    // GET ALL INSIGHT ELEMENTS
+    // ----------------------------------------------------------
+
     const matrixTbody =
       document.getElementById(
         "matrix-tbody"
       );
 
+    const triggerDescription =
+      document.getElementById(
+        "insight-trigger-desc"
+      );
+
+    const triggerAssociation =
+      document.getElementById(
+        "insight-trigger-association"
+      );
+
+    const triggerOccurrences =
+      document.getElementById(
+        "insight-trigger-occurrences"
+      );
+
+    const safeStatus =
+      document.getElementById(
+        "insight-safe-status"
+      );
+
+    const safeLogs =
+      document.getElementById(
+        "insight-safe-logs"
+      );
+
+    const macroDescription =
+      document.getElementById(
+        "insight-macro-desc"
+      );
+
+    const nutrientScore =
+      document.getElementById(
+        "insight-nutrient-score"
+      );
+
+    const macroLogs =
+      document.getElementById(
+        "insight-macro-logs"
+      );
+
+
+    // ----------------------------------------------------------
+    // RESET INSIGHTS
+    // ----------------------------------------------------------
 
     matrixTbody.innerHTML = "";
 
+
+    if (triggerDescription) {
+      triggerDescription.textContent =
+        "No adverse symptoms logged yet to establish correlation triggers.";
+    }
+
+
+    if (triggerAssociation) {
+      triggerAssociation.textContent =
+        "Observed Association: --";
+    }
+
+
+    if (triggerOccurrences) {
+      triggerOccurrences.textContent =
+        "0 Occurrences";
+    }
+
+
+    if (safeStatus) {
+      safeStatus.textContent =
+        "Status: Awaiting Data";
+    }
+
+
+    if (safeLogs) {
+      safeLogs.textContent =
+        "0 Logs";
+    }
+
+
+    if (macroDescription) {
+      macroDescription.textContent =
+        "Macro calculations will populate dynamically as meals are added to your database.";
+    }
+
+
+    if (nutrientScore) {
+      nutrientScore.textContent =
+        "Nutrient Score: --";
+    }
+
+
+    if (macroLogs) {
+      macroLogs.textContent =
+        "Awaiting Entry";
+    }
+
+
+    // ----------------------------------------------------------
+    // NO DATA STATE
+    // ----------------------------------------------------------
 
     if (mealsData.length === 0) {
 
@@ -2589,16 +2715,31 @@
 
         </tr>`;
 
-
       return;
 
     }
 
 
+    // ----------------------------------------------------------
+    // INGREDIENT ANALYSIS
+    // ----------------------------------------------------------
+
     const ingredientMap = {};
 
 
     mealsData.forEach(m => {
+
+      const mealHasSymptoms =
+        m.symptoms &&
+        !String(
+          m.symptoms
+        ).toLowerCase()
+        .includes("none / symptom-free") &&
+        !String(
+          m.symptoms
+        ).toLowerCase()
+        .includes("none");
+
 
       (m.items || [])
         .forEach(i => {
@@ -2622,7 +2763,11 @@
 
               count: 0,
 
-              symptoms: []
+              symptomaticMeals: 0,
+
+              symptoms: [],
+
+              categories: new Set()
 
             };
 
@@ -2632,16 +2777,74 @@
           ingredientMap[key].count++;
 
 
-          if (
-            m.symptoms &&
-            !String(
-              m.symptoms
-            ).includes("None")
-          ) {
+          if (m.category) {
 
             ingredientMap[key]
-              .symptoms
-              .push(m.symptoms);
+              .categories
+              .add(
+                String(
+                  m.category
+                ).toLowerCase()
+              );
+
+          }
+
+
+          // Count the meal only once
+          // even if it has multiple symptoms.
+          if (mealHasSymptoms) {
+
+            ingredientMap[key]
+              .symptomaticMeals++;
+
+
+            const symptomList =
+              String(
+                m.symptoms
+              )
+              .split(",")
+              .map(
+                symptom =>
+                  symptom.trim()
+              )
+              .filter(
+                symptom =>
+                  symptom &&
+                  !symptom
+                    .toLowerCase()
+                    .includes(
+                      "none / symptom-free"
+                    ) &&
+                  symptom
+                    .toLowerCase() !==
+                    "none"
+              );
+
+
+            symptomList.forEach(
+              symptom => {
+
+                if (
+                  !ingredientMap[key]
+                    .symptoms
+                    .some(
+                      existing =>
+                        existing
+                          .toLowerCase() ===
+                        symptom.toLowerCase()
+                    )
+                ) {
+
+                  ingredientMap[key]
+                    .symptoms
+                    .push(
+                      symptom
+                    );
+
+                }
+
+              }
+            );
 
           }
 
@@ -2650,7 +2853,45 @@
     });
 
 
-    Object.values(ingredientMap)
+    // ----------------------------------------------------------
+    // BUILD SORTED INGREDIENT LIST
+    // ----------------------------------------------------------
+
+    const ingredientList =
+      Object.values(
+        ingredientMap
+      );
+
+
+    ingredientList.sort(
+      (a, b) => {
+
+        if (
+          b.symptomaticMeals !==
+          a.symptomaticMeals
+        ) {
+
+          return (
+            b.symptomaticMeals -
+            a.symptomaticMeals
+          );
+
+        }
+
+        return (
+          b.count -
+          a.count
+        );
+
+      }
+    );
+
+
+    // ----------------------------------------------------------
+    // RENDER INGREDIENT EXPOSURE MATRIX
+    // ----------------------------------------------------------
+
+    ingredientList
       .sort(
         (a, b) =>
           b.count - a.count
@@ -2659,56 +2900,128 @@
 
         const symptomText =
           data.symptoms.length > 0
-            ? [
-                ...new Set(
-                  data.symptoms
-                )
-              ].join(", ")
+            ? data.symptoms.join(", ")
             : "None recorded";
 
 
-        matrixTbody.innerHTML += `
+        const association =
+          data.count > 0
+            ? Math.round(
+                (
+                  data.symptomaticMeals /
+                  data.count
+                ) * 100
+              )
+            : 0;
 
-          <tr>
 
-            <td class="p-3 font-semibold text-on-surface">
-              ${escapeHtml(data.name)}
-            </td>
+        const categoryText =
+          data.categories.size > 0
+            ? [...data.categories]
+                .map(
+                  category =>
+                    category
+                      .charAt(0)
+                      .toUpperCase() +
+                    category.slice(1)
+                )
+                .join(", ")
+            : "Custom Log";
 
-            <td class="p-3 text-on-surface-variant">
-              Custom Log
-            </td>
 
-            <td class="p-3 text-primary font-bold">
-              ${data.count}
-            </td>
+        const row =
+          document.createElement(
+            "tr"
+          );
 
-            <td class="p-3 text-secondary font-semibold">
-              ${escapeHtml(symptomText)}
-            </td>
 
-          </tr>
+        row.innerHTML = `
+
+          <td class="p-3 font-semibold text-on-surface">
+            ${escapeHtml(data.name)}
+          </td>
+
+          <td class="p-3 text-on-surface-variant">
+            ${escapeHtml(categoryText)}
+          </td>
+
+          <td class="p-3 text-primary font-bold">
+            ${data.count}
+          </td>
+
+          <td class="p-3 text-secondary font-semibold">
+            ${
+              data.symptomaticMeals > 0
+                ? `${association}% observed association`
+                : "None recorded"
+            }
+
+            ${
+              data.symptoms.length > 0
+                ? `<div class="text-[10px] font-normal text-on-surface-variant mt-0.5">
+                    ${escapeHtml(symptomText)}
+                  </div>`
+                : ""
+            }
+
+          </td>
 
         `;
+
+
+        matrixTbody.appendChild(
+          row
+        );
 
       });
 
 
-    const triggerDescription =
-      document.getElementById(
-        "insight-trigger-desc"
-      );
-
+    // ----------------------------------------------------------
+    // TOP OBSERVED SYMPTOM ASSOCIATION
+    // ----------------------------------------------------------
 
     const triggerCandidates =
-      Object.values(ingredientMap)
+      ingredientList
         .filter(
-          x => x.symptoms.length > 0
+          item =>
+            item.symptomaticMeals > 0
         )
         .sort(
-          (a, b) =>
-            b.symptoms.length -
-            a.symptoms.length
+          (a, b) => {
+
+            if (
+              b.symptomaticMeals !==
+              a.symptomaticMeals
+            ) {
+
+              return (
+                b.symptomaticMeals -
+                a.symptomaticMeals
+              );
+
+            }
+
+
+            const aAssociation =
+              a.count > 0
+                ? a.symptomaticMeals /
+                  a.count
+                : 0;
+
+
+            const bAssociation =
+              b.count > 0
+                ? b.symptomaticMeals /
+                  b.count
+                : 0;
+
+
+            return (
+              bAssociation -
+              aAssociation
+            );
+
+          }
         );
 
 
@@ -2720,17 +3033,310 @@
         triggerCandidates[0];
 
 
-      triggerDescription.innerText =
-        `${trigger.name} appeared in ${trigger.symptoms.length} meal${
-          trigger.symptoms.length === 1
+      const association =
+        trigger.count > 0
+          ? Math.round(
+              (
+                trigger.symptomaticMeals /
+                trigger.count
+              ) * 100
+            )
+          : 0;
+
+
+      if (triggerDescription) {
+
+        triggerDescription.textContent =
+          `${trigger.name} appeared in ${trigger.symptomaticMeals} meal${
+            trigger.symptomaticMeals === 1
+              ? ""
+              : "s"
+          } associated with logged symptoms.`;
+
+      }
+
+
+      if (triggerAssociation) {
+
+        triggerAssociation.textContent =
+          `Observed Association: ${association}%`;
+
+      }
+
+
+      if (triggerOccurrences) {
+
+        triggerOccurrences.textContent =
+          `${trigger.count} Occurrence${
+            trigger.count === 1
+              ? ""
+              : "s"
+          }`;
+
+      }
+
+    }
+
+
+    // ----------------------------------------------------------
+    // SAFE PROFILE BASELINE
+    // ----------------------------------------------------------
+
+    const symptomFreeMeals =
+      mealsData.filter(m => {
+
+        const symptoms =
+          String(
+            m.symptoms ||
+            "None / Symptom-Free"
+          )
+          .trim()
+          .toLowerCase();
+
+
+        return (
+          symptoms ===
+            "none / symptom-free" ||
+          symptoms ===
+            "none"
+        );
+
+      }).length;
+
+
+    const safeIngredients =
+      ingredientList.filter(
+        ingredient =>
+          ingredient.symptomaticMeals === 0
+      );
+
+
+    if (safeStatus) {
+
+      if (safeIngredients.length > 0) {
+
+        safeStatus.textContent =
+          "Status: Symptom-Free Logs";
+
+      } else {
+
+        safeStatus.textContent =
+          "Status: Building Baseline";
+
+      }
+
+    }
+
+
+    if (safeLogs) {
+
+      safeLogs.textContent =
+        `${safeIngredients.length} Ingredient${
+          safeIngredients.length === 1
             ? ""
             : "s"
-        } associated with logged symptoms.`;
+        }`;
 
-    } else {
+    }
 
-      triggerDescription.innerText =
-        "No adverse symptoms logged yet to establish correlation triggers.";
+
+    // ----------------------------------------------------------
+    // MACRONUTRIENT ANALYSIS
+    // ----------------------------------------------------------
+
+    let totalKcal = 0;
+    let totalProtein = 0;
+    let totalCarbs = 0;
+    let totalFat = 0;
+
+
+    mealsData.forEach(m => {
+
+      totalKcal +=
+        Number(
+          m.macros?.kcal || 0
+        );
+
+
+      totalProtein +=
+        Number(
+          m.macros?.p || 0
+        );
+
+
+      totalCarbs +=
+        Number(
+          m.macros?.c || 0
+        );
+
+
+      totalFat +=
+        Number(
+          m.macros?.f || 0
+        );
+
+    });
+
+
+    const mealCount =
+      mealsData.length;
+
+
+    const avgKcal =
+      mealCount > 0
+        ? Math.round(
+            totalKcal /
+            mealCount
+          )
+        : 0;
+
+
+    const avgProtein =
+      mealCount > 0
+        ? (
+            totalProtein /
+            mealCount
+          ).toFixed(1)
+        : 0;
+
+
+    const avgCarbs =
+      mealCount > 0
+        ? (
+            totalCarbs /
+            mealCount
+          ).toFixed(1)
+        : 0;
+
+
+    const avgFat =
+      mealCount > 0
+        ? (
+            totalFat /
+            mealCount
+          ).toFixed(1)
+        : 0;
+
+
+    // ----------------------------------------------------------
+    // CALCULATE MACRO DISTRIBUTION
+    // ----------------------------------------------------------
+
+    const proteinCalories =
+      totalProtein * 4;
+
+
+    const carbCalories =
+      totalCarbs * 4;
+
+
+    const fatCalories =
+      totalFat * 9;
+
+
+    const macroCalories =
+      proteinCalories +
+      carbCalories +
+      fatCalories;
+
+
+    let macroBalance =
+      0;
+
+
+    if (macroCalories > 0) {
+
+      const proteinPct =
+        (
+          proteinCalories /
+          macroCalories
+        ) * 100;
+
+
+      const carbPct =
+        (
+          carbCalories /
+          macroCalories
+        ) * 100;
+
+
+      const fatPct =
+        (
+          fatCalories /
+          macroCalories
+        ) * 100;
+
+
+      /*
+       * This is only a distribution indicator.
+       * It is NOT a personalized nutrition score.
+       *
+       * Reference distribution:
+       * Protein: 20%
+       * Carbohydrates: 50%
+       * Fat: 30%
+       */
+
+      const deviation =
+        Math.abs(
+          proteinPct - 20
+        ) +
+        Math.abs(
+          carbPct - 50
+        ) +
+        Math.abs(
+          fatPct - 30
+        );
+
+
+      macroBalance =
+        Math.max(
+          0,
+          Math.min(
+            100,
+            Math.round(
+              100 -
+              deviation / 2
+            )
+          )
+        );
+
+    }
+
+
+    if (macroDescription) {
+
+      macroDescription.textContent =
+        `${avgKcal} kcal average per meal • ${avgProtein}g P • ${avgCarbs}g C • ${avgFat}g F.`;
+
+    }
+
+
+    if (nutrientScore) {
+
+      if (macroCalories > 0) {
+
+        nutrientScore.textContent =
+          `Balance Indicator: ${macroBalance}%`;
+
+      } else {
+
+        nutrientScore.textContent =
+          "Nutrient Score: --";
+
+      }
+
+    }
+
+
+    if (macroLogs) {
+
+      macroLogs.textContent =
+        `${mealCount} Meal${
+          mealCount === 1
+            ? ""
+            : "s"
+        }`;
 
     }
 

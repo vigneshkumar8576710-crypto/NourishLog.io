@@ -144,23 +144,85 @@
                   </div>
                 </div>
 
-                <!-- Symptom & Allergen Check -->
                 <div class="p-4 bg-surface-container-low rounded-xl flex flex-col gap-3 border border-outline-variant/30">
-                  <div class="flex items-center gap-2 text-secondary font-bold text-sm">
-                    <span class="material-symbols-outlined text-[18px]">coronavirus</span> Allergy & Symptom Logger
-                  </div>
-                  <div class="flex flex-col gap-1">
-                    <label class="text-[11px] uppercase tracking-wider text-on-surface-variant font-semibold">Select Adverse Symptoms (if any)</label>
-                    <div class="flex flex-wrap gap-1.5" id="symptoms-selector">
-                      <button type="button" onclick="selectSymptom(this)" class="sym-btn px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold">None / Symptom-Free</button>
-                      <button type="button" onclick="selectSymptom(this)" class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">Stomach Pain</button>
-                      <button type="button" onclick="selectSymptom(this)" class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">Skin Rash</button>
-                      <button type="button" onclick="selectSymptom(this)" class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">Head ache</button>
-                      <button type="button" onclick="selectSymptom(this)" class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">Feaver</button>
-                    </div>
-                  </div>
-                </div>
 
+  <div class="flex items-center gap-2 text-secondary font-bold text-sm">
+    <span class="material-symbols-outlined text-[18px]">coronavirus</span>
+    Allergy & Symptom Logger
+  </div>
+
+  <!-- Selected Symptoms -->
+  <div id="selected-symptoms-container" class="flex flex-wrap gap-1.5 min-h-[4px]">
+    <!-- Selected symptom chips will appear here -->
+  </div>
+
+  <div class="flex flex-col gap-1">
+    <label class="text-[11px] uppercase tracking-wider text-on-surface-variant font-semibold">
+      Select Adverse Symptoms (if any)
+    </label>
+
+    <div class="flex flex-wrap gap-1.5" id="symptoms-selector">
+
+      <button
+        type="button"
+        onclick="toggleSymptom(this, 'Stomach Pain')"
+        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+        Stomach Pain
+      </button>
+
+      <button
+        type="button"
+        onclick="toggleSymptom(this, 'Skin Rash')"
+        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+        Skin Rash
+      </button>
+
+      <button
+        type="button"
+        onclick="toggleSymptom(this, 'Head ache')"
+        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+        Head ache
+      </button>
+
+      <button
+        type="button"
+        onclick="toggleSymptom(this, 'Feaver')"
+        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+        Feaver
+      </button>
+
+      <button
+        type="button"
+        onclick="toggleSymptom(this, 'Other')"
+        id="other-symptom-btn"
+        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+        Other
+      </button>
+
+    </div>
+  </div>
+
+  <!-- Other Symptom Input -->
+  <div id="other-symptom-input-container" class="hidden flex gap-2">
+
+    <input
+      id="other-symptom-input"
+      type="text"
+      placeholder="Enter symptoms, separated by commas"
+      class="flex-1 px-3 py-2 rounded-lg bg-surface-container-lowest text-sm outline-none border border-outline-variant/40 focus:border-primary"
+      onkeydown="if(event.key === 'Enter') addOtherSymptoms()"
+    />
+
+    <button
+      type="button"
+      onclick="addOtherSymptoms()"
+      class="px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-semibold">
+      + Add
+    </button>
+
+  </div>
+
+</div>
                 <!-- Submit Button -->
                 <div class="flex items-center justify-end gap-3 pt-2">
                   <button type="submit" id="save-meal-btn" class="w-full sm:w-auto px-8 py-3 bg-secondary hover:bg-secondary/90 text-on-secondary font-bold text-sm rounded-full shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">

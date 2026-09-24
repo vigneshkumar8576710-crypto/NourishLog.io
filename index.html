@@ -10,382 +10,927 @@
   <script id="tailwind-config">
     tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-primary-container":"#acd6ba","secondary-container":"#fc9174","secondary":"#9a442d","tertiary-fixed":"#ffdeab","primary-fixed":"#c2edd0","on-tertiary-fixed":"#271900","surface":"#fff8f4","primary":"#204632","on-tertiary":"#ffffff","on-background":"#201b15","inverse-surface":"#352f29","tertiary-container":"#6d5221","surface-container":"#f7ece2","outline":"#727972","surface-container-low":"#fdf2e7","outline-variant":"#c1c8c1","tertiary":"#533b0b","on-surface":"#201b15","surface-container-highest":"#ece1d7","surface-bright":"#fff8f4","on-primary":"#ffffff","error":"#ba1a1a","inverse-on-surface":"#faefe5","on-primary-fixed":"#002111","inverse-primary":"#a6d0b5","secondary-fixed":"#ffdbd2","on-tertiary-fixed-variant":"#5c4212","background":"#fff8f4","on-tertiary-container":"#ecc78a","on-secondary-container":"#742814","on-error":"#ffffff","error-container":"#ffdad6","surface-container-high":"#f2e6dc","surface-tint":"#406650","on-error-container":"#93000a","tertiary-fixed-dim":"#e6c185","primary-fixed-dim":"#a6d0b5","surface-container-lowest":"#ffffff","on-primary-fixed-variant":"#284e39","on-surface-variant":"#414843","surface-dim":"#e3d8ce","on-secondary-fixed-variant":"#7c2e19","secondary-fixed-dim":"#ffb4a1","surface-variant":"#ece1d7","primary-container":"#385e48","on-secondary":"#ffffff","on-secondary-fixed":"#3c0800"},fontFamily:{"body-md":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"]}}}}
   </script>
+
   <style>
     html,body{margin:0;padding:0;overscroll-behavior:none;}
     ::-webkit-scrollbar{display:none;}
   </style>
 </head>
+
 <body class="bg-surface font-body-md text-on-surface min-h-screen">
+
   <!-- Header -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]">
     <div class="h-16 max-w-7xl mx-auto px-6 flex items-center justify-between gap-4">
+
       <div class="flex items-center gap-6">
+
         <a class="flex items-center gap-2" href="#">
           <span class="material-symbols-outlined text-primary text-2xl">shield_with_heart</span>
           <span class="font-headline-sm text-primary tracking-tight font-bold text-lg">NourishLog</span>
         </a>
+
         <nav class="hidden lg:flex items-center gap-1 bg-surface-container-low p-1 rounded-full">
-          <button onclick="switchTab('daily')" id="nav-btn-daily" class="bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all">Daily Log</button>
-          <button onclick="switchTab('meals')" id="nav-btn-meals" class="px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors">Meals & History</button>
-          <button onclick="switchTab('insights')" id="nav-btn-insights" class="px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors">Nutrient Insights</button>
+
+          <button onclick="switchTab('daily')" id="nav-btn-daily"
+            class="bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all">
+            Daily Log
+          </button>
+
+          <button onclick="switchTab('meals')" id="nav-btn-meals"
+            class="px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors">
+            Meals & History
+          </button>
+
+          <button onclick="switchTab('insights')" id="nav-btn-insights"
+            class="px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors">
+            Nutrient Insights
+          </button>
+
         </nav>
       </div>
+
       <div class="flex items-center gap-3">
         <div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-4 py-1.5 rounded-full text-on-surface text-sm font-semibold">
-          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">calendar_today</span>Day 1 Fresh Start
+          <span class="material-symbols-outlined text-[16px] text-on-surface-variant">calendar_today</span>
+          Day 1 Fresh Start
         </div>
       </div>
+
     </div>
   </header>
 
+
   <!-- Main Content -->
   <main class="w-full pt-24 pb-16 bg-surface">
+
     <div class="max-w-7xl mx-auto px-6 flex flex-col gap-8">
-      
+
       <!-- TAB 1: DAILY LOG -->
       <div id="tab-daily" class="flex flex-col gap-8">
+
         <!-- Top Banner & Metrics -->
         <section class="flex flex-col gap-6">
+
           <div>
+
             <div class="flex items-center gap-1.5 mb-1 text-secondary text-xs font-bold uppercase tracking-wider">
-              <span class="material-symbols-outlined text-[16px]">vital_signs</span> Allergy & Pattern Diagnostic
+              <span class="material-symbols-outlined text-[16px]">vital_signs</span>
+              Allergy & Pattern Diagnostic
             </div>
-            <h1 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">Food, Ingredient & Allergy Tracker</h1>
-            <p class="text-sm text-on-surface-variant mt-1">Start logging your meals to identify high-frequency ingredients, uncover sensitivities, and track bodily reactions.</p>
+
+            <h1 class="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">
+              Food, Ingredient & Allergy Tracker
+            </h1>
+
+            <p class="text-sm text-on-surface-variant mt-1">
+              Start logging your meals to identify high-frequency ingredients, uncover sensitivities, and track bodily reactions.
+            </p>
+
           </div>
+
 
           <!-- Vitality Bento Grid -->
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">restaurant_menu</span></div>
-              <div>
-                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Meals Logged</span>
-                <div class="flex items-baseline gap-1"><span id="stat-meals-count" class="text-2xl font-bold text-on-surface">0</span><span class="text-xs text-on-surface-variant">today</span></div>
+
+              <div class="w-12 h-12 rounded-lg bg-primary/10 text-primary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[26px]">restaurant_menu</span>
               </div>
+
+              <div>
+
+                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">
+                  Meals Logged
+                </span>
+
+                <div class="flex items-baseline gap-1">
+                  <span id="stat-meals-count" class="text-2xl font-bold text-on-surface">0</span>
+                  <span class="text-xs text-on-surface-variant">today</span>
+                </div>
+
+              </div>
+
             </div>
+
+
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">warning</span></div>
-              <div>
-                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Suspected Triggers</span>
-                <div class="flex items-baseline gap-1"><span id="stat-triggers-count" class="text-2xl font-bold text-secondary">0</span><span class="text-xs text-on-surface-variant">Active alerts</span></div>
+
+              <div class="w-12 h-12 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[26px]">warning</span>
               </div>
+
+              <div>
+
+                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">
+                  Suspected Triggers
+                </span>
+
+                <div class="flex items-baseline gap-1">
+                  <span id="stat-triggers-count" class="text-2xl font-bold text-secondary">0</span>
+                  <span class="text-xs text-on-surface-variant">Active alerts</span>
+                </div>
+
+              </div>
+
             </div>
+
+
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex items-center gap-4">
-              <div class="w-12 h-12 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center"><span class="material-symbols-outlined text-[26px]">bar_chart</span></div>
-              <div>
-                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">Top Eaten Food</span>
-                <div class="flex items-baseline gap-1"><span id="stat-top-food" class="text-sm font-bold text-on-surface">No data yet</span></div>
+
+              <div class="w-12 h-12 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center">
+                <span class="material-symbols-outlined text-[26px]">bar_chart</span>
               </div>
+
+              <div>
+
+                <span class="text-xs text-on-surface-variant uppercase tracking-wide block font-semibold">
+                  Top Eaten Food
+                </span>
+
+                <div class="flex items-baseline gap-1">
+                  <span id="stat-top-food" class="text-sm font-bold text-on-surface">
+                    No data yet
+                  </span>
+                </div>
+
+              </div>
+
             </div>
+
+
             <div class="bg-surface-container-lowest p-4 rounded-xl shadow-sm flex flex-col justify-between">
-              <div class="flex items-center justify-between mb-1"><span class="text-xs text-on-surface-variant uppercase tracking-wide font-semibold">Database Status</span><span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary text-xs font-semibold">Active Session</span></div>
-              <div class="text-xs text-on-surface-variant flex items-center gap-1.5 pt-1"><span class="w-2 h-2 rounded-full bg-primary"></span><span>Day 1 Fresh Record</span></div>
+
+              <div class="flex items-center justify-between mb-1">
+
+                <span class="text-xs text-on-surface-variant uppercase tracking-wide font-semibold">
+                  Database Status
+                </span>
+
+                <span class="px-2 py-0.5 rounded-full bg-primary-fixed text-primary text-xs font-semibold">
+                  Active Session
+                </span>
+
+              </div>
+
+              <div class="text-xs text-on-surface-variant flex items-center gap-1.5 pt-1">
+
+                <span class="w-2 h-2 rounded-full bg-primary"></span>
+
+                <span>Day 1 Fresh Record</span>
+
+              </div>
+
             </div>
+
           </div>
+
         </section>
+
 
         <!-- Workspace: Form & Feed -->
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-          
-          <!-- Meal Logger Form (8 Cols) -->
+
+
+          <!-- Meal Logger Form -->
           <div class="xl:col-span-8 flex flex-col gap-6">
+
             <section class="bg-surface-container-lowest rounded-2xl shadow-md p-6 relative overflow-hidden border border-outline-variant/30">
+
               <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary via-tertiary to-secondary"></div>
-              
+
+
               <div class="flex items-center justify-between pb-4 mb-4 border-b border-surface-container">
+
                 <div class="flex items-center gap-3">
+
                   <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center text-primary">
                     <span class="material-symbols-outlined text-[20px]">edit_calendar</span>
                   </div>
+
                   <div>
-                    <h2 class="text-lg font-bold text-primary">Log What You Ate</h2>
-                    <p class="text-xs text-on-surface-variant">Break meals into intuitive items and real culinary ingredients.</p>
+
+                    <h2 class="text-lg font-bold text-primary">
+                      Log What You Ate
+                    </h2>
+
+                    <p class="text-xs text-on-surface-variant">
+                      Break meals into intuitive items and real culinary ingredients.
+                    </p>
+
                   </div>
+
                 </div>
-                <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">New Entry</span>
+
+                <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">
+                  New Entry
+                </span>
+
               </div>
 
-              <form id="food-logger-form" onsubmit="event.preventDefault(); submitMeal();" class="flex flex-col gap-4">
+
+              <form id="food-logger-form"
+                onsubmit="event.preventDefault(); submitMeal();"
+                class="flex flex-col gap-4">
+
+
                 <!-- Occasion Pills -->
                 <div class="flex flex-col gap-1">
-                  <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Select Occasion</label>
+
+                  <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                    Select Occasion
+                  </label>
+
                   <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="category-selector">
-                    <button type="button" onclick="setCategory('breakfast')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-tertiary-fixed/40 text-tertiary hover:bg-tertiary-fixed transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">wb_twilight</span>Breakfast</button>
-                    <button type="button" onclick="setCategory('lunch')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-fixed/40 text-primary hover:bg-primary-fixed transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">wb_sunny</span>Lunch</button>
-                    <button type="button" onclick="setCategory('snack')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-secondary-fixed/40 text-secondary hover:bg-secondary-fixed transition-all flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[16px]">nutrition</span>Snack</button>
-                    <button type="button" onclick="setCategory('dinner')" class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1 active-cat"><span class="material-symbols-outlined text-[16px]">bedtime</span>Dinner</button>
+
+                    <button type="button" onclick="setCategory('breakfast')"
+                      class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-tertiary-fixed/40 text-tertiary hover:bg-tertiary-fixed transition-all flex items-center justify-center gap-1">
+                      <span class="material-symbols-outlined text-[16px]">wb_twilight</span>
+                      Breakfast
+                    </button>
+
+                    <button type="button" onclick="setCategory('lunch')"
+                      class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-fixed/40 text-primary hover:bg-primary-fixed transition-all flex items-center justify-center gap-1">
+                      <span class="material-symbols-outlined text-[16px]">wb_sunny</span>
+                      Lunch
+                    </button>
+
+                    <button type="button" onclick="setCategory('snack')"
+                      class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-secondary-fixed/40 text-secondary hover:bg-secondary-fixed transition-all flex items-center justify-center gap-1">
+                      <span class="material-symbols-outlined text-[16px]">nutrition</span>
+                      Snack
+                    </button>
+
+                    <button type="button" onclick="setCategory('dinner')"
+                      class="cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1 active-cat">
+                      <span class="material-symbols-outlined text-[16px]">bedtime</span>
+                      Dinner
+                    </button>
+
                   </div>
+
                 </div>
+
 
                 <!-- Title & Time -->
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+
                   <div class="md:col-span-8 flex flex-col gap-1">
-                    <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Meal Name / Theme</label>
-                    <input type="text" id="meal-title-input" required placeholder="e.g. Grilled Chicken Salad" class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-surface-container-lowest focus:outline-none border border-outline-variant/40"/>
+
+                    <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                      Meal Name / Theme
+                    </label>
+
+                    <input
+                      type="text"
+                      id="meal-title-input"
+                      required
+                      placeholder="e.g. Grilled Chicken Salad"
+                      class="w-full bg-surface-container-low px-4 py-2.5 rounded-lg text-sm text-on-surface focus:bg-surface-container-lowest focus:outline-none border border-outline-variant/40"
+                    />
+
                   </div>
+
+
                   <div class="md:col-span-4 flex flex-col gap-1">
-                    <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Timestamp & Date</label>
-                    <input type="text" id="meal-time-input" value="Today, 07:30 PM" class="w-full bg-surface-container-low px-3 py-2.5 rounded-lg text-sm text-center text-on-surface font-semibold focus:outline-none"/>
+
+                    <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                      Timestamp & Date
+                    </label>
+
+                    <input
+                      type="text"
+                      id="meal-time-input"
+                      value="Today, 07:30 PM"
+                      class="w-full bg-surface-container-low px-3 py-2.5 rounded-lg text-sm text-center text-on-surface font-semibold focus:outline-none"
+                    />
+
                   </div>
+
                 </div>
+
 
                 <!-- Ingredients Container -->
                 <div class="flex flex-col gap-3">
-                  <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">Main Dish & Ingredients</label>
+
+                  <label class="text-xs uppercase tracking-wider text-on-surface-variant font-semibold">
+                    Main Dish & Ingredients
+                  </label>
+
                   <div class="bg-surface-container-low p-4 rounded-xl flex flex-col gap-3">
-                    <input type="text" id="item-name-input" placeholder="Dish Name (e.g. Quinoa Salad)" class="bg-transparent font-bold text-primary focus:outline-none text-base border-b border-outline-variant/30 pb-1" value=""/>
+
+                    <input
+                      type="text"
+                      id="item-name-input"
+                      placeholder="Dish Name (e.g. Quinoa Salad)"
+                      class="bg-transparent font-bold text-primary focus:outline-none text-base border-b border-outline-variant/30 pb-1"
+                      value=""
+                    />
+
                     <div id="ingredients-list" class="flex flex-wrap gap-1.5 pt-1">
-                      <!-- Empty state for ingredients -->
                     </div>
+
                     <div class="flex items-center gap-2 mt-1">
-                      <input type="text" id="new-ingredient-input" placeholder="Add ingredient e.g., Olive Oil" class="bg-surface-container-lowest px-3 py-1.5 rounded-lg text-xs flex-1 focus:outline-none"/>
-                      <button type="button" onclick="addIngredientToForm()" class="bg-surface-container hover:bg-surface-container-high text-primary px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">add</span> Add</button>
+
+                      <input
+                        type="text"
+                        id="new-ingredient-input"
+                        placeholder="Add ingredient e.g., Olive Oil"
+                        class="bg-surface-container-lowest px-3 py-1.5 rounded-lg text-xs flex-1 focus:outline-none"
+                      />
+
+                      <button
+                        type="button"
+                        onclick="addIngredientToForm()"
+                        class="bg-surface-container hover:bg-surface-container-high text-primary px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1">
+
+                        <span class="material-symbols-outlined text-[14px]">add</span>
+                        Add
+
+                      </button>
+
                     </div>
+
                   </div>
+
                 </div>
+
+
+                <!-- ============================================================
+                     ALLERGY & SYMPTOM LOGGER
+                     ============================================================ -->
 
                 <div class="p-4 bg-surface-container-low rounded-xl flex flex-col gap-3 border border-outline-variant/30">
 
-  <div class="flex items-center gap-2 text-secondary font-bold text-sm">
-    <span class="material-symbols-outlined text-[18px]">coronavirus</span>
-    Allergy & Symptom Logger
-  </div>
+                  <div class="flex items-center gap-2 text-secondary font-bold text-sm">
 
-  <!-- Selected Symptoms -->
-  <div id="selected-symptoms-container" class="flex flex-wrap gap-1.5 min-h-[4px]">
-    <!-- Selected symptom chips will appear here -->
-  </div>
+                    <span class="material-symbols-outlined text-[18px]">
+                      coronavirus
+                    </span>
 
-  <div class="flex flex-col gap-1">
-    <label class="text-[11px] uppercase tracking-wider text-on-surface-variant font-semibold">
-      Select Adverse Symptoms (if any)
-    </label>
+                    Allergy & Symptom Logger
 
-    <div class="flex flex-wrap gap-1.5" id="symptoms-selector">
+                  </div>
 
-      <button
-        type="button"
-        onclick="toggleSymptom(this, 'Stomach Pain')"
-        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
-        Stomach Pain
-      </button>
 
-      <button
-        type="button"
-        onclick="toggleSymptom(this, 'Skin Rash')"
-        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
-        Skin Rash
-      </button>
+                  <!-- Selected Symptoms -->
+                  <div
+                    id="selected-symptoms-container"
+                    class="flex flex-wrap gap-1.5 min-h-[4px]">
+                  </div>
 
-      <button
-        type="button"
-        onclick="toggleSymptom(this, 'Head ache')"
-        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
-        Head ache
-      </button>
 
-      <button
-        type="button"
-        onclick="toggleSymptom(this, 'Feaver')"
-        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
-        Feaver
-      </button>
+                  <div class="flex flex-col gap-1">
 
-      <button
-        type="button"
-        onclick="toggleSymptom(this, 'Other')"
-        id="other-symptom-btn"
-        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
-        Other
-      </button>
+                    <label class="text-[11px] uppercase tracking-wider text-on-surface-variant font-semibold">
+                      Select Adverse Symptoms (if any)
+                    </label>
 
-    </div>
-  </div>
 
-  <!-- Other Symptom Input -->
-  <div id="other-symptom-input-container" class="hidden flex gap-2">
+                    <div
+                      class="flex flex-wrap gap-1.5"
+                      id="symptoms-selector">
 
-    <input
-      id="other-symptom-input"
-      type="text"
-      placeholder="Enter symptoms, separated by commas"
-      class="flex-1 px-3 py-2 rounded-lg bg-surface-container-lowest text-sm outline-none border border-outline-variant/40 focus:border-primary"
-      onkeydown="if(event.key === 'Enter') addOtherSymptoms()"
-    />
 
-    <button
-      type="button"
-      onclick="addOtherSymptoms()"
-      class="px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-semibold">
-      + Add
-    </button>
+                      <!-- None -->
+                      <button
+                        type="button"
+                        onclick="toggleSymptom(this, 'None / Symptom-Free')"
+                        id="none-symptom-btn"
+                        class="sym-btn px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold">
 
-  </div>
+                        None / Symptom-Free
 
-</div>
+                      </button>
+
+
+                      <!-- Stomach Pain -->
+                      <button
+                        type="button"
+                        onclick="toggleSymptom(this, 'Stomach Pain')"
+                        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+
+                        Stomach Pain
+
+                      </button>
+
+
+                      <!-- Skin Rash -->
+                      <button
+                        type="button"
+                        onclick="toggleSymptom(this, 'Skin Rash')"
+                        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+
+                        Skin Rash
+
+                      </button>
+
+
+                      <!-- Head ache -->
+                      <button
+                        type="button"
+                        onclick="toggleSymptom(this, 'Head ache')"
+                        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+
+                        Head ache
+
+                      </button>
+
+
+                      <!-- Feaver -->
+                      <button
+                        type="button"
+                        onclick="toggleSymptom(this, 'Feaver')"
+                        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+
+                        Feaver
+
+                      </button>
+
+
+                      <!-- Other -->
+                      <button
+                        type="button"
+                        onclick="toggleSymptom(this, 'Other')"
+                        id="other-symptom-btn"
+                        class="sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed">
+
+                        Other
+
+                      </button>
+
+                    </div>
+
+                  </div>
+
+
+                  <!-- Other Symptom Input -->
+                  <div
+                    id="other-symptom-input-container"
+                    class="hidden flex gap-2">
+
+                    <input
+                      id="other-symptom-input"
+                      type="text"
+                      placeholder="Enter symptoms, separated by commas"
+                      class="flex-1 px-3 py-2 rounded-lg bg-surface-container-lowest text-sm outline-none border border-outline-variant/40 focus:border-primary"
+                      onkeydown="if(event.key === 'Enter'){event.preventDefault();addOtherSymptoms();}"
+                    />
+
+
+                    <button
+                      type="button"
+                      onclick="addOtherSymptoms()"
+                      class="px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-semibold">
+
+                      + Add
+
+                    </button>
+
+                  </div>
+
+                </div>
+
+
                 <!-- Submit Button -->
                 <div class="flex items-center justify-end gap-3 pt-2">
-                  <button type="submit" id="save-meal-btn" class="w-full sm:w-auto px-8 py-3 bg-secondary hover:bg-secondary/90 text-on-secondary font-bold text-sm rounded-full shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
-                    <span class="material-symbols-outlined text-[18px]">check_circle</span> Save Platter to Local Feed
+
+                  <button
+                    type="submit"
+                    id="save-meal-btn"
+                    class="w-full sm:w-auto px-8 py-3 bg-secondary hover:bg-secondary/90 text-on-secondary font-bold text-sm rounded-full shadow-md flex items-center justify-center gap-2 transition-transform active:scale-95">
+
+                    <span class="material-symbols-outlined text-[18px]">
+                      check_circle
+                    </span>
+
+                    Save Platter to Local Feed
+
                   </button>
+
                 </div>
+
               </form>
+
             </section>
+
 
             <!-- Chronological Feed -->
             <section class="flex flex-col gap-4">
+
               <div class="flex items-center justify-between">
+
                 <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-xl">history_edu</span>
-                  <h2 class="text-lg font-bold text-on-surface">Today's Nourishment Feed</h2>
+
+                  <span class="material-symbols-outlined text-primary text-xl">
+                    history_edu
+                  </span>
+
+                  <h2 class="text-lg font-bold text-on-surface">
+                    Today's Nourishment Feed
+                  </h2>
+
                 </div>
-                <span id="feed-count-label" class="text-xs text-on-surface-variant font-semibold">0 items recorded</span>
+
+                <span
+                  id="feed-count-label"
+                  class="text-xs text-on-surface-variant font-semibold">
+                  0 items recorded
+                </span>
+
               </div>
+
 
               <div id="meals-feed-container" class="flex flex-col gap-4">
+
                 <div class="bg-surface-container-lowest p-8 rounded-2xl text-center text-on-surface-variant border border-outline-variant/20 flex flex-col items-center justify-center gap-2">
-                  <span class="material-symbols-outlined text-3xl text-primary/40">restaurant</span>
-                  <p class="text-sm font-semibold">No meals logged yet today.</p>
-                  <p class="text-xs">Use the form above to record your first meal and begin tracking.</p>
+
+                  <span class="material-symbols-outlined text-3xl text-primary/40">
+                    restaurant
+                  </span>
+
+                  <p class="text-sm font-semibold">
+                    No meals logged yet today.
+                  </p>
+
+                  <p class="text-xs">
+                    Use the form above to record your first meal and begin tracking.
+                  </p>
+
                 </div>
+
               </div>
+
             </section>
+
           </div>
 
-          <!-- Sidebar (4 Cols) -->
+
+          <!-- Sidebar -->
           <aside class="xl:col-span-4 flex flex-col gap-6">
+
+
             <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+
               <div class="flex items-center justify-between mb-2">
+
                 <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-xl">stacked_bar_chart</span>
-                  <h3 class="text-base font-bold text-on-surface">What You Eat Most</h3>
+
+                  <span class="material-symbols-outlined text-primary text-xl">
+                    stacked_bar_chart
+                  </span>
+
+                  <h3 class="text-base font-bold text-on-surface">
+                    What You Eat Most
+                  </h3>
+
                 </div>
-                <span class="text-xs text-primary font-bold">Active Log</span>
+
+                <span class="text-xs text-primary font-bold">
+                  Active Log
+                </span>
+
               </div>
-              <p class="text-xs text-on-surface-variant mb-4">Food consumption frequency based entirely on your logged history.</p>
+
+              <p class="text-xs text-on-surface-variant mb-4">
+                Food consumption frequency based entirely on your logged history.
+              </p>
+
               <div id="top-foods-container" class="flex flex-col gap-3">
-                <div class="text-xs text-on-surface-variant italic py-2">No ingredient history recorded yet.</div>
+
+                <div class="text-xs text-on-surface-variant italic py-2">
+                  No ingredient history recorded yet.
+                </div>
+
               </div>
+
             </div>
+
 
             <!-- Quick Add Staples -->
             <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+
               <div class="flex items-center justify-between mb-2">
+
                 <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-primary text-xl">add_circle</span>
-                  <h3 class="text-base font-bold text-on-surface">Quick Add Staples</h3>
+
+                  <span class="material-symbols-outlined text-primary text-xl">
+                    add_circle
+                  </span>
+
+                  <h3 class="text-base font-bold text-on-surface">
+                    Quick Add Staples
+                  </h3>
+
                 </div>
-                <span class="text-xs text-on-surface-variant">Tap to Platter</span>
+
+                <span class="text-xs text-on-surface-variant">
+                  Tap to Platter
+                </span>
+
               </div>
-              <p class="text-xs text-on-surface-variant mb-4">Frequent pantry items to quickly populate meal records.</p>
+
+              <p class="text-xs text-on-surface-variant mb-4">
+                Frequent pantry items to quickly populate meal records.
+              </p>
+
               <div class="flex flex-wrap gap-2">
-                <button onclick="quickAdd('Wheat Dosa')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors"> Wheat Dosa </button>
-                <button onclick="quickAdd('Rasma')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors"> Rasma </button>
-                <button onclick="quickAdd('Bread Omelette')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors"> Bread Omelette </button>
-                <button onclick="quickAdd('Chicken')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors"> Chicken </button>
-                <button onclick="quickAdd('Mutton')" type="button" class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors"> Mutton </button>
+
+                <button
+                  onclick="quickAdd('Wheat Dosa')"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">
+                  Wheat Dosa
+                </button>
+
+                <button
+                  onclick="quickAdd('Rasma')"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">
+                  Rasma
+                </button>
+
+                <button
+                  onclick="quickAdd('Bread Omelette')"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">
+                  Bread Omelette
+                </button>
+
+                <button
+                  onclick="quickAdd('Chicken')"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">
+                  Chicken
+                </button>
+
+                <button
+                  onclick="quickAdd('Mutton')"
+                  type="button"
+                  class="px-3 py-1.5 rounded-full bg-surface-container-low hover:bg-primary-fixed hover:text-primary text-xs font-semibold transition-colors">
+                  Mutton
+                </button>
+
               </div>
+
             </div>
+
           </aside>
+
         </div>
+
       </div>
+
 
       <!-- TAB 2: MEALS & COMPLETE HISTORY -->
       <div id="tab-meals" class="flex flex-col gap-6 hidden">
+
         <div class="flex flex-col gap-1">
+
           <div class="flex items-center gap-1.5 text-primary text-xs font-bold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-[16px]">book</span> Complete Archive
+
+            <span class="material-symbols-outlined text-[16px]">
+              book
+            </span>
+
+            Complete Archive
+
           </div>
-          <h1 class="text-3xl font-extrabold text-primary tracking-tight">Meals & Food History Log</h1>
-          <p class="text-sm text-on-surface-variant">Review all previously recorded meals, timelines, logged ingredients, and historical reactions.</p>
+
+          <h1 class="text-3xl font-extrabold text-primary tracking-tight">
+            Meals & Food History Log
+          </h1>
+
+          <p class="text-sm text-on-surface-variant">
+            Review all previously recorded meals, timelines, logged ingredients, and historical reactions.
+          </p>
+
         </div>
 
+
         <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-4">
+
           <div class="flex items-center justify-between pb-4 border-b border-surface-container">
-            <h3 class="font-bold text-base text-on-surface">All Logged Food Entries (<span id="history-total-count">0</span>)</h3>
-            <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">Chronological Archive</span>
+
+            <h3 class="font-bold text-base text-on-surface">
+              All Logged Food Entries (<span id="history-total-count">0</span>)
+            </h3>
+
+            <span class="text-xs text-on-surface-variant bg-surface-container px-3 py-1 rounded-full font-semibold">
+              Chronological Archive
+            </span>
+
           </div>
+
           <div id="history-feed-container" class="flex flex-col gap-4">
-            <div class="p-8 text-center text-on-surface-variant">No historical entries found in the database.</div>
+
+            <div class="p-8 text-center text-on-surface-variant">
+              No historical entries found in the database.
+            </div>
+
           </div>
+
         </div>
+
       </div>
+
 
       <!-- TAB 3: NUTRIENT INSIGHTS -->
       <div id="tab-insights" class="flex flex-col gap-6 hidden">
+
         <div class="flex flex-col gap-1">
+
           <div class="flex items-center gap-1.5 text-secondary text-xs font-bold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-[16px]">analytics</span> Diagnostic Breakdown
+
+            <span class="material-symbols-outlined text-[16px]">
+              analytics
+            </span>
+
+            Diagnostic Breakdown
+
           </div>
-          <h1 class="text-3xl font-extrabold text-primary tracking-tight">Nutrient Insights & Allergy Correlator</h1>
-          <p class="text-sm text-on-surface-variant">Aggregated data analysis correlating high-frequency intake components with tracked symptoms.</p>
+
+          <h1 class="text-3xl font-extrabold text-primary tracking-tight">
+            Nutrient Insights & Allergy Correlator
+          </h1>
+
+          <p class="text-sm text-on-surface-variant">
+            Aggregated data analysis correlating high-frequency intake components with tracked symptoms.
+          </p>
+
         </div>
+
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
+
             <div class="w-10 h-10 rounded-lg bg-secondary-fixed text-secondary flex items-center justify-center">
-              <span class="material-symbols-outlined text-xl">warning</span>
+
+              <span class="material-symbols-outlined text-xl">
+                warning
+              </span>
+
             </div>
-            <h3 class="font-bold text-base text-on-surface">Top Suspected Trigger</h3>
-            <p id="insight-trigger-desc" class="text-xs text-on-surface-variant">No adverse symptoms logged yet to establish correlation triggers.</p>
+
+            <h3 class="font-bold text-base text-on-surface">
+              Top Suspected Trigger
+            </h3>
+
+            <p id="insight-trigger-desc" class="text-xs text-on-surface-variant">
+              No adverse symptoms logged yet to establish correlation triggers.
+            </p>
+
             <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
-              <span class="text-secondary">Risk Index: --</span>
-              <span class="text-on-surface-variant">0 Occurrences</span>
+
+              <span class="text-secondary">
+                Risk Index: --
+              </span>
+
+              <span class="text-on-surface-variant">
+                0 Occurrences
+              </span>
+
             </div>
+
           </div>
 
+
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
+
             <div class="w-10 h-10 rounded-lg bg-primary-fixed text-primary flex items-center justify-center">
-              <span class="material-symbols-outlined text-xl">eco</span>
+
+              <span class="material-symbols-outlined text-xl">
+                eco
+              </span>
+
             </div>
-            <h3 class="font-bold text-base text-on-surface">Safe Profile Baseline</h3>
-            <p class="text-xs text-on-surface-variant">Ingredients logged without adverse symptom feedback will register here.</p>
+
+            <h3 class="font-bold text-base text-on-surface">
+              Safe Profile Baseline
+            </h3>
+
+            <p class="text-xs text-on-surface-variant">
+              Ingredients logged without adverse symptom feedback will register here.
+            </p>
+
             <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
-              <span class="text-primary">Status: Awaiting Data</span>
-              <span class="text-on-surface-variant">0 Logs</span>
+
+              <span class="text-primary">
+                Status: Awaiting Data
+              </span>
+
+              <span class="text-on-surface-variant">
+                0 Logs
+              </span>
+
             </div>
+
           </div>
 
+
           <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-3">
+
             <div class="w-10 h-10 rounded-lg bg-tertiary-fixed text-tertiary flex items-center justify-center">
-              <span class="material-symbols-outlined text-xl">bolt</span>
+
+              <span class="material-symbols-outlined text-xl">
+                bolt
+              </span>
+
             </div>
-            <h3 class="font-bold text-base text-on-surface">Macronutrient Balance</h3>
-            <p class="text-xs text-on-surface-variant">Macro calculations will populate dynamically as meals are added to your database.</p>
+
+            <h3 class="font-bold text-base text-on-surface">
+              Macronutrient Balance
+            </h3>
+
+            <p class="text-xs text-on-surface-variant">
+              Macro calculations will populate dynamically as meals are added to your database.
+            </p>
+
             <div class="mt-auto pt-4 border-t border-surface-container flex justify-between text-xs font-semibold">
-              <span class="text-tertiary">Nutrient Score: --</span>
-              <span class="text-on-surface-variant">Awaiting Entry</span>
+
+              <span class="text-tertiary">
+                Nutrient Score: --
+              </span>
+
+              <span class="text-on-surface-variant">
+                Awaiting Entry
+              </span>
+
             </div>
+
           </div>
+
         </div>
+
 
         <div class="bg-surface-container-lowest p-6 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-4">
-          <h3 class="font-bold text-base text-on-surface">Ingredient Exposure Matrix</h3>
-          <p class="text-xs text-on-surface-variant">Detailed breakdown of elements tracked through your history log.</p>
+
+          <h3 class="font-bold text-base text-on-surface">
+            Ingredient Exposure Matrix
+          </h3>
+
+          <p class="text-xs text-on-surface-variant">
+            Detailed breakdown of elements tracked through your history log.
+          </p>
+
           <div class="overflow-x-auto">
+
             <table class="w-full text-left text-xs">
+
               <thead class="bg-surface-container-low text-on-surface-variant uppercase tracking-wider">
+
                 <tr>
-                  <th class="p-3 rounded-l-lg">Ingredient Component</th>
-                  <th class="p-3">Category Tag</th>
-                  <th class="p-3">Frequency</th>
-                  <th class="p-3 rounded-r-lg">Symptom Correlation</th>
+
+                  <th class="p-3 rounded-l-lg">
+                    Ingredient Component
+                  </th>
+
+                  <th class="p-3">
+                    Category Tag
+                  </th>
+
+                  <th class="p-3">
+                    Frequency
+                  </th>
+
+                  <th class="p-3 rounded-r-lg">
+                    Symptom Correlation
+                  </th>
+
                 </tr>
+
               </thead>
+
               <tbody id="matrix-tbody" class="divide-y divide-surface-container">
+
                 <tr>
-                  <td colspan="4" class="p-4 text-center text-on-surface-variant italic">No database entries recorded.</td>
+
+                  <td colspan="4" class="p-4 text-center text-on-surface-variant italic">
+                    No database entries recorded.
+                  </td>
+
                 </tr>
+
               </tbody>
+
             </table>
+
           </div>
+
         </div>
+
       </div>
 
     </div>
+
   </main>
 
+
   <script>
+
   // ============================================================
   // NOURISHLOG DATABASE CONNECTION
   // ============================================================
@@ -394,7 +939,11 @@
     "https://script.google.com/macros/s/AKfycbxyZ-mBI1-NRQtI7f23s-DKINJ8fqolcyTpq2rwIhnc0bMctVHGNVDYZxWVuZG1csbE/exec";
 
   let selectedCategory = "dinner";
-  let selectedSymptom = "None / Symptom-Free";
+
+  // CHANGED:
+  // Multiple symptoms are now stored in an array.
+  let selectedSymptoms = ["None / Symptom-Free"];
+
   let mealsData = [];
 
   let databaseLoading = false;
@@ -406,48 +955,66 @@
   // ============================================================
 
   function normalizeMeal(raw) {
+
     if (!raw || typeof raw !== "object") {
       return null;
     }
 
     let items = raw.items || [];
 
-    // Apps Script sends items as an array after JSON.parse()
     if (typeof items === "string") {
+
       try {
+
         items = JSON.parse(items);
+
       } catch (error) {
+
         items = items
           .split(",")
           .map(item => item.trim())
           .filter(Boolean);
+
       }
+
     }
 
     if (!Array.isArray(items)) {
       items = [];
     }
 
+
     let macros = raw.macros;
 
     if (typeof macros === "string") {
+
       try {
+
         macros = JSON.parse(macros);
+
       } catch (error) {
+
         macros = null;
+
       }
+
     }
 
+
     if (!macros || typeof macros !== "object") {
+
       macros = {
         kcal: 450,
         p: 20,
         c: 45,
         f: 18
       };
+
     }
 
+
     return {
+
       id: raw.timestamp || Date.now().toString(),
 
       title: String(raw.title || "Unnamed Meal"),
@@ -480,7 +1047,9 @@
         c: Number(macros.c || 0),
         f: Number(macros.f || 0)
       }
+
     };
+
   }
 
 
@@ -507,10 +1076,12 @@
       );
 
       if (!response.ok) {
+
         throw new Error(
           "Database request failed: HTTP " +
           response.status
         );
+
       }
 
       const data = await response.json();
@@ -520,21 +1091,22 @@
         data
       );
 
-      // Your Apps Script returns:
-      // { status: "success", meals: [...] }
 
       if (!data || data.status !== "success") {
+
         throw new Error(
           data?.message ||
           "Apps Script returned an error."
         );
+
       }
+
 
       mealsData = (data.meals || [])
         .map(normalizeMeal)
         .filter(Boolean);
 
-      // Newest first
+
       mealsData.sort((a, b) => {
 
         const dateA =
@@ -547,15 +1119,20 @@
           !Number.isNaN(dateA) &&
           !Number.isNaN(dateB)
         ) {
+
           return dateB - dateA;
+
         }
 
         return 0;
+
       });
+
 
       renderFeed();
       renderHistory();
       renderInsights();
+
 
       showDatabaseStatus(
         `${mealsData.length} database record${
@@ -563,11 +1140,13 @@
         } loaded`
       );
 
+
       console.log(
         "NourishLog loaded:",
         mealsData.length,
         "records"
       );
+
 
     } catch (error) {
 
@@ -584,7 +1163,9 @@
     } finally {
 
       databaseLoading = false;
+
     }
+
   }
 
 
@@ -595,46 +1176,51 @@
   async function saveMealToDatabase(meal) {
 
     if (databaseSaving) {
+
       throw new Error(
         "A meal is already being saved."
       );
+
     }
 
     databaseSaving = true;
 
     try {
 
-      // IMPORTANT:
-      // Your Apps Script specifically expects:
-      //
-      // action: "addMeal"
-      //
-      // NOT "saveMeal"
-
       const payload = {
+
         action: "addMeal",
 
         meal: {
+
           title: meal.title,
+
           category: meal.category,
+
           mealTime: meal.mealTime,
+
           items: meal.items,
 
-          // Your current frontend has no allergens
-          // input, so send an empty value.
           allergens: "",
 
           symptoms: meal.symptoms,
+
           severity: meal.severity,
+
           onset: meal.onset,
+
           macros: meal.macros
+
         }
+
       };
+
 
       console.log(
         "Sending meal to Apps Script:",
         payload
       );
+
 
       const response = await fetch(
         DATABASE_URL,
@@ -650,39 +1236,48 @@
         }
       );
 
+
       if (!response.ok) {
+
         throw new Error(
           "Database save failed: HTTP " +
           response.status
         );
+
       }
 
+
       const data = await response.json();
+
 
       console.log(
         "Apps Script POST response:",
         data
       );
 
-      // Your Apps Script returns:
-      // { status: "success" }
 
       if (
         !data ||
         data.status !== "success"
       ) {
+
         throw new Error(
           data?.message ||
           "Apps Script rejected the meal."
         );
+
       }
 
+
       return data;
+
 
     } finally {
 
       databaseSaving = false;
+
     }
+
   }
 
 
@@ -700,26 +1295,33 @@
         "[data-database-status]"
       );
 
+
     statusElements.forEach(el => {
 
       el.textContent = message;
 
       if (isError) {
+
         el.classList.add(
           "text-secondary"
         );
+
       } else {
+
         el.classList.remove(
           "text-secondary"
         );
+
       }
 
     });
+
 
     console.log(
       "Database:",
       message
     );
+
   }
 
 
@@ -747,10 +1349,12 @@
     ).className =
       "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
 
+
     document.getElementById(
       "nav-btn-meals"
     ).className =
       "px-4 py-1.5 text-on-surface-variant hover:text-on-surface font-semibold text-sm transition-colors";
+
 
     document.getElementById(
       "nav-btn-insights"
@@ -764,6 +1368,7 @@
         .getElementById("tab-daily")
         .classList.remove("hidden");
 
+
       document.getElementById(
         "nav-btn-daily"
       ).className =
@@ -771,20 +1376,24 @@
 
     }
 
+
     else if (tabId === "meals") {
 
       document
         .getElementById("tab-meals")
         .classList.remove("hidden");
 
+
       document.getElementById(
         "nav-btn-meals"
       ).className =
         "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
 
+
       renderHistory();
 
     }
+
 
     else if (tabId === "insights") {
 
@@ -792,13 +1401,17 @@
         .getElementById("tab-insights")
         .classList.remove("hidden");
 
+
       document.getElementById(
         "nav-btn-insights"
       ).className =
         "bg-primary-container text-on-primary rounded-full px-4 py-1.5 font-semibold text-sm shadow-sm transition-all";
 
+
       renderInsights();
+
     }
+
   }
 
 
@@ -810,13 +1423,16 @@
 
     selectedCategory = cat;
 
+
     document
       .querySelectorAll(".cat-btn")
       .forEach(btn => {
 
         btn.className =
           "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-surface-container-low text-on-surface-variant hover:bg-surface-container transition-all flex items-center justify-center gap-1";
+
       });
+
 
     if (
       event &&
@@ -825,29 +1441,511 @@
 
       event.currentTarget.className =
         "cat-btn py-2 px-3 rounded-lg text-sm font-semibold bg-primary-container text-on-primary ring-2 ring-primary transition-all flex items-center justify-center gap-1";
+
     }
+
   }
 
 
   // ============================================================
-  // SYMPTOM
+  // MULTIPLE SYMPTOM SYSTEM
   // ============================================================
 
-  function selectSymptom(btn) {
+  function toggleSymptom(button, symptom) {
 
-    document
-      .querySelectorAll(".sym-btn")
-      .forEach(b => {
+    // ----------------------------------------------------------
+    // NONE / SYMPTOM-FREE
+    // ----------------------------------------------------------
 
-        b.className =
-          "sym-btn px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface text-xs hover:bg-secondary-fixed";
-      });
+    if (symptom === "None / Symptom-Free") {
 
-    btn.className =
-      "sym-btn px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold";
+      selectedSymptoms = [
+        "None / Symptom-Free"
+      ];
 
-    selectedSymptom =
-      btn.innerText.trim();
+      // Reset every symptom button
+      document
+        .querySelectorAll(".sym-btn")
+        .forEach(btn => {
+
+          btn.classList.remove(
+            "bg-primary",
+            "text-on-primary",
+            "font-semibold"
+          );
+
+          btn.classList.add(
+            "bg-surface-container-lowest",
+            "text-on-surface"
+          );
+
+        });
+
+
+      // Highlight None
+      button.classList.remove(
+        "bg-surface-container-lowest",
+        "text-on-surface"
+      );
+
+      button.classList.add(
+        "bg-primary",
+        "text-on-primary",
+        "font-semibold"
+      );
+
+
+      // Hide Other input
+      const otherContainer =
+        document.getElementById(
+          "other-symptom-input-container"
+        );
+
+      otherContainer.classList.add("hidden");
+
+
+      // Clear Other input
+      document.getElementById(
+        "other-symptom-input"
+      ).value = "";
+
+
+      renderSelectedSymptoms();
+
+      return;
+    }
+
+
+    // ----------------------------------------------------------
+    // NORMAL SYMPTOM
+    // ----------------------------------------------------------
+
+    // Remove None if another symptom is selected
+    const noneIndex =
+      selectedSymptoms.indexOf(
+        "None / Symptom-Free"
+      );
+
+    if (noneIndex !== -1) {
+
+      selectedSymptoms.splice(
+        noneIndex,
+        1
+      );
+
+
+      const noneButton =
+        document.getElementById(
+          "none-symptom-btn"
+        );
+
+      if (noneButton) {
+
+        noneButton.classList.remove(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+        noneButton.classList.add(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+      }
+
+    }
+
+
+    // ----------------------------------------------------------
+    // OTHER
+    // ----------------------------------------------------------
+
+    if (symptom === "Other") {
+
+      const inputContainer =
+        document.getElementById(
+          "other-symptom-input-container"
+        );
+
+
+      const isActive =
+        button.classList.contains(
+          "bg-primary"
+        );
+
+
+      if (isActive) {
+
+        button.classList.remove(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+        button.classList.add(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+        inputContainer.classList.add(
+          "hidden"
+        );
+
+      } else {
+
+        button.classList.remove(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+        button.classList.add(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+        inputContainer.classList.remove(
+          "hidden"
+        );
+
+        document.getElementById(
+          "other-symptom-input"
+        ).focus();
+
+      }
+
+      renderSelectedSymptoms();
+
+      return;
+    }
+
+
+    // ----------------------------------------------------------
+    // TOGGLE NORMAL SYMPTOM
+    // ----------------------------------------------------------
+
+    const index =
+      selectedSymptoms.indexOf(
+        symptom
+      );
+
+
+    if (index === -1) {
+
+      selectedSymptoms.push(
+        symptom
+      );
+
+
+      button.classList.remove(
+        "bg-surface-container-lowest",
+        "text-on-surface"
+      );
+
+      button.classList.add(
+        "bg-primary",
+        "text-on-primary",
+        "font-semibold"
+      );
+
+    } else {
+
+      selectedSymptoms.splice(
+        index,
+        1
+      );
+
+
+      button.classList.remove(
+        "bg-primary",
+        "text-on-primary",
+        "font-semibold"
+      );
+
+      button.classList.add(
+        "bg-surface-container-lowest",
+        "text-on-surface"
+      );
+
+    }
+
+
+    // If nothing is selected, restore None
+    if (
+      selectedSymptoms.length === 0
+    ) {
+
+      selectedSymptoms = [
+        "None / Symptom-Free"
+      ];
+
+
+      const noneButton =
+        document.getElementById(
+          "none-symptom-btn"
+        );
+
+      if (noneButton) {
+
+        noneButton.classList.remove(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+        noneButton.classList.add(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+      }
+
+    }
+
+
+    renderSelectedSymptoms();
+
+  }
+
+
+  // ============================================================
+  // RENDER SELECTED SYMPTOM CHIPS
+  // ============================================================
+
+  function renderSelectedSymptoms() {
+
+    const container =
+      document.getElementById(
+        "selected-symptoms-container"
+      );
+
+
+    container.innerHTML = "";
+
+
+    selectedSymptoms.forEach(
+      (symptom, index) => {
+
+        const chip =
+          document.createElement(
+            "span"
+          );
+
+
+        chip.className =
+          "inline-flex items-center gap-1 px-3 py-1 rounded-full bg-primary text-on-primary text-xs font-semibold";
+
+
+        chip.innerHTML = `
+
+          ${escapeHtml(symptom)}
+
+          <button
+            type="button"
+            onclick="removeSelectedSymptom(${index})"
+            class="ml-1 opacity-80 hover:opacity-100 font-bold">
+
+            ×
+
+          </button>
+
+        `;
+
+
+        container.appendChild(
+          chip
+        );
+
+      }
+    );
+
+  }
+
+
+  // ============================================================
+  // REMOVE SELECTED SYMPTOM
+  // ============================================================
+
+  function removeSelectedSymptom(index) {
+
+    const removedSymptom =
+      selectedSymptoms[index];
+
+
+    selectedSymptoms.splice(
+      index,
+      1
+    );
+
+
+    // Update matching predefined button
+    const buttons =
+      document.querySelectorAll(
+        ".sym-btn"
+      );
+
+
+    buttons.forEach(button => {
+
+      const text =
+        button.innerText.trim();
+
+
+      if (
+        text === removedSymptom
+      ) {
+
+        button.classList.remove(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+        button.classList.add(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+      }
+
+    });
+
+
+    // If Other custom symptom is removed,
+    // keep the Other button active only if
+    // there are still custom symptoms.
+    if (
+      selectedSymptoms.length === 0
+    ) {
+
+      selectedSymptoms = [
+        "None / Symptom-Free"
+      ];
+
+
+      const noneButton =
+        document.getElementById(
+          "none-symptom-btn"
+        );
+
+
+      if (noneButton) {
+
+        noneButton.classList.remove(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+        noneButton.classList.add(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+      }
+
+    }
+
+
+    renderSelectedSymptoms();
+
+  }
+
+
+  // ============================================================
+  // ADD CUSTOM / OTHER SYMPTOMS
+  // ============================================================
+
+  function addOtherSymptoms() {
+
+    const input =
+      document.getElementById(
+        "other-symptom-input"
+      );
+
+
+    const value =
+      input.value.trim();
+
+
+    if (!value) return;
+
+
+    // Split by comma
+    const symptoms =
+      value
+        .split(",")
+        .map(item => item.trim())
+        .filter(item => item.length > 0);
+
+
+    // Remove None if custom symptoms are added
+    const noneIndex =
+      selectedSymptoms.indexOf(
+        "None / Symptom-Free"
+      );
+
+
+    if (noneIndex !== -1) {
+
+      selectedSymptoms.splice(
+        noneIndex,
+        1
+      );
+
+
+      const noneButton =
+        document.getElementById(
+          "none-symptom-btn"
+        );
+
+
+      if (noneButton) {
+
+        noneButton.classList.remove(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+        noneButton.classList.add(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+      }
+
+    }
+
+
+    // Add each comma-separated symptom
+    symptoms.forEach(symptom => {
+
+      const alreadyExists =
+        selectedSymptoms.some(
+          existing =>
+            existing.toLowerCase() ===
+            symptom.toLowerCase()
+        );
+
+
+      if (!alreadyExists) {
+
+        selectedSymptoms.push(
+          symptom
+        );
+
+      }
+
+    });
+
+
+    input.value = "";
+
+
+    renderSelectedSymptoms();
+
   }
 
 
@@ -862,14 +1960,18 @@
         "new-ingredient-input"
       );
 
+
     const val =
       input.value.trim();
 
+
     if (!val) return;
+
 
     addIngredientChip(val);
 
     input.value = "";
+
   }
 
 
@@ -880,42 +1982,61 @@
         "ingredients-list"
       );
 
+
     const chip =
-      document.createElement("span");
+      document.createElement(
+        "span"
+      );
+
 
     chip.className =
       "inline-flex items-center gap-1 bg-surface-container-lowest px-2.5 py-1 rounded-full text-xs text-on-surface shadow-xs";
+
 
     const text =
       document.createTextNode(
         name + " "
       );
 
-    const removeButton =
-      document.createElement("button");
 
-    removeButton.type = "button";
+    const removeButton =
+      document.createElement(
+        "button"
+      );
+
+
+    removeButton.type =
+      "button";
+
 
     removeButton.className =
       "text-on-surface-variant hover:text-error";
 
+
     removeButton.innerHTML =
       '<span class="material-symbols-outlined text-[14px]">cancel</span>';
 
+
     removeButton.onclick =
       function () {
+
         chip.remove();
+
       };
+
 
     chip.appendChild(text);
     chip.appendChild(removeButton);
 
     list.appendChild(chip);
+
   }
 
 
   function quickAdd(name) {
+
     addIngredientChip(name);
+
   }
 
 
@@ -930,12 +2051,15 @@
         "meals-feed-container"
       );
 
+
     container.innerHTML = "";
+
 
     document.getElementById(
       "stat-meals-count"
     ).innerText =
       mealsData.length;
+
 
     document.getElementById(
       "feed-count-label"
@@ -950,6 +2074,7 @@
         ).includes("None")
       ).length;
 
+
     document.getElementById(
       "stat-triggers-count"
     ).innerText =
@@ -961,6 +2086,7 @@
 
       const foodCounts = {};
 
+
       mealsData.forEach(m => {
 
         (m.items || [])
@@ -969,10 +2095,13 @@
             const food =
               String(item).trim();
 
+
             if (!food) return;
+
 
             const key =
               food.toLowerCase();
+
 
             if (!foodCounts[key]) {
 
@@ -980,11 +2109,16 @@
                 name: food,
                 count: 0
               };
+
             }
 
+
             foodCounts[key].count++;
+
           });
+
       });
+
 
       const topFood =
         Object.values(foodCounts)
@@ -992,6 +2126,7 @@
             (a, b) =>
               b.count - a.count
           )[0];
+
 
       document.getElementById(
         "stat-top-food"
@@ -1006,6 +2141,7 @@
         "stat-top-food"
       ).innerText =
         "No data yet";
+
     }
 
 
@@ -1014,11 +2150,22 @@
 
       container.innerHTML = `
         <div class="bg-surface-container-lowest p-8 rounded-2xl text-center text-on-surface-variant border border-outline-variant/20 flex flex-col items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-3xl text-primary/40">restaurant</span>
-          <p class="text-sm font-semibold">No meals logged yet today.</p>
-          <p class="text-xs">Use the form above to record your first meal and begin tracking.</p>
+
+          <span class="material-symbols-outlined text-3xl text-primary/40">
+            restaurant
+          </span>
+
+          <p class="text-sm font-semibold">
+            No meals logged yet today.
+          </p>
+
+          <p class="text-xs">
+            Use the form above to record your first meal and begin tracking.
+          </p>
+
         </div>
       `;
+
 
       document.getElementById(
         "top-foods-container"
@@ -1027,12 +2174,15 @@
           No ingredient history recorded yet.
         </div>`;
 
+
       return;
+
     }
 
 
     // Top foods
     const foodCounts = {};
+
 
     mealsData.forEach(m => {
 
@@ -1042,10 +2192,13 @@
           const food =
             String(i).trim();
 
+
           if (!food) return;
+
 
           const key =
             food.toLowerCase();
+
 
           if (!foodCounts[key]) {
 
@@ -1053,10 +2206,14 @@
               name: food,
               count: 0
             };
+
           }
 
+
           foodCounts[key].count++;
+
         });
+
     });
 
 
@@ -1074,6 +2231,7 @@
         "top-foods-container"
       );
 
+
     topFoodsContainer.innerHTML = "";
 
 
@@ -1085,6 +2243,7 @@
             mealsData.length) *
           100
         );
+
 
       topFoodsContainer.innerHTML += `
         <div class="flex flex-col gap-1">
@@ -1112,6 +2271,7 @@
 
         </div>
       `;
+
     });
 
 
@@ -1123,11 +2283,15 @@
           "article"
         );
 
+
       itemHtml.className =
         "bg-surface-container-lowest p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-outline-variant/30";
 
 
-      let catIcon = "restaurant";
+      let catIcon =
+        "restaurant";
+
+
       let catBg =
         "bg-primary-fixed text-primary";
 
@@ -1136,27 +2300,38 @@
         m.category === "breakfast"
       ) {
 
-        catIcon = "wb_twilight";
+        catIcon =
+          "wb_twilight";
+
         catBg =
           "bg-tertiary-fixed text-tertiary";
+
       }
+
 
       if (
         m.category === "lunch"
       ) {
 
-        catIcon = "wb_sunny";
+        catIcon =
+          "wb_sunny";
+
         catBg =
           "bg-primary-fixed text-primary";
+
       }
+
 
       if (
         m.category === "snack"
       ) {
 
-        catIcon = "nutrition";
+        catIcon =
+          "nutrition";
+
         catBg =
           "bg-secondary-fixed text-secondary";
+
       }
 
 
@@ -1171,6 +2346,7 @@
 
 
       itemHtml.innerHTML = `
+
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
 
           <div class="flex items-center gap-3">
@@ -1182,6 +2358,7 @@
               </span>
 
             </div>
+
 
             <div>
 
@@ -1200,6 +2377,7 @@
                 </span>
 
               </div>
+
 
               <h3 class="font-bold text-base text-on-surface">
                 ${escapeHtml(m.title)}
@@ -1242,12 +2420,16 @@
         <div class="flex flex-wrap gap-1.5">
           ${itemsHtml}
         </div>
+
       `;
+
 
       container.appendChild(
         itemHtml
       );
+
     });
+
   }
 
 
@@ -1262,7 +2444,9 @@
         "history-feed-container"
       );
 
+
     container.innerHTML = "";
+
 
     document.getElementById(
       "history-total-count"
@@ -1277,7 +2461,9 @@
           No historical entries found in the database.
         </div>`;
 
+
       return;
+
     }
 
 
@@ -1288,6 +2474,7 @@
           "article"
         );
 
+
       itemHtml.className =
         "bg-surface-container-low p-5 rounded-xl border border-outline-variant/20 flex flex-col gap-3";
 
@@ -1295,13 +2482,16 @@
       let catBg =
         "bg-primary-fixed text-primary";
 
+
       if (
         m.category === "breakfast"
       ) {
 
         catBg =
           "bg-tertiary-fixed text-tertiary";
+
       }
+
 
       if (
         m.category === "snack"
@@ -1309,6 +2499,7 @@
 
         catBg =
           "bg-secondary-fixed text-secondary";
+
       }
 
 
@@ -1328,6 +2519,7 @@
 
           </div>
 
+
           <span class="text-xs font-semibold text-secondary">
             ${escapeHtml(m.symptoms)}
           </span>
@@ -1340,6 +2532,7 @@
           <h4 class="font-bold text-base text-on-surface">
             ${escapeHtml(m.title)}
           </h4>
+
 
           <div class="flex flex-wrap gap-1.5 mt-2">
 
@@ -1354,12 +2547,16 @@
           </div>
 
         </div>
+
       `;
+
 
       container.appendChild(
         itemHtml
       );
+
     });
+
   }
 
 
@@ -1374,6 +2571,7 @@
         "matrix-tbody"
       );
 
+
     matrixTbody.innerHTML = "";
 
 
@@ -1381,13 +2579,19 @@
 
       matrixTbody.innerHTML =
         `<tr>
+
           <td colspan="4"
               class="p-4 text-center text-on-surface-variant italic">
+
             No database entries recorded.
+
           </td>
+
         </tr>`;
 
+
       return;
+
     }
 
 
@@ -1402,7 +2606,9 @@
           const ingredient =
             String(i).trim();
 
+
           if (!ingredient) return;
+
 
           const key =
             ingredient.toLowerCase();
@@ -1411,10 +2617,15 @@
           if (!ingredientMap[key]) {
 
             ingredientMap[key] = {
+
               name: ingredient,
+
               count: 0,
+
               symptoms: []
+
             };
+
           }
 
 
@@ -1431,9 +2642,11 @@
             ingredientMap[key]
               .symptoms
               .push(m.symptoms);
+
           }
 
         });
+
     });
 
 
@@ -1455,6 +2668,7 @@
 
 
         matrixTbody.innerHTML += `
+
           <tr>
 
             <td class="p-3 font-semibold text-on-surface">
@@ -1474,7 +2688,9 @@
             </td>
 
           </tr>
+
         `;
+
       });
 
 
@@ -1503,6 +2719,7 @@
       const trigger =
         triggerCandidates[0];
 
+
       triggerDescription.innerText =
         `${trigger.name} appeared in ${trigger.symptoms.length} meal${
           trigger.symptoms.length === 1
@@ -1514,7 +2731,9 @@
 
       triggerDescription.innerText =
         "No adverse symptoms logged yet to establish correlation triggers.";
+
     }
+
   }
 
 
@@ -1540,6 +2759,7 @@
       );
 
       return;
+
     }
 
 
@@ -1571,12 +2791,31 @@
               Node.TEXT_NODE
           );
 
+
         return textNode
           ? textNode.nodeValue.trim()
           : "";
 
       })
       .filter(Boolean);
+
+
+    // ========================================================
+    // MULTIPLE SYMPTOMS
+    // ========================================================
+
+    const symptomsValue =
+      selectedSymptoms.length > 0
+        ? selectedSymptoms.join(", ")
+        : "None / Symptom-Free";
+
+
+    const hasSymptoms =
+      !selectedSymptoms.some(
+        symptom =>
+          symptom ===
+          "None / Symptom-Free"
+      );
 
 
     // Exact meal structure expected
@@ -1598,15 +2837,15 @@
           ? items
           : [title],
 
+      // Multiple symptoms are saved
+      // as one comma-separated string.
       symptoms:
-        selectedSymptom,
+        symptomsValue,
 
       severity:
-        selectedSymptom.includes(
-          "None"
-        )
-          ? 0
-          : 2,
+        hasSymptoms
+          ? 2
+          : 0,
 
       onset:
         "Immediate",
@@ -1617,6 +2856,7 @@
         c: 45,
         f: 18
       }
+
     };
 
 
@@ -1625,22 +2865,28 @@
         "save-meal-btn"
       );
 
+
     const originalButtonHTML =
       saveBtn.innerHTML;
 
 
     saveBtn.disabled = true;
 
+
     saveBtn.classList.add(
       "opacity-60",
       "cursor-not-allowed"
     );
 
+
     saveBtn.innerHTML = `
+
       <span class="material-symbols-outlined text-[18px] animate-spin">
         sync
       </span>
+
       Saving...
+
     `;
 
 
@@ -1663,27 +2909,99 @@
         normalizeMeal(newMeal)
       );
 
+
       renderFeed();
       renderHistory();
       renderInsights();
 
 
-      // Reset form
+      // --------------------------------------------------------
+      // RESET FORM
+      // --------------------------------------------------------
 
       document.getElementById(
         "meal-title-input"
       ).value = "";
+
 
       document.getElementById(
         "ingredients-list"
       ).innerHTML = "";
 
 
+      // Reset symptoms
+      selectedSymptoms = [
+        "None / Symptom-Free"
+      ];
+
+
+      // Reset all symptom buttons
+      document
+        .querySelectorAll(".sym-btn")
+        .forEach(btn => {
+
+          btn.classList.remove(
+            "bg-primary",
+            "text-on-primary",
+            "font-semibold"
+          );
+
+          btn.classList.add(
+            "bg-surface-container-lowest",
+            "text-on-surface"
+          );
+
+        });
+
+
+      // Activate None again
+      const noneButton =
+        document.getElementById(
+          "none-symptom-btn"
+        );
+
+
+      if (noneButton) {
+
+        noneButton.classList.remove(
+          "bg-surface-container-lowest",
+          "text-on-surface"
+        );
+
+        noneButton.classList.add(
+          "bg-primary",
+          "text-on-primary",
+          "font-semibold"
+        );
+
+      }
+
+
+      // Hide Other input
+      document.getElementById(
+        "other-symptom-input-container"
+      ).classList.add(
+        "hidden"
+      );
+
+
+      // Clear Other input
+      document.getElementById(
+        "other-symptom-input"
+      ).value = "";
+
+
+      renderSelectedSymptoms();
+
+
       saveBtn.innerHTML = `
+
         <span class="material-symbols-outlined text-[18px]">
           cloud_done
         </span>
+
         Saved to Database!
+
       `;
 
 
@@ -1709,10 +3027,13 @@
 
 
       saveBtn.innerHTML = `
+
         <span class="material-symbols-outlined text-[18px]">
           error
         </span>
+
         Save Failed
+
       `;
 
 
@@ -1739,11 +3060,14 @@
 
       saveBtn.disabled = false;
 
+
       saveBtn.classList.remove(
         "opacity-60",
         "cursor-not-allowed"
       );
+
     }
+
   }
 
 
@@ -1774,6 +3098,7 @@
         /'/g,
         "&#039;"
       );
+
   }
 
 
@@ -1788,13 +3113,16 @@
         '[class*="Day 1 Fresh Record"]'
       );
 
+
     if (statusText) {
 
       statusText.setAttribute(
         "data-database-status",
         ""
       );
+
     }
+
   }
 
 
@@ -1809,7 +3137,9 @@
         "new-ingredient-input"
       );
 
+
     if (!input) return;
+
 
     input.addEventListener(
       "keydown",
@@ -1820,10 +3150,12 @@
           e.preventDefault();
 
           addIngredientToForm();
+
         }
 
       }
     );
+
   }
 
 
@@ -1840,9 +3172,15 @@
 
     addDatabaseStatusHook();
 
+
+    // Make sure symptom UI starts correctly
+    renderSelectedSymptoms();
+
+
     renderFeed();
     renderHistory();
     renderInsights();
+
 
     setupIngredientInput();
 
@@ -1854,6 +3192,7 @@
     console.log(
       "NourishLog: Initialization complete."
     );
+
   }
 
 
@@ -1862,6 +3201,7 @@
     initializeNourishLog
   );
 
-</script>
+  </script>
+
 </body>
 </html>
